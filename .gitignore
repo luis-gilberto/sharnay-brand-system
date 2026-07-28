@@ -30,3 +30,9 @@ build/
 # Vercel
 .vercel/
 
+
+# Local recovery backups (do not deploy)
+reading-the-practice/_recovery-backups/
+reading-the-practice/_inject-*.js
+reading-the-practice/_verify-*.js
+
