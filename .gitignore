@@ -1,0 +1,32 @@
+# Operating system
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Design application scratch files
+*.sketch.lock
+*~lock*
+.~lock.*
+*.afdesign.autosave
+Adobe*Recovery/
+
+# Licensed font binaries — held locally under their licence, never committed
+design-system/typography/fonts/
+
+# Website build, from Phase 4 onward
+node_modules/
+dist/
+build/
+.next/
+.cache/
+*.local
+.env
+.env.*
+!.env.example
+
+# Netlify CLI local state
+.netlify/
+
+# Vercel
+.vercel/
+

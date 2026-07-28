@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Hand · Choosing a cursive for the letter · LG Studio</title>
+
+<style>
+  /* ------------------------------------------------------------------------
+     The candidate hands, self hosted so this page works offline exactly as
+     the prototype does. All nine are OFL licensed, so they can ship.
+     Playwrite is variable on a single weight axis from 100 to 400, which is
+     why the weight control below does anything at all.
+     ---------------------------------------------------------------------- */
+
+  @font-face { font-family: 'Playwrite CO';      src: url('assets/fonts/playwrite-co.woff2') format('woff2');      font-weight: 100 400; font-display: swap; }
+  @font-face { font-family: 'Playwrite AR';      src: url('assets/fonts/playwrite-ar.woff2') format('woff2');      font-weight: 100 400; font-display: swap; }
+  @font-face { font-family: 'Playwrite MX';      src: url('assets/fonts/playwrite-mx.woff2') format('woff2');      font-weight: 100 400; font-display: swap; }
+  @font-face { font-family: 'Playwrite CU';      src: url('assets/fonts/playwrite-cu.woff2') format('woff2');      font-weight: 100 400; font-display: swap; }
+  @font-face { font-family: 'Playwrite PE';      src: url('assets/fonts/playwrite-pe.woff2') format('woff2');      font-weight: 100 400; font-display: swap; }
+  @font-face { font-family: 'Playwrite US Trad'; src: url('assets/fonts/playwrite-us-trad.woff2') format('woff2'); font-weight: 100 400; font-display: swap; }
+  @font-face { font-family: 'Ms Madi';           src: url('assets/fonts/ms-madi.woff2') format('woff2');           font-weight: 400;     font-display: swap; }
+  @font-face { font-family: 'Sacramento';        src: url('assets/fonts/sacramento.woff2') format('woff2');        font-weight: 400;     font-display: swap; }
+  @font-face { font-family: 'Cedarville';        src: url('assets/fonts/cedarville-cursive.woff2') format('woff2'); font-weight: 400;    font-display: swap; }
+
+  :root {
+    --bg:        #F2EFE8;
+    --fg:        #171715;
+    --fg-soft:   #6C6962;
+    --line:      rgba(23, 23, 21, 0.18);
+    --line-faint: rgba(23, 23, 21, 0.09);
+    --accent:    #A79F91;
+    --serif: "Iowan Old Style", "Palatino Linotype", Palatino, "Book Antiqua", Georgia, serif;
+    --sans:  Inter, "Helvetica Neue", Helvetica, Arial, sans-serif;
+    --gutter: clamp(22px, 5.6vw, 96px);
+
+    /* Driven by the controls. Every specimen reads from these so the
+       comparison stays fair. */
+    --hand-size: 30px;
+    --hand-weight: 320;
+    --hand-line: 1.95;
+  }
+
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    margin: 0; background: var(--bg); color: var(--fg);
+    font-family: var(--sans); font-size: 16px; line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .wrap { max-width: 1180px; margin: 0 auto; padding: 0 var(--gutter) 18vh; }
+
+  .eyebrow {
+    font-family: var(--sans); font-size: 10.5px; letter-spacing: 0.2em;
+    text-transform: uppercase; color: var(--fg-soft); margin: 0;
+  }
+
+  /* --- masthead --------------------------------------------------------- */
+
+  .masthead { padding: clamp(64px, 12vh, 130px) 0 clamp(30px, 5vh, 54px); }
+  .masthead h1 {
+    font-family: var(--serif); font-weight: 400;
+    font-size: clamp(2.4rem, 6vw, 4.6rem); line-height: 1.0;
+    letter-spacing: -0.025em; margin: 18px 0 0;
+  }
+  .masthead .sub {
+    font-family: var(--serif); font-style: italic; color: var(--fg-soft);
+    font-size: clamp(1.05rem, 1.7vw, 1.45rem); margin: 14px 0 0;
+  }
+  .rule { border: 0; border-top: 1px solid var(--fg); margin: clamp(30px, 5vh, 52px) 0 0; }
+  .rule--faint { border-top: 1px solid var(--line-faint); }
+
+  .prose {
+    font-family: var(--serif); font-size: 1.06rem; line-height: 1.78;
+    max-width: 62ch; margin: 26px 0 0;
+  }
+  .prose strong { font-weight: 400; font-style: italic; }
+
+  /* --- what to look at -------------------------------------------------- */
+
+  .marks { margin: 34px 0 0; display: grid; gap: 1px; background: var(--line-faint); }
+  .mark {
+    background: var(--bg); padding: 16px 0 16px 0;
+    display: grid; grid-template-columns: 1fr; gap: 4px;
+  }
+  @media (min-width: 780px) { .mark { grid-template-columns: 15ch 1fr; gap: 26px; align-items: baseline; } }
+  .mark dt { font-family: var(--sans); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--fg-soft); }
+  .mark dd { margin: 0; font-family: var(--serif); font-size: 1.02rem; line-height: 1.68; max-width: 60ch; }
+
+  /* --- controls --------------------------------------------------------- */
+
+  .controls {
+    position: sticky; top: 0; z-index: 10;
+    background: rgba(242, 239, 232, 0.94);
+    backdrop-filter: saturate(140%) blur(6px);
+    border-bottom: 1px solid var(--line);
+    padding: 14px 0;
+    margin: clamp(40px, 7vh, 80px) 0 0;
+  }
+  .controls__inner {
+    max-width: 1180px; margin: 0 auto; padding: 0 var(--gutter);
+    display: flex; flex-wrap: wrap; align-items: center; gap: 14px 30px;
+  }
+  .ctl { display: flex; align-items: center; gap: 10px; }
+  .ctl label { font-family: var(--sans); font-size: 10.5px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--fg-soft); }
+  .ctl output { font-family: var(--sans); font-size: 11px; color: var(--fg); min-width: 4.2ch; }
+  .ctl input[type="range"] { width: clamp(96px, 15vw, 170px); accent-color: var(--fg); }
+  .ctl button {
+    font-family: var(--sans); font-size: 10.5px; letter-spacing: 0.16em; text-transform: uppercase;
+    background: none; border: 0; border-bottom: 1px solid var(--line); color: var(--fg-soft);
+    padding: 5px 1px; cursor: pointer;
+  }
+  .ctl button[aria-pressed="true"] { color: var(--fg); border-bottom-color: var(--fg); }
+
+  /* --- a specimen ------------------------------------------------------- */
+
+  .spec { padding: clamp(46px, 8vh, 88px) 0 0; }
+  .spec__head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px 18px; }
+  .spec__n {
+    font-family: var(--sans); font-size: 10.5px; letter-spacing: 0.18em;
+    text-transform: uppercase; color: var(--accent);
+  }
+  .spec__name { font-family: var(--serif); font-size: clamp(1.3rem, 2.2vw, 1.8rem); font-weight: 400; margin: 0; }
+  .spec__tag {
+    font-family: var(--sans); font-size: 10.5px; letter-spacing: 0.14em;
+    text-transform: uppercase; color: var(--fg-soft);
+    border: 1px solid var(--line); border-radius: 0; padding: 4px 8px;
+  }
+  .spec__tag--pick { color: var(--fg); border-color: var(--fg); }
+  .spec__note {
+    font-family: var(--serif); font-size: 1rem; line-height: 1.7; color: var(--fg-soft);
+    max-width: 64ch; margin: 12px 0 0;
+  }
+
+  /* The hand itself. Everything below inherits the live controls. */
+  .hand {
+    font-weight: var(--hand-weight);
+    font-size: var(--hand-size);
+    line-height: var(--hand-line);
+  }
+  .hand--sal { font-size: calc(var(--hand-size) * 1.5); line-height: 1.4; }
+  .hand--sig { font-size: calc(var(--hand-size) * 1.28); line-height: 1.4; }
+
+  .sheet {
+    margin: 26px 0 0; padding: clamp(26px, 4vw, 52px);
+    background: #F7F5F0; border: 1px solid var(--line-faint);
+  }
+  .sheet + .sheet { margin-top: 14px; }
+  .sheet__label {
+    font-family: var(--sans); font-size: 10px; letter-spacing: 0.18em;
+    text-transform: uppercase; color: var(--accent); margin: 0 0 18px;
+  }
+  .sheet p { margin: 0; max-width: 46ch; }
+  .sheet p + p { margin-top: 0.7em; }
+
+  .diacritics {
+    margin: 18px 0 0; padding-top: 14px; border-top: 1px solid var(--line-faint);
+    max-width: none;
+  }
+  .diacritics .lbl {
+    font-family: var(--sans); font-size: 10px; letter-spacing: 0.16em;
+    text-transform: uppercase; color: var(--fg-soft); display: block; margin-bottom: 8px;
+  }
+
+  /* --- the two treatments ---------------------------------------------- */
+
+  .treat { padding: clamp(52px, 9vh, 100px) 0 0; }
+  .treat__grid { display: grid; gap: 30px; margin-top: 30px; }
+  @media (min-width: 940px) { .treat__grid { grid-template-columns: 1fr 1fr; gap: 42px; } }
+  .card { border-top: 1px solid var(--fg); padding-top: 20px; }
+  .card__label { font-family: var(--sans); font-size: 10.5px; letter-spacing: 0.18em; text-transform: uppercase; margin: 0 0 4px; }
+  .card__verdict { font-family: var(--serif); font-style: italic; font-size: 0.98rem; color: var(--fg-soft); margin: 0 0 24px; max-width: 44ch; }
+
+  .letter-demo { }
+  .letter-demo .eyebrow { margin-bottom: 16px; }
+  .letter-demo__sal { margin: 0 0 20px; }
+  .letter-demo__body { font-family: var(--serif); font-size: 1.02rem; line-height: 1.78; max-width: 48ch; }
+  .letter-demo__body p { margin: 0; }
+  .letter-demo__body p + p { margin-top: 1.05em; }
+  .letter-demo__sig { margin: 30px 0 0; }
+  .letter-demo__sig .studio {
+    display: block; font-family: var(--sans); font-size: 10.5px;
+    letter-spacing: 0.18em; text-transform: uppercase; color: var(--fg-soft);
+    margin-top: 8px;
+  }
+  .serif-sig { font-family: var(--serif); font-size: 1.05rem; }
+  .serif-sal { font-family: var(--serif); font-size: clamp(1.5rem, 2.8vw, 2.2rem); line-height: 1.2; margin: 0 0 20px; }
+
+  footer {
+    margin-top: clamp(60px, 10vh, 120px); padding-top: 18px;
+    border-top: 1px solid var(--line);
+    font-family: var(--sans); font-size: 10.5px; letter-spacing: 0.16em;
+    text-transform: uppercase; color: var(--fg-soft);
+    display: flex; justify-content: space-between; flex-wrap: wrap; gap: 10px;
+  }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <header class="masthead">
+    <p class="eyebrow">LG Studio · Reading the Practice</p>
+    <h1>The Hand</h1>
+    <p class="sub">Choosing a cursive for the letter.</p>
+    <hr class="rule">
+
+    <p class="prose">
+      The brief is specific: the Palmer Method, as taught in Venezuelan schools. That is a real
+      constraint and a useful one, because it rules out almost every script font a search would
+      surface. Palmer is not wedding calligraphy. It was a business hand, built for speed, and
+      the things that make it recognisable are the things most decorative scripts get wrong.
+    </p>
+
+    <dl class="marks">
+      <div class="mark">
+        <dt>Monoline</dt>
+        <dd>One even stroke weight throughout. No thick and thin. This alone disqualifies
+          Copperplate and Spencerian faces, which swell on the downstroke.</dd>
+      </div>
+      <div class="mark">
+        <dt>Arm movement</dt>
+        <dd>Written from the shoulder, not the fingers, which produces an even unhurried rhythm
+          rather than the bounce of a marker script.</dd>
+      </div>
+      <div class="mark">
+        <dt>Plain capitals</dt>
+        <dd>Palmer stripped away the flourishes Spencer loved. The capitals are ovals, not
+          fireworks.</dd>
+      </div>
+      <div class="mark">
+        <dt>Full loops</dt>
+        <dd>A modest x height with generous ascenders and descenders, looped so a whole word can
+          be written without lifting the pen.</dd>
+      </div>
+      <div class="mark">
+        <dt>Steady slant</dt>
+        <dd>A consistent lean of roughly fifty degrees. Consistency matters more than the angle.</dd>
+      </div>
+    </dl>
+
+    <p class="prose">
+      That points somewhere unexpectedly precise. <strong>Playwrite</strong> is a family by
+      TypeTogether built for exactly this purpose: one cursive per country, drawn from the
+      handwriting model actually taught in that country's primary schools. There is no Venezuela,
+      but there is Colombia, and Colombian <em>letra pegada</em> descends from the same Palmer
+      cartillas you would have been copying. Argentina, Mexico, Cuba and Peru are its neighbours
+      in the same family, each with small differences worth looking at.
+    </p>
+
+    <p class="prose">
+      All nine faces below are self hosted, so this page works offline, and all nine are OFL
+      licensed, so any of them can ship in a client deliverable. All nine were checked for the
+      full Spanish set before being included here, accents, enye and inverted punctuation, so
+      none of them will fall back mid word.
+    </p>
+  </header>
+</div>
+
+<div class="controls">
+  <div class="controls__inner">
+    <div class="ctl">
+      <label for="size">Size</label>
+      <input type="range" id="size" min="18" max="52" step="1" value="30">
+      <output id="size-out">30px</output>
+    </div>
+    <div class="ctl">
+      <label for="weight">Weight</label>
+      <input type="range" id="weight" min="100" max="400" step="10" value="320">
+      <output id="weight-out">320</output>
+    </div>
+    <div class="ctl">
+      <label for="leading">Leading</label>
+      <input type="range" id="leading" min="150" max="260" step="5" value="195">
+      <output id="leading-out">1.95</output>
+    </div>
+    <div class="ctl">
+      <button type="button" id="lang-es" aria-pressed="true">Español</button>
+      <button type="button" id="lang-en" aria-pressed="false">English</button>
+    </div>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <!-- ==================== THE SCHOOLBOOK HANDS ==================== -->
+
+  <section class="spec">
+    <div class="spec__head">
+      <span class="spec__n">01</span>
+      <h2 class="spec__name">Playwrite CO · Colombia</h2>
+      <span class="spec__tag spec__tag--pick">Closest to the brief</span>
+    </div>
+    <p class="spec__note">
+      Colombian <em>letra pegada</em>, taken straight from the school cartillas that descend from
+      Palmer. Monoline, evenly slanted, looped descenders on the f and the q, and capitals that
+      stay plain except for a little decoration on G, L and Z. This is the nearest thing to a
+      Venezuelan school hand that exists as a typeface.
+    </p>
+    <div class="sheet" style="font-family: 'Playwrite CO', cursive;">
+      <p class="sheet__label">Salutation</p>
+      <p class="hand hand--sal">Hola chamakis,</p>
+      <p class="sheet__label" style="margin-top:30px">Body</p>
+      <div class="hand" data-body></div>
+      <p class="sheet__label" style="margin-top:30px">Signature</p>
+      <p class="hand hand--sig">Luis Gilberto</p>
+      <div class="diacritics hand" style="font-size: calc(var(--hand-size) * 0.9)">
+        <span class="lbl">Spanish set</span>
+        áéíóúüñ ÁÉÍÓÚÜÑ ¿Qué? ¡Práctica! años, corazón, diseño
+      </div>
+    </div>
+  </section>
+
+  <section class="spec">
+    <div class="spec__head">
+      <span class="spec__n">02</span>
+      <h2 class="spec__name">Playwrite AR · Argentina</h2>
+      <span class="spec__tag">Same family</span>
+    </div>
+    <p class="spec__note">
+      A touch narrower and more upright than Colombia, with a slightly tighter loop. If CO reads
+      as a little too round to you, this is the one to compare it against.
+    </p>
+    <div class="sheet" style="font-family: 'Playwrite AR', cursive;">
+      <p class="sheet__label">Salutation</p>
+      <p class="hand hand--sal">Hola chamakis,</p>
+      <p class="sheet__label" style="margin-top:30px">Body</p>
+      <div class="hand" data-body></div>
+      <p class="sheet__label" style="margin-top:30px">Signature</p>
+      <p class="hand hand--sig">Luis Gilberto</p>
+      <div class="diacritics hand" style="font-size: calc(var(--hand-size) * 0.9)">
+        <span class="lbl">Spanish set</span>
+        áéíóúüñ ÁÉÍÓÚÜÑ ¿Qué? ¡Práctica! años, corazón, diseño
+      </div>
+    </div>
+  </section>
+
+  <section class="spec">
+    <div class="spec__head">
+      <span class="spec__n">03</span>
+      <h2 class="spec__name">Playwrite MX · Mexico</h2>
+      <span class="spec__tag">Same family</span>
+    </div>
+    <p class="spec__note">
+      Rounder and a little more generous in the bowls. Reads as warmer and slightly younger,
+      which may or may not be what a letter from you should sound like.
+    </p>
+    <div class="sheet" style="font-family: 'Playwrite MX', cursive;">
+      <p class="sheet__label">Salutation</p>
+      <p class="hand hand--sal">Hola chamakis,</p>
+      <p class="sheet__label" style="margin-top:30px">Body</p>
+      <div class="hand" data-body></div>
+      <p class="sheet__label" style="margin-top:30px">Signature</p>
+      <p class="hand hand--sig">Luis Gilberto</p>
+      <div class="diacritics hand" style="font-size: calc(var(--hand-size) * 0.9)">
+        <span class="lbl">Spanish set</span>
+        áéíóúüñ ÁÉÍÓÚÜÑ ¿Qué? ¡Práctica! años, corazón, diseño
+      </div>
+    </div>
+  </section>
+
+  <section class="spec">
+    <div class="spec__head">
+      <span class="spec__n">04</span>
+      <h2 class="spec__name">Playwrite CU · Cuba</h2>
+      <span class="spec__tag">Same family</span>
+    </div>
+    <p class="spec__note">
+      The most slanted of the Caribbean set and the most obviously mid century. Closest to the
+      look of an older exercise book.
+    </p>
+    <div class="sheet" style="font-family: 'Playwrite CU', cursive;">
+      <p class="sheet__label">Salutation</p>
+      <p class="hand hand--sal">Hola chamakis,</p>
+      <p class="sheet__label" style="margin-top:30px">Body</p>
+      <div class="hand" data-body></div>
+      <p class="sheet__label" style="margin-top:30px">Signature</p>
+      <p class="hand hand--sig">Luis Gilberto</p>
+      <div class="diacritics hand" style="font-size: calc(var(--hand-size) * 0.9)">
+        <span class="lbl">Spanish set</span>
+        áéíóúüñ ÁÉÍÓÚÜÑ ¿Qué? ¡Práctica! años, corazón, diseño
+      </div>
+    </div>
+  </section>
+
+  <section class="spec">
+    <div class="spec__head">
+      <span class="spec__n">05</span>
+      <h2 class="spec__name">Playwrite PE · Peru</h2>
+      <span class="spec__tag">Same family</span>
+    </div>
+    <p class="spec__note">
+      Andean school model, a little more compressed. Worth a look mostly as a control against
+      Colombia.
+    </p>
+    <div class="sheet" style="font-family: 'Playwrite PE', cursive;">
+      <p class="sheet__label">Salutation</p>
+      <p class="hand hand--sal">Hola chamakis,</p>
+      <p class="sheet__label" style="margin-top:30px">Body</p>
+      <div class="hand" data-body></div>
+      <p class="sheet__label" style="margin-top:30px">Signature</p>
+      <p class="hand hand--sig">Luis Gilberto</p>
+      <div class="diacritics hand" style="font-size: calc(var(--hand-size) * 0.9)">
+        <span class="lbl">Spanish set</span>
+        áéíóúüñ ÁÉÍÓÚÜÑ ¿Qué? ¡Práctica! años, corazón, diseño
+      </div>
+    </div>
+  </section>
+
+  <section class="spec">
+    <div class="spec__head">
+      <span class="spec__n">06</span>
+      <h2 class="spec__name">Playwrite US Trad · United States</h2>
+      <span class="spec__tag">The source</span>
+    </div>
+    <p class="spec__note">
+      The American traditional model, which is Palmer at its origin by way of Zaner-Bloser. Useful
+      as the reference point: if the Latin American cuts feel right, this is what they were
+      adapted from.
+    </p>
+    <div class="sheet" style="font-family: 'Playwrite US Trad', cursive;">
+      <p class="sheet__label">Salutation</p>
+      <p class="hand hand--sal">Hola chamakis,</p>
+      <p class="sheet__label" style="margin-top:30px">Body</p>
+      <div class="hand" data-body></div>
+      <p class="sheet__label" style="margin-top:30px">Signature</p>
+      <p class="hand hand--sig">Luis Gilberto</p>
+      <div class="diacritics hand" style="font-size: calc(var(--hand-size) * 0.9)">
+        <span class="lbl">Spanish set</span>
+        áéíóúüñ ÁÉÍÓÚÜÑ ¿Qué? ¡Práctica! años, corazón, diseño
+      </div>
+    </div>
+  </section>
+
+  <hr class="rule rule--faint" style="margin-top: clamp(52px, 9vh, 100px)">
+
+  <!-- ==================== THE COUNTERPOINTS ==================== -->
+
+  <section class="spec">
+    <div class="spec__head">
+      <span class="spec__n">07</span>
+      <h2 class="spec__name">Ms Madi</h2>
+      <span class="spec__tag">Not Palmer</span>
+    </div>
+    <p class="spec__note">
+      Included so the comparison is honest. Monoline and connected, so it passes the first test,
+      but the capitals flourish and the slant is steeper than a school hand. Elegant, and reads
+      as a designer's script rather than as your handwriting.
+    </p>
+    <div class="sheet" style="font-family: 'Ms Madi', cursive;">
+      <p class="hand hand--sal">Hola chamakis,</p>
+      <div class="hand" data-body style="margin-top: 24px"></div>
+      <p class="hand hand--sig" style="margin-top: 24px">Luis Gilberto</p>
+    </div>
+  </section>
+
+  <section class="spec">
+    <div class="spec__head">
+      <span class="spec__n">08</span>
+      <h2 class="spec__name">Sacramento</h2>
+      <span class="spec__tag">Not Palmer</span>
+    </div>
+    <p class="spec__note">
+      Monoline and even, but geometric rather than written, with the feel of retro signage. The
+      loops are drawn, not looped.
+    </p>
+    <div class="sheet" style="font-family: 'Sacramento', cursive;">
+      <p class="hand hand--sal">Hola chamakis,</p>
+      <div class="hand" data-body style="margin-top: 24px"></div>
+      <p class="hand hand--sig" style="margin-top: 24px">Luis Gilberto</p>
+    </div>
+  </section>
+
+  <section class="spec">
+    <div class="spec__head">
+      <span class="spec__n">09</span>
+      <h2 class="spec__name">Cedarville Cursive</h2>
+      <span class="spec__tag">Not Palmer</span>
+    </div>
+    <p class="spec__note">
+      A real casual hand, and the closest of the three counterpoints. Too light and too loose for
+      a letter that is meant to sound composed, and the rhythm wanders where Palmer is metronomic.
+    </p>
+    <div class="sheet" style="font-family: 'Cedarville', cursive;">
+      <p class="hand hand--sal">Hola chamakis,</p>
+      <div class="hand" data-body style="margin-top: 24px"></div>
+      <p class="hand hand--sig" style="margin-top: 24px">Luis Gilberto</p>
+    </div>
+  </section>
+
+  <hr class="rule" style="margin-top: clamp(52px, 9vh, 100px)">
+
+  <!-- ==================== HOW MUCH OF IT ==================== -->
+
+  <section class="treat">
+    <p class="eyebrow">The second decision</p>
+    <h2 class="spec__name" style="font-size: clamp(1.7rem, 3.4vw, 2.6rem); margin-top: 14px">
+      How much of the letter should be in your hand
+    </h2>
+    <p class="prose">
+      Which face to use is the smaller question. The larger one is how much of the letter it
+      should set. Both treatments are below, in Playwrite CO, with the real copy. Read the one on
+      the right the way Erika will read it, on a phone, in Spanish, at the end of a long day.
+    </p>
+
+    <div class="treat__grid">
+      <div class="card">
+        <p class="card__label">A · The hand where a hand would be</p>
+        <p class="card__verdict">
+          How a real letter works. Printed body, written greeting, written signature. The
+          handwriting lands at the two moments that are actually personal, and carries more
+          weight for being rationed.
+        </p>
+        <div class="letter-demo">
+          <p class="eyebrow">Una carta</p>
+          <p class="letter-demo__sal hand hand--sal" style="font-family: 'Playwrite CO', cursive;">Hola chamakis,</p>
+          <div class="letter-demo__body" data-body-serif></div>
+          <p class="letter-demo__sig">
+            <span class="hand hand--sig" style="font-family: 'Playwrite CO', cursive;">Luis Gilberto</span>
+            <span class="studio">LG Studio</span>
+          </p>
+        </div>
+      </div>
+
+      <div class="card">
+        <p class="card__label">B · The whole letter in your hand</p>
+        <p class="card__verdict">
+          Truer to a letter you actually sat down and wrote. Also seven paragraphs of cursive on a
+          phone, where a uniform font stops reading as handwriting and starts reading as a font.
+        </p>
+        <div class="letter-demo">
+          <p class="eyebrow">Una carta</p>
+          <p class="letter-demo__sal hand hand--sal" style="font-family: 'Playwrite CO', cursive;">Hola chamakis,</p>
+          <div class="letter-demo__body hand" data-body style="font-family: 'Playwrite CO', cursive; font-size: calc(var(--hand-size) * 0.72); line-height: var(--hand-line); max-width: 40ch;"></div>
+          <p class="letter-demo__sig">
+            <span class="hand hand--sig" style="font-family: 'Playwrite CO', cursive;">Luis Gilberto</span>
+            <span class="studio">LG Studio</span>
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <p class="prose" style="margin-top: 44px">
+      There is a third option worth naming, because it is the only one that is genuinely your
+      handwriting rather than an emulation. Write the salutation and your signature on paper,
+      once, with a fountain pen. Scan them. We place them as artwork. A font is a very good
+      stand in for a hand, but it is the same nine strokes every time, and yours would not be.
+    </p>
+  </section>
+
+  <footer>
+    <span>LG Studio</span>
+    <span>Nine candidates · all OFL · all self hosted</span>
+  </footer>
+</div>
+
+<script>
+(function () {
+  'use strict';
+
+  /* The real letter copy, both languages, so nothing here is judged on
+     placeholder text. Kept to the first three paragraphs: enough to see the
+     rhythm and the diacritics without turning the page into the letter. */
+  var COPY = {
+    es: [
+      'Gracias por confiarme tu práctica.',
+      'Antes de hablar de colores, de sitios web, o de cómo debe verse el trabajo, quiero entender cómo lo ves tú.',
+      'Algunas de estas preguntas te van a parecer prácticas. Otras te van a parecer raras. Es a propósito.'
+    ],
+    en: [
+      'Thank you for trusting me with your practice.',
+      'Before we talk about colors, websites, or how the work should look, I want to understand how you see it.',
+      'Some of these questions will feel practical. Others may feel unusual. That is intentional.'
+    ]
+  };
+
+  var lang = 'es';
+  var root = document.documentElement;
+
+  function paint() {
+    var paras = COPY[lang];
+    var html = paras.map(function (p) { return '<p>' + p + '</p>'; }).join('');
+    Array.prototype.forEach.call(document.querySelectorAll('[data-body]'), function (el) {
+      el.innerHTML = html;
+    });
+    /* Treatment A keeps its body in the editorial serif, so it gets the same
+       words through a different door. */
+    Array.prototype.forEach.call(document.querySelectorAll('[data-body-serif]'), function (el) {
+      el.innerHTML = html;
+    });
+  }
+
+  function bind(id, outId, prop, fmt) {
+    var input = document.getElementById(id);
+    var out = document.getElementById(outId);
+    function apply() {
+      var v = Number(input.value);
+      root.style.setProperty(prop, fmt.value(v));
+      out.textContent = fmt.label(v);
+    }
+    input.addEventListener('input', apply);
+    apply();
+  }
+
+  bind('size', 'size-out', '--hand-size',
+    { value: function (v) { return v + 'px'; }, label: function (v) { return v + 'px'; } });
+  bind('weight', 'weight-out', '--hand-weight',
+    { value: function (v) { return String(v); }, label: function (v) { return String(v); } });
+  bind('leading', 'leading-out', '--hand-line',
+    { value: function (v) { return (v / 100).toFixed(2); }, label: function (v) { return (v / 100).toFixed(2); } });
+
+  var esBtn = document.getElementById('lang-es');
+  var enBtn = document.getElementById('lang-en');
+  function setLang(next) {
+    lang = next;
+    esBtn.setAttribute('aria-pressed', String(next === 'es'));
+    enBtn.setAttribute('aria-pressed', String(next === 'en'));
+    paint();
+  }
+  esBtn.addEventListener('click', function () { setLang('es'); });
+  enBtn.addEventListener('click', function () { setLang('en'); });
+
+  paint();
+})();
+</script>
+</body>
+</html>

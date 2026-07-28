@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content">
+<title>Reading the Practice · Sharnay Photography · LG Studio</title>
+<meta name="description" content="A conversation before design. An intake experience by LG Studio for Sharnay Photography.">
+<meta name="color-scheme" content="light">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body class="tone-light">
+
+<a class="skip" href="#stage">Skip to the current screen</a>
+
+<div id="paper" aria-hidden="true"></div>
+
+<div id="backdrop" aria-hidden="true" data-scrim="medium">
+  <div class="backdrop__layer" data-slot="0"></div>
+  <div class="backdrop__layer" data-slot="1"></div>
+  <div class="backdrop__scrim"></div>
+</div>
+
+<div id="app">
+
+  <header class="chrome chrome--top" id="chrome-top">
+    <p class="meta">
+      <span class="meta__left" id="meta-left">Sharnay Photography</span>
+      <span class="meta__right" id="meta-right">Reading the Practice</span>
+    </p>
+  </header>
+
+  <main id="stage" tabindex="-1" aria-label="Reading the Practice"></main>
+
+  <footer class="chrome chrome--bottom" id="chrome-bottom">
+    <div class="nav">
+      <div class="nav__utility">
+        <div class="lang" role="group" id="lang" aria-label="Language">
+          <button type="button" class="lang__btn" data-lang="en" aria-pressed="true" lang="en">EN</button>
+          <span class="lang__sep" aria-hidden="true">/</span>
+          <button type="button" class="lang__btn" data-lang="es" aria-pressed="false" lang="es">ES</button>
+        </div>
+        <button type="button" class="link" id="save-later">Save and continue later</button>
+        <button type="button" class="link" id="to-beginning">Return to the beginning</button>
+      </div>
+      <div class="nav__advance">
+        <button type="button" class="link" id="go-back">Back</button>
+        <button type="button" class="action" id="go-next">Continue</button>
+      </div>
+    </div>
+  </footer>
+
+</div>
+
+<div id="print-doc" aria-hidden="true"></div>
+
+<p class="visually-hidden" role="status" aria-live="polite" id="announcer"></p>
+<div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+
+<noscript>
+  <div class="noscript">
+    <p lang="en">This intake needs JavaScript in order to keep your answers as you write them. If it cannot be enabled, write to Luis and the questions will be sent as a document instead.</p>
+    <p lang="es">Esto necesita JavaScript para guardar tus respuestas mientras escribes. Si no se puede activar, escríbele a Luis y te mandamos las preguntas como documento.</p>
+  </div>
+</noscript>
+
+<script src="app.js"></script>
+</body>
+</html>

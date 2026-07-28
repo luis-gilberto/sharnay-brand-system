@@ -1,0 +1,12 @@
+Photography for the intake experience.
+
+Nine full frame plates, graded from Sharnay's own work. See section 05 of
+../../README.md for the screen each one carries, its grade, its crop, and the
+Cloudinary chain that produced it.
+
+Replacing a photograph means dropping a file here under the same name. Any file
+missing falls back to the Cloudinary source, then to the near black behind the
+backdrop, so the prototype always renders and the type always reads.
+
+These are upscaled from small originals. The camera files should replace them
+before anything is designed against them at print size.

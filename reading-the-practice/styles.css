@@ -1,0 +1,1278 @@
+/* ==========================================================================
+   Reading the Practice
+   LG Studio · intake experience · prototype 01
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   00 · The hand
+   Playwrite US Trad is the American traditional school model, which is the
+   Palmer Method at its source. It is monoline, evenly slanted and plain in the
+   capitals, which is what separates a school hand from wedding calligraphy.
+   Self hosted so the piece still runs with no network. Variable on one weight
+   axis from 100 to 400.
+   -------------------------------------------------------------------------- */
+
+@font-face {
+  font-family: 'Playwrite Hand';
+  src: url('assets/fonts/playwrite-us-trad.woff2') format('woff2');
+  font-weight: 100 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* --------------------------------------------------------------------------
+   01 · Tokens
+   -------------------------------------------------------------------------- */
+
+:root {
+  --paper:        #F2EFE8;
+  --ink:          #171715;
+  --ink-soft:     #6C6962;
+  --rule:         rgba(23, 23, 21, 0.18);
+  --rule-faint:   rgba(23, 23, 21, 0.09);
+  --dark:         #191918;
+  --dark-ink:     #F2EFE8;
+  --accent:       #A79F91;
+
+  --bg:           var(--paper);
+  --fg:           var(--ink);
+  --fg-soft:      var(--ink-soft);
+  --line:         var(--rule);
+  --line-faint:   var(--rule-faint);
+  --field:        rgba(23, 23, 21, 0.035);
+
+  --serif: "Iowan Old Style", "Palatino Linotype", Palatino, "Book Antiqua", Georgia, serif;
+  --sans:  Inter, "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --hand:  'Playwrite Hand', "Segoe Script", "Bradley Hand", cursive;
+  /* Palmer was written with a pen, not a hairline nib, so the hand carries
+     some weight. Below about 260 it thins into something decorative. */
+  --hand-weight: 320;
+
+  /* One tile carrying both scales of fibre. Every value is centred on mid grey
+     with alpha forced to 1, which is what soft-light needs: it then darkens
+     and lightens the sheet in equal measure and the cream does not drift. A
+     multiply grain looks right in isolation but pulls the whole background
+     several points darker and cooler, which is a different colour, not a
+     texture. The broad cloud runs at reduced amplitude under the fine tooth.
+     -------------------------------------------------------------------- */
+  --paper-grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='800' height='800'%3E%3Cfilter id='c'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.006' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0.2,0.2,0.2,0,0.2,0.2,0.2,0.2,0,0.2,0.2,0.2,0.2,0,0.2,0,0,0,0,1'/%3E%3C/filter%3E%3Cfilter id='t'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0.33,0.33,0.33,0,0,0.33,0.33,0.33,0,0,0.33,0.33,0.33,0,0,0,0,0,0,1'/%3E%3C/filter%3E%3Crect width='800' height='800' filter='url(%23c)'/%3E%3Crect width='800' height='800' filter='url(%23t)' opacity='0.5'/%3E%3C/svg%3E");
+
+  --gutter:   clamp(22px, 5.6vw, 108px);
+  --chrome-h: 58px;
+  /* The foot grows when its controls wrap, so its real height is measured at
+     runtime. This is the value used until the first measurement lands. */
+  --chrome-bottom-h: var(--chrome-h);
+
+  --t-fast: 220ms;
+  --t-page: 560ms;
+  --ease:   cubic-bezier(0.22, 0.61, 0.36, 1);
+
+  --grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+body.tone-dark {
+  --bg:         var(--dark);
+  --fg:         var(--dark-ink);
+  --fg-soft:    rgba(242, 239, 232, 0.62);
+  --line:       rgba(242, 239, 232, 0.22);
+  --line-faint: rgba(242, 239, 232, 0.11);
+  --field:      rgba(242, 239, 232, 0.05);
+}
+
+/* --------------------------------------------------------------------------
+   02 · Reset and base
+   -------------------------------------------------------------------------- */
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html {
+  -webkit-text-size-adjust: 100%;
+  /* Anything scrolled to by the browser, a focused field or an anchor, should
+     land clear of the pinned bars rather than behind them. */
+  scroll-padding-top: var(--chrome-h);
+  scroll-padding-bottom: var(--chrome-bottom-h);
+}
+
+/* The hidden attribute only carries display: none at the weight of a UA rule,
+   so anything that sets its own display outranks it. The continue button did
+   exactly that and stayed on the closing screen after the code had hidden it. */
+[hidden] { display: none !important; }
+
+body {
+  margin: 0;
+  background-color: var(--bg);
+  /* The sheet catches a little light toward the top and loses it at the far
+     edges. This is what stops the page reading as a flat rectangle of colour,
+     and it is deliberately too faint to notice on its own. */
+  background-image:
+    radial-gradient(125% 92% at 50% 26%,
+      rgba(255, 253, 247, 0.55) 0%,
+      rgba(255, 253, 247, 0) 58%),
+    radial-gradient(135% 118% at 50% 54%,
+      rgba(23, 23, 21, 0) 58%,
+      rgba(23, 23, 21, 0.05) 100%);
+  background-attachment: fixed;
+  color: var(--fg);
+  font-family: var(--sans);
+  font-size: 16px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  transition: background-color var(--t-page) var(--ease), color var(--t-page) var(--ease);
+  overflow-x: hidden;
+}
+
+h1, h2, h3, p, ul, ol, figure, blockquote { margin: 0; }
+ul, ol { padding: 0; list-style: none; }
+button { font: inherit; color: inherit; background: none; border: 0; padding: 0; cursor: pointer; }
+input, textarea, select { font: inherit; color: inherit; }
+
+:focus-visible {
+  outline: 1px solid var(--fg);
+  outline-offset: 4px;
+}
+
+.visually-hidden {
+  position: absolute; width: 1px; height: 1px;
+  margin: -1px; padding: 0; border: 0;
+  clip: rect(0 0 0 0); clip-path: inset(50%); overflow: hidden; white-space: nowrap;
+}
+
+.skip {
+  position: absolute; top: 8px; left: 8px; z-index: 60;
+  transform: translateY(-200%);
+  background: var(--ink); color: var(--paper);
+  padding: 10px 16px; font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase;
+  text-decoration: none;
+}
+.skip:focus { transform: none; }
+
+.noscript {
+  max-width: 46ch; margin: 22vh auto; padding: 0 24px;
+  font-family: var(--serif); font-size: 1.15rem; line-height: 1.7;
+}
+
+/* --------------------------------------------------------------------------
+   03 · Frame: chrome, stage
+   -------------------------------------------------------------------------- */
+
+/* The chrome is pinned to the viewport instead of sitting at the end of the
+   document. On a screen taller than the window the type scrolls underneath it,
+   so Continue and Back are always in the same place and never something she
+   has to go hunting for. The app reserves their height as padding so no
+   content can come to rest behind them. */
+#app {
+  position: relative;
+  z-index: 1;
+  min-height: 100vh;
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  padding-top: var(--chrome-h);
+  padding-bottom: var(--chrome-bottom-h);
+}
+
+.chrome {
+  position: fixed;
+  left: 0;
+  right: 0;
+  z-index: 30;
+  background: var(--bg);
+  padding: 0 var(--gutter);
+  height: var(--chrome-h);
+  display: flex;
+  align-items: center;
+}
+
+.chrome--top {
+  top: 0;
+  border-bottom: 1px solid var(--line-faint);
+}
+.chrome--bottom {
+  bottom: 0;
+  border-top: 1px solid var(--line-faint);
+  padding-bottom: env(safe-area-inset-bottom);
+  height: auto;
+  min-height: var(--chrome-h);
+}
+
+/* Over a photograph the bars stay clear, so the frame still reads full bleed.
+   The backdrop already darkens its own head and foot for this exact reason. */
+body.is-film .chrome { background: transparent; }
+body.is-film .chrome--top { border-bottom-color: transparent; }
+body.is-film .chrome--bottom { border-top-color: transparent; }
+
+.meta {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  font-size: 10.5px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--fg-soft);
+}
+.meta__right { text-align: right; white-space: nowrap; }
+
+#stage {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  outline: none;
+}
+
+/* --------------------------------------------------------------------------
+   04 · Panels
+   -------------------------------------------------------------------------- */
+
+.panel {
+  flex: 1 1 auto;
+  width: 100%;
+  max-width: 1560px;
+  margin: 0 auto;
+  padding: clamp(40px, 7vh, 96px) var(--gutter) clamp(48px, 8vh, 104px);
+  display: grid;
+  align-content: center;
+  animation: enter var(--t-page) var(--ease) both;
+}
+
+@keyframes enter {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: none; }
+}
+
+.panel__eyebrow {
+  font-size: 10.5px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--fg-soft);
+  margin-bottom: clamp(20px, 3vh, 34px);
+}
+
+.rule {
+  height: 1px;
+  background: var(--line);
+  border: 0;
+  margin: clamp(26px, 4vh, 48px) 0;
+}
+.rule--short { width: 64px; background: var(--fg); opacity: 0.5; }
+
+/* --------------------------------------------------------------------------
+   05 · Type
+   -------------------------------------------------------------------------- */
+
+.display {
+  font-family: var(--serif);
+  font-weight: 400;
+  font-size: clamp(2.15rem, 5.1vw, 4.2rem);
+  line-height: 1.08;
+  letter-spacing: -0.015em;
+  text-wrap: balance;
+}
+
+.statement {
+  font-family: var(--serif);
+  font-weight: 400;
+  font-size: clamp(1.55rem, 3.3vw, 2.7rem);
+  line-height: 1.24;
+  letter-spacing: -0.01em;
+  max-width: 22ch;
+  text-wrap: pretty;
+}
+
+.prose {
+  font-family: var(--serif);
+  font-size: clamp(1.02rem, 1.15vw, 1.2rem);
+  line-height: 1.78;
+  max-width: 58ch;
+}
+.prose p + p { margin-top: 1.05em; }
+
+.aside-note {
+  font-family: var(--sans);
+  font-size: 0.8rem;
+  line-height: 1.65;
+  color: var(--fg-soft);
+  max-width: 44ch;
+}
+
+/* He signs both the letter and the closing, so both are in his hand. */
+.signature {
+  font-family: var(--hand);
+  font-weight: var(--hand-weight);
+  font-size: clamp(1.4rem, 1.9vw, 1.62rem);
+  line-height: 1.5;
+  margin-top: clamp(28px, 4vh, 44px);
+  font-synthesis: none;
+}
+.signature span {
+  display: block;
+  font-family: var(--sans);
+  font-size: 10.5px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--fg-soft);
+  margin-top: 8px;
+}
+
+/* --------------------------------------------------------------------------
+   06 · Controls
+   -------------------------------------------------------------------------- */
+
+.action {
+  display: inline-block;
+  border: 1px solid var(--fg);
+  padding: 14px 30px;
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  background: transparent;
+  color: var(--fg);
+  transition: background-color var(--t-fast) var(--ease), color var(--t-fast) var(--ease);
+}
+.action:hover { background: var(--fg); color: var(--bg); }
+.action[disabled] { opacity: 0.35; cursor: default; }
+.action[disabled]:hover { background: transparent; color: var(--fg); }
+
+.link {
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--fg-soft);
+  padding: 12px 2px;
+  transition: color var(--t-fast) var(--ease);
+}
+.link:hover { color: var(--fg); }
+.link[hidden] { display: none; }
+
+.nav {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+}
+.nav__advance { display: flex; align-items: center; gap: clamp(14px, 2.5vw, 30px); }
+.nav__utility {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 2px clamp(16px, 2.4vw, 28px);
+}
+
+.lang { display: flex; align-items: center; gap: 7px; }
+.lang__btn {
+  font-size: 10.5px;
+  letter-spacing: 0.16em;
+  color: var(--fg-soft);
+  padding: 12px 1px;
+  transition: color var(--t-fast) var(--ease);
+}
+.lang__btn:hover { color: var(--fg); }
+.lang__btn[aria-pressed="true"] { color: var(--fg); }
+.lang__sep { color: var(--fg-soft); opacity: 0.45; font-size: 10.5px; }
+
+.actions-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: clamp(16px, 2.6vw, 34px);
+  margin-top: clamp(30px, 5vh, 54px);
+}
+
+/* --------------------------------------------------------------------------
+   06b · Paper
+   The twenty five screens where she actually writes are a sheet, not a flat
+   colour field. Two scales of fibre, multiplied into the cream so it reads as
+   stock rather than as an overlay, and pitched low enough that you feel it
+   without being able to point at it. The photographic screens have no paper:
+   there the photograph is the surface.
+   -------------------------------------------------------------------------- */
+
+#paper {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  mix-blend-mode: soft-light;
+  background-image: var(--paper-grain);
+  background-size: 800px 800px;
+  /* Tuned against the real screens rather than in the abstract. Soft-light is
+     a gentle blend, so it takes most of the range to be felt at all. */
+  opacity: 0.7;
+  transition: opacity var(--t-page) var(--ease);
+}
+body.is-film #paper { opacity: 0; }
+
+/* --------------------------------------------------------------------------
+   07 · Film backdrop
+   The photography is not placed inside the composition. It carries the whole
+   frame, and the type sits on it. Two stacked layers let one photograph
+   dissolve into the next instead of cutting. The scrim is what keeps the
+   type readable, so its weight is set per screen rather than globally.
+   -------------------------------------------------------------------------- */
+
+#backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+  background: #0B0B0A;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 900ms var(--ease), visibility 0s linear 900ms;
+
+  --scrim-side: 0.70;
+  --scrim-foot: 0.58;
+  --scrim-head: 0.62;
+}
+
+body.is-film #backdrop {
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 900ms var(--ease), visibility 0s;
+}
+
+#backdrop[data-scrim="light"] { --scrim-side: 0.54; --scrim-foot: 0.52; --scrim-head: 0.58; }
+#backdrop[data-scrim="heavy"] { --scrim-side: 0.84; --scrim-foot: 0.68; --scrim-head: 0.62; }
+
+/* Secondary type has to carry more weight on a photograph than it does on
+   paper, and the running metadata sits in the two thinnest bands of scrim. */
+body.is-film { --fg-soft: rgba(242, 239, 232, 0.78); }
+
+/* Inset by a hair so the slow drift never exposes an edge. */
+.backdrop__layer {
+  position: absolute;
+  inset: -2px;
+  background-color: #0B0B0A;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: var(--focus, 50% 50%);
+  opacity: 0;
+  transition: opacity 1100ms var(--ease);
+}
+
+.backdrop__layer.is-live {
+  opacity: 1;
+  animation: drift 30s linear both;
+}
+
+@keyframes drift {
+  from { transform: scale(1); }
+  to   { transform: scale(1.055); }
+}
+
+/* Three passes: one from the type side, one from the foot for the caption,
+   one across the head so the running metadata stays legible on pale frames. */
+.backdrop__scrim {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(to var(--scrim-from, right),
+      rgba(11, 11, 10, var(--scrim-side)) 0%,
+      rgba(11, 11, 10, calc(var(--scrim-side) * 0.58)) 48%,
+      rgba(11, 11, 10, calc(var(--scrim-side) * 0.24)) 100%),
+    linear-gradient(to top,
+      rgba(11, 11, 10, var(--scrim-foot)) 0%,
+      rgba(11, 11, 10, 0) 54%),
+    linear-gradient(to bottom,
+      rgba(11, 11, 10, var(--scrim-head)) 0%,
+      rgba(11, 11, 10, 0) 20%);
+}
+
+/* When a frame puts its subject on the left, the type moves to the right and
+   the scrim follows it, rather than the photograph being cropped to suit a
+   fixed layout. */
+#backdrop[data-side="right"] { --scrim-from: left; }
+
+#backdrop::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: var(--grain);
+  background-size: 200px 200px;
+  opacity: 0.15;
+  mix-blend-mode: overlay;
+}
+
+/* Type stacks over the full height on narrow screens, so the gradient has to
+   run vertically there instead of across. */
+@media (max-width: 899px) {
+  .backdrop__scrim {
+    background-image:
+      linear-gradient(to top,
+        rgba(11, 11, 10, calc(var(--scrim-foot) + 0.26)) 0%,
+        rgba(11, 11, 10, calc(var(--scrim-side) * 0.52)) 66%,
+        rgba(11, 11, 10, calc(var(--scrim-side) * 0.30)) 100%),
+      linear-gradient(to bottom,
+        rgba(11, 11, 10, var(--scrim-head)) 0%,
+        rgba(11, 11, 10, 0) 22%);
+  }
+}
+
+/* --------------------------------------------------------------------------
+   07b · Film panels
+   -------------------------------------------------------------------------- */
+
+.film {
+  position: relative;
+  grid-template-rows: auto 1fr;
+  align-content: stretch;
+  row-gap: clamp(24px, 4vh, 44px);
+}
+
+.film__lead { grid-row: 1; align-self: start; }
+.film__body { grid-row: 2; align-self: end; max-width: 62ch; }
+
+/* The credit sits opposite the type, in whichever corner is left over. It is
+   pinned to the frame rather than to the panel: on a short screen the panel
+   grows past the fixed chrome, and a credit anchored to the panel went under
+   the controls with it. */
+.film__caption {
+  position: fixed;
+  right: var(--gutter);
+  bottom: calc(var(--chrome-bottom-h) + clamp(12px, 1.8vh, 22px));
+  max-width: 24ch;
+  text-align: right;
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  line-height: 1.5;
+  color: rgba(242, 239, 232, 0.66);
+}
+
+/* Type on the right. Held to a reading measure so it does not stretch across
+   the frame, and the credit swaps to the free corner. */
+@media (min-width: 900px) {
+  .film[data-side="right"] .film__lead,
+  .film[data-side="right"] .film__body {
+    margin-left: auto;
+    max-width: 46ch;
+  }
+  .film[data-side="right"] .film__caption {
+    right: auto;
+    left: var(--gutter);
+    text-align: left;
+  }
+}
+
+@media (max-width: 899px) {
+  .film__caption {
+    position: static;
+    text-align: left;
+    max-width: none;
+    margin-top: clamp(22px, 4vh, 40px);
+  }
+}
+
+/* --------------------------------------------------------------------------
+   08 · Opening
+   -------------------------------------------------------------------------- */
+
+.opening__mark {
+  font-size: 10.5px;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+}
+.opening__title {
+  font-family: var(--serif);
+  font-size: clamp(2.9rem, 8.4vw, 7.2rem);
+  line-height: 0.94;
+  letter-spacing: -0.025em;
+  font-weight: 400;
+}
+.opening__sub {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: clamp(1.05rem, 1.7vw, 1.5rem);
+  color: var(--fg-soft);
+  margin-top: 16px;
+}
+
+/* The title carries the frame, so the statement sits beside it on wide
+   screens rather than stacking and pushing the composition off the foot. */
+.film--opening .film__body { max-width: none; }
+
+@media (min-width: 900px) {
+  .film--opening .film__body {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 0.72fr);
+    column-gap: clamp(48px, 6vw, 110px);
+    align-items: end;
+  }
+  .film--opening .opening__statement { padding-bottom: 6px; }
+  .film--opening .opening__statement .rule { margin-top: 0; }
+}
+
+/* --------------------------------------------------------------------------
+   09 · Letter
+   -------------------------------------------------------------------------- */
+
+.letter { max-width: 1180px; }
+.letter__body { margin-top: clamp(22px, 3.4vh, 38px); }
+
+/* The greeting is in his hand, so it needs more size than the serif would at
+   the same optical weight: Playwrite carries a small x height under long
+   loops. */
+.letter__salutation {
+  font-family: var(--hand);
+  font-weight: var(--hand-weight);
+  font-size: clamp(2rem, 3.9vw, 3.05rem);
+  line-height: 1.35;
+  font-synthesis: none;
+}
+
+/* On a wide screen the letter keeps its measure on the left and the two
+   photographs sit in the margin, so they are in view for the whole read.
+   Below that they fall in after the letter, just before the signature, where
+   they read as the last thing he says. */
+.letter__grid { display: grid; }
+
+@media (min-width: 1000px) {
+  .letter__grid {
+    grid-template-columns: minmax(0, 1fr) minmax(210px, 0.4fr);
+    column-gap: clamp(46px, 5.5vw, 92px);
+    align-items: start;
+  }
+  .letter__main  { grid-column: 1; grid-row: 1; }
+  .letter__close { grid-column: 1; grid-row: 2; }
+  .letter__pair  { grid-column: 2; grid-row: 1 / span 2; }
+}
+
+.letter__pair {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(14px, 2vw, 22px);
+  align-items: start;
+  margin-top: clamp(34px, 5vh, 52px);
+  max-width: 420px;
+}
+@media (min-width: 1000px) {
+  .letter__pair {
+    grid-template-columns: 1fr;
+    margin-top: 4px;
+    max-width: none;
+  }
+  /* Two prints set down next to each other rather than a filed pair: the
+     second sits lower and shifted, and both stay the same size, because
+     unequal sizes read as an accident rather than as an arrangement. */
+  /* Capped against the viewport height as well as the column, so the pair and
+     the note still land inside a short laptop screen. */
+  .letter__pair .kid { width: 88%; max-width: min(212px, 23vh); }
+  .letter__pair .kid:nth-of-type(2) {
+    margin-left: 18%;
+    margin-top: clamp(14px, 2.2vh, 26px);
+  }
+}
+
+.kid { margin: 0; }
+.kid img {
+  display: block;
+  width: 100%;
+  height: auto;
+  background: rgba(23, 23, 21, 0.05);
+}
+.kid figcaption {
+  font-family: var(--sans);
+  font-size: 10px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--fg-soft);
+  margin-top: 10px;
+}
+
+.letter__pair-note {
+  grid-column: 1 / -1;
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: clamp(0.98rem, 1.2vw, 1.1rem);
+  line-height: 1.6;
+  color: var(--fg-soft);
+  max-width: 30ch;
+}
+@media (min-width: 1000px) {
+  .letter__pair-note { margin-top: clamp(4px, 1vh, 12px); }
+}
+
+/* --------------------------------------------------------------------------
+   10 · Interlude
+   -------------------------------------------------------------------------- */
+
+/* The closing thought of the section just finished sits at the head of the
+   frame, like a caption. The chapter about to open sits at the foot. */
+.interlude__reflection {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: clamp(1.25rem, 2.3vw, 1.95rem);
+  line-height: 1.32;
+  font-weight: 400;
+  max-width: 26ch;
+  color: rgba(242, 239, 232, 0.82);
+}
+.interlude__next-label {
+  font-size: 10.5px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--fg-soft);
+  margin-bottom: 14px;
+}
+.interlude__next-title {
+  font-family: var(--serif);
+  font-size: clamp(2.2rem, 5.6vw, 4.6rem);
+  line-height: 1.02;
+  letter-spacing: -0.02em;
+  font-weight: 400;
+}
+.interlude__next-line {
+  font-family: var(--serif);
+  font-size: clamp(1rem, 1.35vw, 1.22rem);
+  line-height: 1.7;
+  color: var(--fg-soft);
+  max-width: 42ch;
+  margin-top: 16px;
+}
+.film--interlude .actions-row { margin-top: clamp(26px, 4vh, 44px); }
+
+/* --------------------------------------------------------------------------
+   11 · Question
+   -------------------------------------------------------------------------- */
+
+.question { position: relative; }
+
+@media (min-width: 1080px) {
+  .question {
+    grid-template-columns: minmax(0, 1fr) 190px;
+    column-gap: clamp(40px, 5vw, 90px);
+  }
+  .question__body { grid-column: 1; }
+  .question__aside { grid-column: 2; grid-row: 1; align-self: start; text-align: right; }
+}
+
+.question__aside { display: none; }
+@media (min-width: 1080px) { .question__aside { display: block; } }
+
+.question__numeral {
+  font-family: var(--serif);
+  font-size: 5.6rem;
+  line-height: 1;
+  color: var(--fg);
+  opacity: 0.13;
+  letter-spacing: -0.03em;
+}
+.question__section-name {
+  margin-top: 10px;
+  font-size: 10px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--fg-soft);
+}
+
+.question__prompt {
+  font-family: var(--serif);
+  font-weight: 400;
+  font-size: clamp(1.65rem, 3.5vw, 2.85rem);
+  line-height: 1.16;
+  letter-spacing: -0.012em;
+  max-width: 20ch;
+  text-wrap: pretty;
+}
+.question--heavy .question__prompt {
+  font-size: clamp(1.9rem, 4.3vw, 3.5rem);
+  max-width: 17ch;
+}
+.question--heavy .question__field-wrap { margin-top: clamp(26px, 4.4vh, 52px); }
+
+.question__sub {
+  font-family: var(--serif);
+  font-size: clamp(1rem, 1.25vw, 1.15rem);
+  line-height: 1.7;
+  color: var(--fg-soft);
+  max-width: 50ch;
+  margin-top: clamp(14px, 2vh, 22px);
+}
+
+.question__body-note {
+  font-family: var(--serif);
+  font-size: clamp(1.02rem, 1.3vw, 1.2rem);
+  line-height: 1.72;
+  max-width: 52ch;
+  margin-top: clamp(16px, 2.4vh, 26px);
+}
+
+/* Why I am asking */
+.why { margin-top: clamp(16px, 2.2vh, 24px); }
+.why__toggle {
+  font-size: 10.5px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--fg-soft);
+  border-bottom: 1px solid var(--line);
+  padding: 0 0 4px;
+  transition: color var(--t-fast) var(--ease), border-color var(--t-fast) var(--ease);
+}
+.why__toggle:hover { color: var(--fg); border-color: var(--fg); }
+.why__panel {
+  margin-top: 16px;
+  padding-left: 18px;
+  border-left: 1px solid var(--line);
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 1rem;
+  line-height: 1.7;
+  color: var(--fg-soft);
+  max-width: 48ch;
+  animation: enter 320ms var(--ease) both;
+}
+.why__panel[hidden] { display: none; }
+
+/* Writing surface */
+.question__field-wrap { margin-top: clamp(22px, 3.6vh, 44px); }
+
+.field-label {
+  display: block;
+  font-size: 10px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--fg-soft);
+  margin-bottom: 10px;
+}
+
+.write {
+  display: block;
+  width: 100%;
+  max-width: 62ch;
+  background: transparent;
+  border: 0;
+  border-bottom: 1px solid var(--line);
+  padding: 6px 0 14px;
+  font-family: var(--serif);
+  font-size: clamp(1.08rem, 1.5vw, 1.32rem);
+  line-height: 1.8;
+  resize: none;
+  overflow: hidden;
+  transition: border-color var(--t-fast) var(--ease);
+}
+.write::placeholder { color: var(--fg-soft); opacity: 0.5; font-style: italic; }
+.write:focus {
+  outline: none;
+  border-bottom-color: var(--fg);
+  border-bottom-width: 1px;
+  box-shadow: 0 1px 0 0 var(--fg);
+}
+.write--single { max-width: 40ch; }
+.question--heavy .write { min-height: 8.5em; }
+
+.microcopy {
+  margin-top: 12px;
+  font-size: 0.78rem;
+  color: var(--fg-soft);
+  letter-spacing: 0.01em;
+}
+
+/* Structured controls */
+.choices { display: grid; gap: 2px; max-width: 46ch; margin-bottom: 22px; }
+.choice {
+  display: flex;
+  align-items: baseline;
+  gap: 14px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--line-faint);
+  cursor: pointer;
+}
+.choice:first-child { border-top: 1px solid var(--line-faint); }
+.choice input {
+  appearance: none; -webkit-appearance: none;
+  width: 9px; height: 9px; margin: 0;
+  border: 1px solid var(--fg-soft);
+  border-radius: 50%;
+  flex: 0 0 auto;
+  transform: translateY(1px);
+  transition: background-color var(--t-fast) var(--ease), border-color var(--t-fast) var(--ease);
+}
+.choice input[type="checkbox"] { border-radius: 0; }
+.choice input:checked { background: var(--fg); border-color: var(--fg); }
+.choice input:focus-visible { outline: 1px solid var(--fg); outline-offset: 3px; }
+.choice span {
+  font-family: var(--serif);
+  font-size: clamp(1rem, 1.25vw, 1.14rem);
+  line-height: 1.5;
+}
+
+.triple { display: grid; gap: 18px; max-width: 52ch; }
+.pairs { display: grid; gap: 26px; max-width: 62ch; }
+.pair { display: grid; gap: 8px; }
+.pair__index {
+  font-size: 10px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--fg-soft);
+}
+
+/* --------------------------------------------------------------------------
+   12 · Send chapter
+   -------------------------------------------------------------------------- */
+
+.send__intro { margin-top: clamp(16px, 2.4vh, 26px); }
+
+.requests {
+  display: grid;
+  gap: clamp(30px, 4.6vh, 52px);
+  margin-top: clamp(32px, 5vh, 58px);
+}
+@media (min-width: 1000px) {
+  .requests { grid-template-columns: repeat(3, minmax(0, 1fr)); column-gap: clamp(34px, 4vw, 66px); }
+}
+
+.request { border-top: 1px solid var(--line); padding-top: 20px; }
+.request__index {
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--fg-soft);
+}
+.request__title {
+  font-family: var(--serif);
+  font-size: clamp(1.25rem, 1.9vw, 1.6rem);
+  line-height: 1.25;
+  margin-top: 10px;
+}
+.request__body {
+  font-family: var(--serif);
+  font-size: 1rem;
+  line-height: 1.68;
+  color: var(--fg-soft);
+  margin-top: 12px;
+}
+
+.drop { margin-top: 20px; }
+.drop input[type="file"] { position: absolute; width: 1px; height: 1px; opacity: 0; }
+.drop__label {
+  display: inline-block;
+  border: 1px solid var(--line);
+  padding: 12px 20px;
+  font-size: 10.5px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--fg-soft);
+  cursor: pointer;
+  transition: border-color var(--t-fast) var(--ease), color var(--t-fast) var(--ease);
+}
+.drop__label:hover { border-color: var(--fg); color: var(--fg); }
+.drop input:focus-visible + .drop__label { outline: 1px solid var(--fg); outline-offset: 4px; }
+.drop__list {
+  margin-top: 14px;
+  font-size: 0.8rem;
+  line-height: 1.7;
+  color: var(--fg-soft);
+}
+.drop__list li { padding-left: 14px; text-indent: -14px; }
+
+.send__note {
+  margin-top: clamp(30px, 4.4vh, 52px);
+  padding-top: 18px;
+  border-top: 1px solid var(--line-faint);
+  max-width: 60ch;
+}
+
+/* --------------------------------------------------------------------------
+   13 · Closing
+   -------------------------------------------------------------------------- */
+
+.closing__lede {
+  font-family: var(--serif);
+  font-size: clamp(2rem, 4.6vw, 3.6rem);
+  line-height: 1.1;
+  letter-spacing: -0.015em;
+}
+.closing__three {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: clamp(1.4rem, 2.4vw, 2rem);
+  line-height: 1.3;
+  margin-top: 0.4em;
+}
+.closing__state {
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--fg-soft);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.closing__state::before {
+  content: "";
+  width: 18px; height: 1px; background: var(--accent);
+}
+
+.closing__body { display: grid; gap: clamp(20px, 3vh, 34px); }
+
+/* The closing carries the most copy of any film screen. Two columns keep it
+   off the head of the frame so the photograph is still doing something. */
+@media (min-width: 1000px) {
+  .film--closing .film__body { max-width: none; }
+  .closing__body {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 0.92fr);
+    column-gap: clamp(48px, 6vw, 104px);
+    align-items: end;
+  }
+  .closing__body > .prose { grid-column: 2; grid-row: 1 / span 3; }
+}
+
+/* --------------------------------------------------------------------------
+   14 · Review
+   -------------------------------------------------------------------------- */
+
+.review { align-content: start; max-width: 1120px; }
+.review__masthead { border-bottom: 1px solid var(--fg); padding-bottom: 22px; }
+.review__title {
+  font-family: var(--serif);
+  font-size: clamp(2rem, 4vw, 3.1rem);
+  line-height: 1.05;
+}
+/* Her mark stands where her name was set. Held to 168px because the file only
+   carries 351px of ink, which is exactly two device pixels per point at that
+   width and nothing to spare. */
+.review__client {
+  margin-top: clamp(14px, 2vh, 20px);
+}
+.mark {
+  display: block;
+  width: 168px;
+  max-width: 60%;
+  height: auto;
+}
+.review__stamp {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 26px;
+  margin-top: 20px;
+  font-size: 10px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--fg-soft);
+}
+
+.review__section { margin-top: clamp(40px, 6vh, 72px); }
+.review__section-head {
+  display: flex;
+  align-items: baseline;
+  gap: 16px;
+  border-bottom: 1px solid var(--line);
+  padding-bottom: 10px;
+}
+.review__section-numeral {
+  font-family: var(--serif);
+  font-size: 0.95rem;
+  color: var(--fg-soft);
+  min-width: 2.2em;
+}
+.review__section-title {
+  font-family: var(--serif);
+  font-size: clamp(1.2rem, 1.9vw, 1.55rem);
+  font-weight: 400;
+}
+
+.entry { padding: clamp(20px, 3vh, 30px) 0; border-bottom: 1px solid var(--line-faint); }
+@media (min-width: 860px) {
+  .entry { display: grid; grid-template-columns: 4.5em minmax(0, 1fr) auto; column-gap: 26px; align-items: start; }
+}
+.entry__n {
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--fg-soft);
+  padding-top: 6px;
+}
+.entry__q {
+  font-family: var(--serif);
+  font-size: clamp(1.05rem, 1.4vw, 1.22rem);
+  line-height: 1.4;
+}
+.entry__a {
+  font-family: var(--serif);
+  font-size: 1.02rem;
+  line-height: 1.75;
+  color: var(--fg-soft);
+  margin-top: 10px;
+  white-space: pre-wrap;
+}
+.entry__a--empty { font-style: italic; opacity: 0.65; }
+.entry__edit { justify-self: end; }
+@media (max-width: 859px) {
+  .entry__n { padding-top: 0; margin-bottom: 8px; }
+  .entry__edit { display: inline-block; margin-top: 10px; }
+}
+
+/* --------------------------------------------------------------------------
+   15 · Toast
+   -------------------------------------------------------------------------- */
+
+.toast {
+  position: fixed;
+  left: var(--gutter);
+  bottom: calc(var(--chrome-bottom-h) + 18px);
+  z-index: 40;
+  background: var(--ink);
+  color: var(--paper);
+  padding: 13px 20px;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  max-width: min(46ch, calc(100vw - var(--gutter) * 2));
+  animation: enter 320ms var(--ease) both;
+}
+body.tone-dark .toast { background: var(--paper); color: var(--ink); }
+.toast[hidden] { display: none; }
+
+/* --------------------------------------------------------------------------
+   16 · Motion preference
+   -------------------------------------------------------------------------- */
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  /* The photograph holds still rather than jumping to the end of the drift. */
+  .backdrop__layer.is-live { animation: none !important; transform: none !important; }
+}
+
+/* --------------------------------------------------------------------------
+   17 · Small screens
+   -------------------------------------------------------------------------- */
+
+@media (max-width: 640px) {
+  :root { --chrome-h: 52px; }
+
+  .meta { font-size: 9.5px; letter-spacing: 0.13em; }
+
+  .panel { padding-top: 32px; padding-bottom: 40px; }
+
+  .nav { flex-wrap: wrap; row-gap: 4px; padding: 8px 0 12px; }
+  .nav__advance { width: 100%; justify-content: space-between; }
+  /* Three utility controls will not sit on one phone line, so they flow and
+     wrap from the left rather than being squeezed. */
+  .nav__utility { width: 100%; justify-content: flex-start; gap: 0 18px; }
+  .action { flex: 0 0 auto; padding: 15px 26px; }
+  .link { padding: 12px 4px; margin-left: -4px; }
+
+  .write { font-size: 1.06rem; }
+  .question--heavy .write { min-height: 7em; }
+
+  .film { row-gap: clamp(20px, 3.4vh, 34px); }
+  .film__caption { font-size: 9.5px; }
+}
+
+@media (max-width: 400px) {
+  .nav__advance { gap: 10px; }
+  .action { padding: 14px 18px; letter-spacing: 0.12em; }
+}
+
+/* --------------------------------------------------------------------------
+   18 · Print
+   -------------------------------------------------------------------------- */
+
+#print-doc { display: none; }
+
+@media print {
+  @page {
+    size: A4 portrait;
+    margin: 20mm 18mm 18mm;
+  }
+
+  html, body {
+    background: #FFFDF8 !important;
+    color: #000 !important;
+    font-size: 10.5pt;
+  }
+
+  #app, #paper, #backdrop, .toast, .skip, .noscript { display: none !important; }
+
+  #print-doc {
+    display: block !important;
+    font-family: var(--serif);
+    color: #000;
+  }
+
+  .p-masthead {
+    border-bottom: 0.75pt solid #000;
+    padding-bottom: 10pt;
+    margin-bottom: 22pt;
+  }
+  .p-title { font-size: 22pt; line-height: 1.05; margin: 0; font-weight: 400; }
+  .p-client { margin-top: 8pt; }
+  /* 34mm on the page. The supplied file is soft at this size, which is the one
+     honest limit of printing from this asset. See the README. */
+  .p-client .mark { width: 34mm; max-width: none; }
+  .p-stamp {
+    font-family: var(--sans);
+    font-size: 7.5pt;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-top: 12pt;
+    display: flex;
+    gap: 22pt;
+    flex-wrap: wrap;
+  }
+
+  .p-section { margin-top: 20pt; break-inside: auto; }
+  .p-section-head {
+    border-bottom: 0.5pt solid #000;
+    padding-bottom: 5pt;
+    margin-bottom: 6pt;
+    break-after: avoid;
+    page-break-after: avoid;
+  }
+  .p-section-title { font-size: 13pt; font-weight: 400; margin: 0; }
+  .p-section-numeral {
+    font-family: var(--sans);
+    font-size: 7.5pt;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #444;
+    display: block;
+    margin-bottom: 3pt;
+  }
+
+  .p-entry {
+    break-inside: avoid;
+    page-break-inside: avoid;
+    padding: 9pt 0;
+    border-bottom: 0.35pt solid rgba(0, 0, 0, 0.22);
+  }
+  .p-q { font-size: 11pt; line-height: 1.32; margin: 0; }
+  .p-n {
+    font-family: var(--sans);
+    font-size: 7.5pt;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #555;
+    margin-bottom: 3pt;
+  }
+  .p-a {
+    font-size: 10.5pt;
+    line-height: 1.6;
+    margin-top: 5pt;
+    white-space: pre-wrap;
+    color: #1a1a1a;
+  }
+  .p-a--empty { font-style: italic; color: #777; }
+
+  .p-foot {
+    margin-top: 26pt;
+    padding-top: 8pt;
+    border-top: 0.5pt solid #000;
+    font-family: var(--sans);
+    font-size: 7.5pt;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    display: flex;
+    justify-content: space-between;
+    gap: 20pt;
+  }
+}
