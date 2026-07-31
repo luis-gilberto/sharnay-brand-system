@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Exhibition Gaze · offset A/B</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/exhibition-gaze/exhibition-gaze.css">
+<style>
+  html, body {
+    margin: 0;
+    height: 100%;
+    background: #E8E2D7;
+  }
+  .shell {
+    height: 100%;
+    min-height: 100vh;
+    min-height: 100svh;
+    display: flex;
+    flex-direction: column;
+  }
+  /* Test chrome only — not part of Exhibition */
+  .ab {
+    position: fixed;
+    top: 14px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10;
+    display: flex;
+    gap: 18px;
+    align-items: baseline;
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: rgba(31, 28, 24, 0.45);
+  }
+  .ab button {
+    appearance: none;
+    border: 0;
+    background: none;
+    padding: 0;
+    margin: 0;
+    font: inherit;
+    letter-spacing: inherit;
+    text-transform: inherit;
+    color: inherit;
+    cursor: pointer;
+  }
+  .ab button[aria-pressed="true"] {
+    color: rgba(31, 28, 24, 0.88);
+  }
+  .ab .hint {
+    position: fixed;
+    bottom: 16px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 9px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: rgba(31, 28, 24, 0.35);
+    white-space: nowrap;
+  }
+  .shell .portrait--exhibition {
+    flex: 1;
+    height: 100%;
+  }
+  /* A — production meeting line, optically centered block (current) */
+  .portrait--exhibition[data-offset="A"] .exhibition-sentence {
+    transform: none;
+  }
+  /* B — same type/measure; micro shift left + down */
+  .portrait--exhibition[data-offset="B"] .exhibition-sentence {
+    transform: translate(-2.6%, 3.4%);
+  }
+</style>
+</head>
+<body>
+  <div class="ab" role="group" aria-label="Offset variants">
+    <button type="button" data-offset="A" aria-pressed="true">A</button>
+    <button type="button" data-offset="B" aria-pressed="false">B</button>
+  </div>
+  <p class="hint">A current · B slight left / down · keys 1 / 2 · type unchanged</p>
+
+  <div class="shell">
+    <section class="portrait portrait--exhibition" data-ex-band="M" data-offset="A">
+      <div class="exhibition-field">
+        <p class="exhibition-sentence">Lo que más me importa es que la persona se reconozca en la fotografía, no que yo demuestre lo que sé hacer con la cámara.</p>
+      </div>
+    </section>
+  </div>
+
+<script>
+(function () {
+  var root = document.querySelector('.portrait--exhibition');
+  var buttons = document.querySelectorAll('.ab button[data-offset]');
+  function setOffset(code) {
+    root.setAttribute('data-offset', code);
+    buttons.forEach(function (btn) {
+      btn.setAttribute('aria-pressed', btn.getAttribute('data-offset') === code ? 'true' : 'false');
+    });
+  }
+  buttons.forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      setOffset(btn.getAttribute('data-offset'));
+    });
+  });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === '1' || e.key === 'a' || e.key === 'A') setOffset('A');
+    if (e.key === '2' || e.key === 'b' || e.key === 'B') setOffset('B');
+  });
+})();
+</script>
+</body>
+</html>

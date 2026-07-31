@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Collection · Emergence Study · Constellation / Shared Baseline</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&family=IBM+Plex+Mono:wght@400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #1F1C18;
+    --ink-soft: rgba(31, 28, 24, 0.72);
+    --mute: rgba(31, 28, 24, 0.42);
+    --field: #EAE4DA;
+    --field-deep: #E2DBD0;
+    --serif: "Cormorant Garamond", Georgia, serif;
+    --mono: "IBM Plex Mono", ui-monospace, monospace;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: #cfc7bb;
+    color: var(--ink);
+    font-family: var(--mono);
+    -webkit-font-smoothing: antialiased;
+  }
+  .page {
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 36px 20px 110px;
+  }
+  .doc-label {
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: rgba(31, 28, 24, 0.4);
+    margin: 0 0 8px;
+  }
+  h1 {
+    font-family: var(--serif);
+    font-weight: 400;
+    font-size: 1.85rem;
+    letter-spacing: -0.02em;
+    margin: 0 0 10px;
+  }
+  .lede {
+    font-family: var(--serif);
+    font-size: 1.12rem;
+    line-height: 1.5;
+    max-width: 56ch;
+    margin: 0 0 14px;
+    color: rgba(31, 28, 24, 0.58);
+  }
+  .constraint {
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    line-height: 1.75;
+    color: rgba(31, 28, 24, 0.4);
+    max-width: 78ch;
+    margin: 0 0 28px;
+  }
+  .jump {
+    margin: 0 0 36px;
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px 18px;
+  }
+  .jump a {
+    color: rgba(31, 28, 24, 0.55);
+    text-decoration: none;
+    border-bottom: 1px solid rgba(31, 28, 24, 0.22);
+  }
+  .frame-caption {
+    font-size: 10px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: rgba(31, 28, 24, 0.4);
+    margin: 44px 0 12px;
+  }
+  .frame-caption:first-of-type { margin-top: 8px; }
+
+  /* Shared field — not Archive leaf, not exhibition wall */
+  .room {
+    width: 100%;
+    max-width: 1024px;
+    aspect-ratio: 1024 / 720;
+    background:
+      radial-gradient(ellipse at 42% 38%, #F1EBE2 0%, transparent 55%),
+      linear-gradient(165deg, var(--field) 0%, var(--field-deep) 100%);
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 22px 50px rgba(31, 28, 24, 0.16);
+  }
+  .room__note {
+    position: absolute;
+    top: 18px;
+    left: 22px;
+    z-index: 2;
+    font-size: 9px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: rgba(31, 28, 24, 0.28);
+    pointer-events: none;
+  }
+
+  .frag {
+    margin: 0;
+    font-family: var(--serif);
+    font-weight: 400;
+    font-size: clamp(1.15rem, 1.55vw, 1.42rem);
+    line-height: 1.38;
+    letter-spacing: -0.01em;
+    color: var(--ink);
+    text-wrap: pretty;
+    hyphens: none;
+  }
+  .frag em {
+    font-style: italic;
+    font-weight: 400;
+  }
+
+  /* ------------------------------------------------------------------
+     A · Constellation
+     ------------------------------------------------------------------ */
+  .constellation {
+    position: absolute;
+    inset: 0;
+  }
+  .constellation .frag {
+    position: absolute;
+    max-width: 28ch;
+  }
+  /* Nearness without grid. No equal tiles. */
+  .constellation .frag:nth-child(1) {
+    top: 18%;
+    left: 9%;
+    max-width: 24ch;
+    font-size: clamp(1.2rem, 1.7vw, 1.55rem);
+  }
+  .constellation .frag:nth-child(2) {
+    top: 44%;
+    left: 38%;
+    max-width: 30ch;
+  }
+  .constellation .frag:nth-child(3) {
+    top: 62%;
+    left: 14%;
+    max-width: 26ch;
+    font-size: clamp(1.08rem, 1.4vw, 1.28rem);
+    color: var(--ink-soft);
+  }
+
+  /* ------------------------------------------------------------------
+     B · Shared Baseline
+     ------------------------------------------------------------------ */
+  .baseline {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: flex-start;
+    padding: 0 6% 0 7%;
+    /* First lines share one horizontal band — the chorus line */
+    padding-top: 42%;
+  }
+  .baseline__band {
+    display: grid;
+    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.15fr) minmax(0, 0.95fr);
+    column-gap: clamp(18px, 3.2vw, 42px);
+    align-items: start;
+    width: 100%;
+  }
+  .baseline .frag {
+    max-width: none;
+  }
+  .baseline .frag:nth-child(1) {
+    font-size: clamp(1.12rem, 1.5vw, 1.38rem);
+  }
+  .baseline .frag:nth-child(2) {
+    font-size: clamp(1.12rem, 1.5vw, 1.38rem);
+  }
+  .baseline .frag:nth-child(3) {
+    font-size: clamp(1.05rem, 1.35vw, 1.22rem);
+    color: var(--ink-soft);
+  }
+
+  /* Guide only for study — toggle via class */
+  .room.show-guides .baseline {
+    background-image: linear-gradient(
+      to bottom,
+      transparent calc(42% - 1px),
+      rgba(180, 120, 60, 0.35) calc(42% - 1px),
+      rgba(180, 120, 60, 0.35) calc(42% + 0px),
+      transparent calc(42% + 0px)
+    );
+  }
+
+  .compare {
+    margin-top: 48px;
+    max-width: 72ch;
+  }
+  .compare h2 {
+    font-family: var(--serif);
+    font-weight: 400;
+    font-size: 1.45rem;
+    margin: 0 0 14px;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12px;
+    letter-spacing: 0.02em;
+  }
+  th, td {
+    text-align: left;
+    padding: 12px 14px 12px 0;
+    border-top: 1px solid rgba(31, 28, 24, 0.12);
+    vertical-align: top;
+  }
+  th {
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    font-weight: 400;
+    color: rgba(31, 28, 24, 0.45);
+  }
+  td:first-child {
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: rgba(31, 28, 24, 0.5);
+    width: 7.5rem;
+    white-space: nowrap;
+  }
+  .verdict {
+    font-family: var(--serif);
+    font-size: 1.2rem;
+    line-height: 1.55;
+    color: rgba(31, 28, 24, 0.72);
+    margin: 28px 0 0;
+    max-width: 52ch;
+  }
+  .verdict strong {
+    font-weight: 500;
+    color: var(--ink);
+  }
+  .fragments-ref {
+    font-family: var(--serif);
+    font-size: 0.98rem;
+    line-height: 1.55;
+    color: rgba(31, 28, 24, 0.55);
+    margin: 0 0 8px;
+    max-width: 62ch;
+  }
+  .fragments-ref span {
+    display: block;
+    margin-bottom: 6px;
+  }
+  .toggle {
+    margin: 10px 0 0;
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+  .toggle button {
+    border: 0;
+    background: none;
+    font: inherit;
+    letter-spacing: inherit;
+    text-transform: inherit;
+    color: rgba(31, 28, 24, 0.5);
+    cursor: pointer;
+    padding: 0;
+    border-bottom: 1px solid rgba(31, 28, 24, 0.25);
+  }
+
+  @media (max-width: 720px) {
+    .room {
+      aspect-ratio: auto;
+      min-height: 78vh;
+    }
+    .constellation .frag:nth-child(1) { top: 14%; left: 8%; max-width: 78%; }
+    .constellation .frag:nth-child(2) { top: 38%; left: 18%; max-width: 78%; }
+    .constellation .frag:nth-child(3) { top: 64%; left: 8%; max-width: 82%; }
+    .baseline {
+      padding-top: 28%;
+      padding-left: 8%;
+      padding-right: 8%;
+    }
+    .baseline__band {
+      grid-template-columns: 1fr;
+      row-gap: 1.6rem;
+    }
+  }
+</style>
+</head>
+<body>
+  <div class="page">
+    <p class="doc-label">El Retrato · Collection · Specimen only</p>
+    <h1>Emergence study — Constellation / Shared Baseline</h1>
+    <p class="lede">
+      Same three fragments. No interpretation. No labels for why they sit together.
+      Archive returns one thing. Collection lets a portrait begin through proximity alone.
+    </p>
+    <p class="constraint">
+      Locked out: cards · tiles · masonry · Pinterest · testimonial walls · Return Plate · custody language · COLLECTION title
+    </p>
+    <nav class="jump">
+      <a href="#a">A · Constellation</a>
+      <a href="#b">B · Shared Baseline</a>
+      <a href="#compare">Compare · emergence</a>
+    </nav>
+
+    <p class="frame-caption">Identical material</p>
+    <p class="fragments-ref">
+      <span>1 · “Trabajo con luz que no pide permiso.”</span>
+      <span>2 · “Lo que más me importa es que la persona se reconozca en la fotografía, no que yo demuestre lo que sé hacer con la cámara.”</span>
+      <span>3 · “El estudio es un cuarto de escucha.”</span>
+    </p>
+
+    <p class="frame-caption" id="a">A · Constellation</p>
+    <div class="room" aria-label="Collection constellation specimen">
+      <p class="room__note">A · Constellation</p>
+      <div class="constellation">
+        <p class="frag">Trabajo con luz que no pide permiso.</p>
+        <p class="frag">Lo que más me importa es que la persona se reconozca en la fotografía, no que yo demuestre lo que sé hacer con la cámara.</p>
+        <p class="frag">El estudio es un cuarto de escucha.</p>
+      </div>
+    </div>
+
+    <p class="frame-caption" id="b">B · Shared Baseline</p>
+    <div class="room" id="baseline-room" aria-label="Collection shared baseline specimen">
+      <p class="room__note">B · Shared Baseline</p>
+      <div class="baseline">
+        <div class="baseline__band">
+          <p class="frag">Trabajo con luz que no pide permiso.</p>
+          <p class="frag">Lo que más me importa es que la persona se reconozca en la fotografía, no que yo demuestre lo que sé hacer con la cámara.</p>
+          <p class="frag">El estudio es un cuarto de escucha.</p>
+        </div>
+      </div>
+    </div>
+    <p class="toggle">
+      <button type="button" id="guide-toggle">Show baseline guide</button>
+    </p>
+
+    <section class="compare" id="compare">
+      <h2>Compare — optimize for emergence</h2>
+      <table>
+        <thead>
+          <tr>
+            <th></th>
+            <th>A · Constellation</th>
+            <th>B · Shared Baseline</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Recognition</td>
+            <td>Thoughts found in a room — “these are mine, left where they landed.”</td>
+            <td>One voice speaking in three places — “this is still me, in chorus.”</td>
+          </tr>
+          <tr>
+            <td>Dignity</td>
+            <td>High if nearness stays accidental. Drops if placement feels artful.</td>
+            <td>Very high — equality of line, no featured fragment.</td>
+          </tr>
+          <tr>
+            <td>Portrait-ness</td>
+            <td><strong>Stronger.</strong> A face forms from scattered likeness: parts before whole.</td>
+            <td>Strong as voice, weaker as likeness — more score than face.</td>
+          </tr>
+          <tr>
+            <td>Relationship</td>
+            <td>Inferred by proximity and orbit. The bond is spatial.</td>
+            <td>Inferred by shared line. The bond is typographic.</td>
+          </tr>
+          <tr>
+            <td>Restraint</td>
+            <td>Riskier — easiest direction to over-design.</td>
+            <td>Quieter — harder to decorate without breaking the band.</td>
+          </tr>
+        </tbody>
+      </table>
+      <p class="verdict">
+        For <strong>emergence</strong> — the first moment a portrait becomes visible without explanation —
+        <strong>Constellation</strong> is stronger. Relationships appear as nearness; the whole is not yet named.
+        Shared Baseline is the more restrained and dignified chorus, but it feels like one instrument already tuned —
+        closer to voice than to a portrait beginning to gather.
+      </p>
+      <p class="verdict">
+        Archive returns. Collection should not return again — it should let likeness start to cohere.
+        That coherence starts in Constellation’s field, not on Baseline’s single line.
+      </p>
+    </section>
+  </div>
+<script>
+  document.getElementById('guide-toggle').addEventListener('click', function () {
+    var room = document.getElementById('baseline-room');
+    var on = room.classList.toggle('show-guides');
+    this.textContent = on ? 'Hide baseline guide' : 'Show baseline guide';
+  });
+</script>
+</body>
+</html>

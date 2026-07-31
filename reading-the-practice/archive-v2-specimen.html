@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Return Plate · Revelación · Specimen</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;1,400&family=IBM+Plex+Mono:wght@400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --void: #0D0D0D;
+    --paper: #F4F1EC;
+    --ink: #0D0D0D;
+    --crema: #F4F1EC;
+    --serif: "Cormorant Garamond", Georgia, serif;
+    --mono: "IBM Plex Mono", ui-monospace, monospace;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: #d9d2c6;
+    color: var(--ink);
+    font-family: var(--mono);
+    -webkit-font-smoothing: antialiased;
+  }
+  .page { max-width: 1100px; margin: 0 auto; padding: 32px 20px 80px; }
+  .doc-label {
+    font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase;
+    color: rgba(13, 13, 13, 0.42); margin: 0 0 8px;
+  }
+  h1.doc {
+    font-family: var(--serif); font-weight: 400; font-size: 1.7rem;
+    letter-spacing: -0.02em; margin: 0 0 8px;
+  }
+  .lede {
+    font-family: var(--serif); font-size: 1.08rem; line-height: 1.45;
+    color: rgba(13, 13, 13, 0.58); max-width: 52ch; margin: 0 0 20px;
+  }
+  .jump {
+    margin: 0 0 32px;
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+  .jump a { color: rgba(13, 13, 13, 0.58); }
+  .frame-caption {
+    font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase;
+    color: rgba(13, 13, 13, 0.42); margin: 36px 0 12px;
+  }
+  .frame-caption:first-of-type { margin-top: 0; }
+
+  .app {
+    width: 100%;
+    max-width: 1024px;
+    aspect-ratio: 1024 / 720;
+    background: var(--void);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    box-shadow: 0 24px 60px rgba(13, 13, 13, 0.22);
+  }
+
+  /*
+    Unified top — same family as question chrome.
+    Brand left · time right (no “Archivo” label) · progress rule below.
+    The leaf carries the revelation; the chrome stays procedural.
+  */
+  .chrome-top {
+    --progress: 72%;
+    flex: 0 0 auto;
+    display: flex;
+    flex-direction: column;
+    padding: 16px 28px 0;
+    background: transparent;
+  }
+  .chrome-top__row {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 20px;
+    width: 100%;
+    padding-bottom: 14px;
+  }
+  .meta__brand {
+    font-family: var(--serif);
+    font-size: 15px;
+    letter-spacing: -0.01em;
+    text-transform: none;
+    color: rgba(244, 241, 236, 0.92);
+    margin: 0;
+  }
+  .chrome-top__place {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    flex-shrink: 0;
+    font-size: 10px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: rgba(244, 241, 236, 0.55);
+  }
+  .chrome-top__time {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+  }
+  .chrome-top__time::before {
+    content: "";
+    width: 14px;
+    height: 6px;
+    background:
+      radial-gradient(circle at 2px 50%, rgba(244,241,236,0.55) 1.1px, transparent 1.2px),
+      radial-gradient(circle at 7px 50%, rgba(244,241,236,0.4) 1.1px, transparent 1.2px),
+      radial-gradient(circle at 12px 50%, rgba(244,241,236,0.28) 1.1px, transparent 1.2px);
+    opacity: 0.9;
+  }
+  .chrome-top__rule {
+    position: relative;
+    height: 1px;
+    width: 100%;
+    background: rgba(244, 241, 236, 0.18);
+  }
+  .chrome-top__rule::before {
+    content: "";
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: var(--progress);
+    background: rgba(200, 169, 106, 0.65);
+  }
+
+  .stage {
+    flex: 1 1 auto;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 0;
+  }
+
+  .leaf {
+    position: relative;
+    background: var(--paper);
+    width: min(92%, 920px);
+    height: min(92%, 560px);
+    box-shadow: 0 8px 28px rgba(0, 0, 0, 0.35);
+  }
+  .leaf .artifact {
+    position: absolute;
+    left: 12%;
+    right: 22%;
+    top: 62%;
+    margin: 0;
+    font-family: var(--serif);
+    font-weight: 400;
+    font-style: normal;
+    font-size: 1.32rem;
+    line-height: 1.8;
+    color: var(--ink);
+    max-width: 34ch;
+  }
+
+  .chrome-bottom {
+    flex: 0 0 auto;
+    padding: 10px 28px 14px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    background: transparent;
+    border-top: 1px solid rgba(244, 241, 236, 0.08);
+  }
+
+  .nav-utility {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    font-size: 10px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+  }
+  .nav-utility .lang,
+  .nav-utility .link {
+    display: inline-flex;
+    align-items: center;
+    min-height: 40px;
+    padding: 8px 2px;
+    margin-right: 18px;
+    color: rgba(244, 241, 236, 0.72);
+    background: none;
+    border: 0;
+    border-bottom: 1px solid rgba(244, 241, 236, 0.28);
+    font: inherit;
+    letter-spacing: inherit;
+    text-transform: inherit;
+    cursor: pointer;
+  }
+  .nav-utility .lang {
+    gap: 6px;
+    border-bottom-color: transparent;
+    margin-right: 14px;
+  }
+  .nav-utility .lang button {
+    border: 0; background: none; font: inherit; letter-spacing: inherit;
+    text-transform: inherit; color: rgba(244, 241, 236, 0.38); padding: 0;
+    cursor: pointer; border-bottom: 1px solid transparent;
+  }
+  .nav-utility .lang button.is-on {
+    color: rgba(244, 241, 236, 0.92);
+    border-bottom-color: rgba(244, 241, 236, 0.55);
+  }
+  .nav-utility .lang .sep { color: rgba(244, 241, 236, 0.28); cursor: default; }
+  .nav-utility .divider {
+    width: 1px; height: 14px; margin: 0 10px 0 0;
+    background: rgba(244, 241, 236, 0.18);
+  }
+
+  .nav-advance {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    flex-shrink: 0;
+  }
+  .nav-advance .back {
+    font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase;
+    color: rgba(244, 241, 236, 0.72); background: none; border: 0;
+    border-bottom: 1px solid rgba(244, 241, 236, 0.28);
+    padding: 8px 2px; min-height: 40px; cursor: pointer; font-family: var(--mono);
+  }
+  .nav-advance .continue {
+    font-family: var(--mono); font-size: 10px; letter-spacing: 0.16em;
+    text-transform: uppercase; color: var(--ink); background: var(--crema);
+    border: 0; padding: 14px 26px; cursor: default;
+  }
+
+  .app-mobile {
+    width: 360px;
+    height: 720px;
+    aspect-ratio: auto;
+    max-width: none;
+  }
+  .app-mobile .chrome-top,
+  .app-mobile .chrome-bottom { padding-left: 16px; padding-right: 16px; }
+  .app-mobile .chrome-top { padding-top: 14px; }
+  .app-mobile .chrome-top__row { flex-wrap: wrap; gap: 8px 12px; padding-bottom: 12px; }
+  .app-mobile .chrome-bottom {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 8px;
+  }
+  .app-mobile .nav-advance { width: 100%; justify-content: space-between; }
+  .app-mobile .leaf {
+    width: 94%;
+    height: 88%;
+  }
+  .app-mobile .artifact {
+    left: 12%;
+    right: 12%;
+    top: 64%;
+    font-size: 1.12rem;
+    max-width: 26ch;
+  }
+
+  .row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 28px;
+    align-items: flex-start;
+  }
+  .key {
+    font-family: var(--serif);
+    font-size: 1.05rem;
+    line-height: 1.5;
+    color: rgba(13, 13, 13, 0.55);
+    max-width: 34ch;
+  }
+  .key strong {
+    display: block;
+    font-family: var(--mono);
+    font-size: 10px;
+    font-weight: 400;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: rgba(13, 13, 13, 0.42);
+    margin-bottom: 8px;
+  }
+</style>
+</head>
+<body>
+  <div class="page">
+    <p class="doc-label">El Retrato · Archive v2 · Return Plate · Specimen</p>
+    <h1 class="doc">Return Plate · Revelación</h1>
+    <p class="lede">
+      Misma familia de chrome que las hojas con preguntas: marca a la izquierda,
+      tiempo a la derecha, una sola regla de progreso. En la hoja solo sus palabras —
+      sin ARCHIVO, sin explicación, sin metadata.
+    </p>
+    <p class="jump">
+      <a href="chrome-specimen.html">Todos los specimens</a>
+      &nbsp;·&nbsp;
+      <a href="question-chrome-specimen.html">Hojas con preguntas</a>
+      &nbsp;·&nbsp;
+      <a href="index.html">App en vivo</a>
+    </p>
+
+    <p class="frame-caption">01 · Desktop · return plate (revelación)</p>
+    <div class="app" aria-label="Return Plate desktop">
+      <header class="chrome-top" style="--progress: 72%">
+        <div class="chrome-top__row">
+          <p class="meta__brand">Sharnay Photography</p>
+          <div class="chrome-top__place">
+            <span class="chrome-top__time">~ 5 min restantes</span>
+          </div>
+        </div>
+        <div class="chrome-top__rule" aria-hidden="true"></div>
+      </header>
+
+      <main class="stage">
+        <div class="leaf">
+          <p class="artifact">Me quedo más tiempo cuando la luz está mal.</p>
+        </div>
+      </main>
+
+      <footer class="chrome-bottom">
+        <div class="nav-utility">
+          <span class="lang">
+            <button type="button" class="is-on">ES</button>
+            <span class="sep">/</span>
+            <button type="button">EN</button>
+          </span>
+          <span class="divider" aria-hidden="true"></span>
+          <button type="button" class="link">Guardar y seguir después</button>
+          <span class="divider" aria-hidden="true"></span>
+          <button type="button" class="link">Volver al principio</button>
+        </div>
+        <div class="nav-advance">
+          <button type="button" class="back">Atrás</button>
+          <button type="button" class="continue">Continuar</button>
+        </div>
+      </footer>
+    </div>
+
+    <p class="frame-caption">02 · Mobile · return plate</p>
+    <div class="row">
+      <div class="app app-mobile" aria-label="Return Plate mobile">
+        <header class="chrome-top" style="--progress: 72%">
+          <div class="chrome-top__row">
+            <p class="meta__brand">Sharnay</p>
+            <div class="chrome-top__place">
+              <span class="chrome-top__time">~ 5 min restantes</span>
+            </div>
+          </div>
+          <div class="chrome-top__rule" aria-hidden="true"></div>
+        </header>
+        <main class="stage">
+          <div class="leaf">
+            <p class="artifact">Me quedo más tiempo cuando la luz está mal.</p>
+          </div>
+        </main>
+        <footer class="chrome-bottom">
+          <div class="nav-utility">
+            <span class="lang">
+              <button type="button" class="is-on">ES</button>
+              <span class="sep">/</span>
+              <button type="button">EN</button>
+            </span>
+            <span class="divider" aria-hidden="true"></span>
+            <button type="button" class="link">Guardar y seguir después</button>
+          </div>
+          <div class="nav-advance">
+            <button type="button" class="back">Atrás</button>
+            <button type="button" class="continue">Continuar</button>
+          </div>
+        </footer>
+      </div>
+      <div class="key">
+        <strong>Qué hace la revelación</strong>
+        Oscuridad alrededor · hoja iluminada · frase abajo a la izquierda.
+        El chrome no nombra “Archivo”: el evento es que las palabras vuelven.
+        <br><br>
+        <strong>Fuera de la hoja</strong>
+        ARCHIVO · “De lo que escribiste” · metadata · marcas institucionales.
+      </div>
+    </div>
+  </div>
+</body>
+</html>

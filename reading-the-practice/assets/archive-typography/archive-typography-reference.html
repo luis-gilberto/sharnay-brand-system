@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Archive Typography System · v1 · Reference</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./archive-typography.css">
+  <style>
+    body {
+      margin: 0;
+      background: #14110F;
+      font-family: 'Inter', -apple-system, sans-serif;
+      color: #e8e2d8;
+    }
+    .doc-header {
+      padding: 56px 56px 24px;
+      max-width: 760px;
+    }
+    .doc-header .eyebrow {
+      font-size: 10.5px;
+      letter-spacing: 0.24em;
+      text-transform: uppercase;
+      color: rgba(232,226,216,0.55);
+      font-weight: 500;
+    }
+    .doc-header h1 {
+      font-family: 'EB Garamond', Georgia, serif;
+      font-weight: 400;
+      font-size: 38px;
+      line-height: 1.16;
+      margin: 12px 0 14px;
+      color: #f0eadf;
+    }
+    .doc-header p {
+      font-size: 13.5px;
+      line-height: 1.72;
+      color: rgba(232,226,216,0.65);
+      max-width: 620px;
+      margin: 0;
+    }
+    .band {
+      padding: 40px 56px 40px;
+      border-top: 1px solid rgba(232,226,216,0.14);
+      margin-top: 40px;
+    }
+    .band-head {
+      display: grid;
+      grid-template-columns: 92px 1fr auto;
+      gap: 24px;
+      align-items: baseline;
+      padding-bottom: 32px;
+    }
+    .band-head .letter {
+      font-family: 'EB Garamond', Georgia, serif;
+      font-size: 76px;
+      line-height: 0.82;
+      color: rgba(232,226,216,0.9);
+    }
+    .band-head .kind {
+      font-size: 10.5px;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: rgba(232,226,216,0.5);
+      font-weight: 500;
+    }
+    .band-head .title {
+      font-family: 'EB Garamond', Georgia, serif;
+      font-size: 26px;
+      color: #f0eadf;
+      font-weight: 400;
+      margin: 6px 0 6px;
+    }
+    .band-head .specs {
+      font-size: 11.5px;
+      color: rgba(232,226,216,0.5);
+    }
+    .band-head .range {
+      font-family: 'EB Garamond', Georgia, serif;
+      font-size: 30px;
+      color: rgba(232,226,216,0.85);
+      text-align: right;
+    }
+    .band-head .range small {
+      display: block;
+      font-family: 'Inter', sans-serif;
+      font-size: 10.5px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: rgba(232,226,216,0.45);
+      margin-top: 4px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="doc-header">
+    <div class="eyebrow">Archive Typography System · v1 · Reference</div>
+    <h1>Los cinco presets, aplicados directamente desde archive-typography.css</h1>
+    <p>Este documento no contiene estilos propios. Todos los layouts vienen del módulo CSS. Cualquier cambio al sistema se refleja aquí automáticamente.</p>
+  </div>
+
+  <!-- A₀ -->
+  <section class="band">
+    <div class="band-head">
+      <div class="letter">A<span style="font-size:32px;vertical-align:baseline;position:relative;top:-8px;">₀</span></div>
+      <div>
+        <div class="kind">Preset A₀ · Micro</div>
+        <div class="title">0–21 caracteres</div>
+        <div class="specs">52px · line-height 1.06 · tracking −0.012em · medida ~24ch</div>
+      </div>
+      <div class="range">A₀<small>16 chars</small></div>
+    </div>
+    <div class="archive-stage">
+      <article class="archive-leaf" data-preset="a0">
+        <p class="archive-fragment">No lo dije nunca.</p>
+      </article>
+    </div>
+  </section>
+
+  <!-- A -->
+  <section class="band">
+    <div class="band-head">
+      <div class="letter">A</div>
+      <div>
+        <div class="kind">Preset A · Short</div>
+        <div class="title">22–48 caracteres</div>
+        <div class="specs">42px · line-height 1.14 · tracking −0.006em · medida ~28ch</div>
+      </div>
+      <div class="range">A<small>40 chars</small></div>
+    </div>
+    <div class="archive-stage">
+      <article class="archive-leaf" data-preset="a">
+        <p class="archive-fragment">Me arrepentí antes de terminar la frase.</p>
+      </article>
+    </div>
+  </section>
+
+  <!-- B -->
+  <section class="band">
+    <div class="band-head">
+      <div class="letter">B</div>
+      <div>
+        <div class="kind">Preset B · Medium · ancla</div>
+        <div class="title">49–120 caracteres</div>
+        <div class="specs">32px · line-height 1.28 · tracking −0.002em · medida ~30ch</div>
+      </div>
+      <div class="range">B<small>88 chars</small></div>
+    </div>
+    <div class="archive-stage">
+      <article class="archive-leaf" data-preset="b">
+        <p class="archive-fragment">Todavía no sé si me arrepiento de haberlo dicho, o de haber esperado tanto para decirlo.</p>
+      </article>
+    </div>
+  </section>
+
+  <!-- C -->
+  <section class="band">
+    <div class="band-head">
+      <div class="letter">C</div>
+      <div>
+        <div class="kind">Preset C · Long</div>
+        <div class="title">121–150 caracteres</div>
+        <div class="specs">23px · line-height 1.4 · tracking +0.001em · medida ~42ch</div>
+      </div>
+      <div class="range">C<small>132 chars</small></div>
+    </div>
+    <div class="archive-stage">
+      <article class="archive-leaf" data-preset="c">
+        <p class="archive-fragment">Todavía no sé si me arrepiento de haberlo dicho, o de haber esperado tanto para decirlo, aunque sé que algo cambió aquel día.</p>
+      </article>
+    </div>
+  </section>
+
+  <!-- C₁ -->
+  <section class="band">
+    <div class="band-head">
+      <div class="letter">C<span style="font-size:32px;vertical-align:baseline;position:relative;top:-8px;">₁</span></div>
+      <div>
+        <div class="kind">Preset C₁ · Dense</div>
+        <div class="title">151–180 caracteres</div>
+        <div class="specs">20px · line-height 1.5 · tracking +0.002em · medida ~46ch</div>
+      </div>
+      <div class="range">C₁<small>168 chars</small></div>
+    </div>
+    <div class="archive-stage">
+      <article class="archive-leaf" data-preset="c1">
+        <p class="archive-fragment">Me tomó años entender que lo que yo llamaba paciencia era en realidad miedo a decir lo que pensaba, y ahora ya no sé si tengo tiempo para corregirlo.</p>
+      </article>
+    </div>
+  </section>
+
+</body>
+</html>

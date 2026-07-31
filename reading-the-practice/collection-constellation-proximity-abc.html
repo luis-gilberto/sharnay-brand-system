@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Collection · constellation proximity A/B/C · B locked</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/collection-constellation/collection-inapp.css">
+<style>
+  html, body {
+    margin: 0;
+    height: 100%;
+    background: #E2DBD0;
+  }
+  .shell {
+    height: 100%;
+    min-height: 100vh;
+    min-height: 100svh;
+    display: flex;
+    flex-direction: column;
+  }
+  .shell .portrait--collection {
+    flex: 1;
+    height: 100%;
+  }
+  /* Test chrome only — not part of Collection */
+  .abc {
+    position: fixed;
+    top: 14px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10;
+    display: flex;
+    gap: 18px;
+    align-items: baseline;
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: rgba(31, 28, 24, 0.45);
+  }
+  .abc button {
+    appearance: none;
+    border: 0;
+    background: none;
+    padding: 0;
+    margin: 0;
+    font: inherit;
+    letter-spacing: inherit;
+    text-transform: inherit;
+    color: inherit;
+    cursor: pointer;
+  }
+  .abc button[aria-pressed="true"] {
+    color: rgba(31, 28, 24, 0.88);
+  }
+  .hint {
+    position: fixed;
+    bottom: 16px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10;
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 9px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: rgba(31, 28, 24, 0.35);
+    white-space: nowrap;
+    pointer-events: none;
+  }
+
+  /*
+    Two-fragment optical pass only.
+    Slot 2 stays the anchor. Slot 1 moves lower + toward center.
+    Diagonal reduction ≈ 0% / ~12% / ~20%. Asymmetry preserved.
+  */
+
+  /* A — current production */
+  .portrait--collection[data-proximity="A"][data-collection-count="2"] .collection-frag[data-slot="1"] {
+    top: 32%; left: 15%;
+  }
+  .portrait--collection[data-proximity="A"][data-collection-count="2"] .collection-frag[data-slot="2"] {
+    top: 50%; left: 32%;
+  }
+
+  /* B — slightly closer (~12% less diagonal) */
+  .portrait--collection[data-proximity="B"][data-collection-count="2"] .collection-frag[data-slot="1"] {
+    top: 34.5%; left: 17.5%;
+  }
+  .portrait--collection[data-proximity="B"][data-collection-count="2"] .collection-frag[data-slot="2"] {
+    top: 49.5%; left: 31.5%;
+  }
+
+  /* C — slightly closer again (~20% less diagonal) */
+  .portrait--collection[data-proximity="C"][data-collection-count="2"] .collection-frag[data-slot="1"] {
+    top: 36%; left: 19%;
+  }
+  .portrait--collection[data-proximity="C"][data-collection-count="2"] .collection-frag[data-slot="2"] {
+    top: 49%; left: 31%;
+  }
+</style>
+</head>
+<body>
+  <div class="abc" role="group" aria-label="Proximity variants">
+    <button type="button" data-proximity="A" aria-pressed="false">A</button>
+    <button type="button" data-proximity="B" aria-pressed="true">B</button>
+    <button type="button" data-proximity="C" aria-pressed="false">C</button>
+  </div>
+  <p class="hint">B locked as production · A/C historical only · keys 1 / 2 / 3</p>
+
+  <div class="shell">
+    <section class="portrait portrait--collection" data-collection-count="2" data-proximity="B">
+      <div class="collection-field">
+        <p class="collection-frag" data-slot="1">Trabajo con luz que no pide permiso.</p>
+        <p class="collection-frag" data-slot="2">Lo que más me importa es que la persona se reconozca en la fotografía, no que yo demuestre lo que sé hacer con la cámara.</p>
+      </div>
+    </section>
+  </div>
+
+<script>
+(function () {
+  var root = document.querySelector('.portrait--collection');
+  var buttons = document.querySelectorAll('.abc button[data-proximity]');
+  function setProximity(code) {
+    root.setAttribute('data-proximity', code);
+    buttons.forEach(function (btn) {
+      btn.setAttribute(
+        'aria-pressed',
+        btn.getAttribute('data-proximity') === code ? 'true' : 'false'
+      );
+    });
+  }
+  buttons.forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      setProximity(btn.getAttribute('data-proximity'));
+    });
+  });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === '1' || e.key === 'a' || e.key === 'A') setProximity('A');
+    if (e.key === '2' || e.key === 'b' || e.key === 'B') setProximity('B');
+    if (e.key === '3' || e.key === 'c' || e.key === 'C') setProximity('C');
+  });
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,919 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Chrome · Specimens · El Retrato</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;1,400&family=IBM+Plex+Mono:wght@400&family=Inter:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --paper: #F4F1EC;
+    --paper-top: #FBF9F5;
+    --ink: #0D0D0D;
+    --ink-soft: rgba(13, 13, 13, 0.58);
+    --ink-mute: rgba(13, 13, 13, 0.42);
+    --void: #0D0D0D;
+    --accent: #C8A96A;
+    --serif: "Cormorant Garamond", Georgia, serif;
+    --mono: "IBM Plex Mono", ui-monospace, monospace;
+    --sans: Inter, "Helvetica Neue", sans-serif;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: #d9d2c6;
+    color: var(--ink);
+    font-family: var(--mono);
+    -webkit-font-smoothing: antialiased;
+  }
+  .page { max-width: 1100px; margin: 0 auto; padding: 32px 20px 96px; }
+  .doc-label {
+    font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--ink-mute); margin: 0 0 8px;
+  }
+  h1.doc {
+    font-family: var(--serif); font-weight: 400; font-size: 1.7rem;
+    letter-spacing: -0.02em; margin: 0 0 8px;
+  }
+  .lede {
+    font-family: var(--serif); font-size: 1.08rem; line-height: 1.45;
+    color: var(--ink-soft); max-width: 54ch; margin: 0 0 20px;
+  }
+  .toc {
+    display: flex; flex-wrap: wrap; gap: 8px 18px;
+    margin: 0 0 36px; padding: 0; list-style: none;
+    font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase;
+  }
+  .toc a { color: var(--ink-soft); text-decoration: underline; text-underline-offset: 3px; }
+  .section-label {
+    font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--ink-mute); margin: 48px 0 8px;
+    padding-top: 28px; border-top: 1px solid rgba(13,13,13,0.12);
+  }
+  .section-label:first-of-type { margin-top: 0; padding-top: 0; border-top: 0; }
+  .frame-caption {
+    font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase;
+    color: var(--ink-mute); margin: 28px 0 12px;
+  }
+
+  /* —— App frame —— */
+  .app {
+    width: 100%;
+    max-width: 1024px;
+    aspect-ratio: 1024 / 720;
+    background: var(--paper);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    position: relative;
+    box-shadow: 0 24px 60px rgba(13, 13, 13, 0.14);
+  }
+  .app-mobile {
+    width: 360px;
+    height: 720px;
+    aspect-ratio: auto;
+    max-width: none;
+  }
+  .row {
+    display: flex; flex-wrap: wrap; gap: 28px; align-items: flex-start;
+  }
+  .key {
+    font-family: var(--serif); font-size: 1.05rem; line-height: 1.5;
+    color: var(--ink-soft); max-width: 34ch;
+  }
+  .key strong {
+    display: block; font-family: var(--mono); font-size: 10px; font-weight: 400;
+    letter-spacing: 0.16em; text-transform: uppercase; color: var(--ink-mute);
+    margin-bottom: 8px;
+  }
+
+  /* —— Desktop unified top —— */
+  .chrome-top {
+    --progress: 28%;
+    flex: 0 0 auto;
+    display: flex;
+    flex-direction: column;
+    padding: 16px 28px 0;
+    background: linear-gradient(180deg, var(--paper-top) 0%, #F5F2ED 72%, var(--paper) 100%);
+  }
+  .chrome-top__row {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 20px;
+    width: 100%;
+    padding-bottom: 14px;
+  }
+  /* Brand lockup: mark + type on desktop; mark alone on mobile. */
+  .brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    min-width: 0;
+    margin: 0;
+  }
+  .brand__mark {
+    display: block;
+    width: 22px;
+    height: 22px;
+    object-fit: contain;
+    flex: 0 0 auto;
+  }
+  .brand__type {
+    font-family: var(--serif);
+    font-size: 15px;
+    letter-spacing: -0.01em;
+    color: var(--ink);
+    white-space: nowrap;
+  }
+  .app-mobile .brand__type { display: none; }
+  .app-mobile .brand__mark { width: 24px; height: 24px; }
+  .chrome-top__place {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    flex-shrink: 0;
+    font-size: 10px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: rgba(13, 13, 13, 0.48);
+  }
+  .chrome-top__chapter {
+    font-family: var(--serif);
+    font-size: 15px;
+    letter-spacing: -0.01em;
+    text-transform: none;
+    color: var(--ink);
+  }
+  .chrome-top__sep { color: rgba(13, 13, 13, 0.22); }
+  .chrome-top__time {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+  }
+  .chrome-top__time::before {
+    content: "";
+    width: 14px; height: 6px;
+    background:
+      radial-gradient(circle at 2px 50%, rgba(13,13,13,0.35) 1.1px, transparent 1.2px),
+      radial-gradient(circle at 7px 50%, rgba(13,13,13,0.28) 1.1px, transparent 1.2px),
+      radial-gradient(circle at 12px 50%, rgba(13,13,13,0.22) 1.1px, transparent 1.2px);
+  }
+  .chrome-top__rule {
+    position: relative; height: 1px; width: 100%;
+    background: rgba(13, 13, 13, 0.1);
+  }
+  .chrome-top__rule::before {
+    content: ""; position: absolute; left: 0; top: 0; bottom: 0;
+    width: var(--progress);
+    background: rgba(90, 72, 48, 0.42);
+  }
+
+  /* —— Mobile top: mark + hamburger —— */
+  .chrome-top--mobile {
+    padding: 14px 18px 0;
+    background: linear-gradient(180deg, var(--paper-top) 0%, #F5F2ED 72%, var(--paper) 100%);
+  }
+  .chrome-top--mobile .chrome-top__row {
+    align-items: center;
+    padding-bottom: 12px;
+  }
+  .menu-btn {
+    width: 40px; height: 40px;
+    margin: -8px -6px -8px 0;
+    padding: 0;
+    border: 0;
+    background: none;
+    display: inline-flex;
+    flex-direction: column;
+    align-items: flex-end;
+    justify-content: center;
+    gap: 5px;
+    cursor: pointer;
+  }
+  .menu-btn span {
+    display: block;
+    width: 18px;
+    height: 1px;
+    background: rgba(13, 13, 13, 0.55);
+  }
+
+  .stage {
+    flex: 1 1 auto;
+    overflow: auto;
+    padding: 40px 48px 28px;
+    min-height: 0;
+  }
+  .app-mobile .stage { padding: 28px 18px 20px; }
+
+  .prompt {
+    font-family: var(--serif);
+    font-weight: 400;
+    font-size: clamp(1.55rem, 3vw, 2.35rem);
+    line-height: 1.15;
+    letter-spacing: -0.015em;
+    margin: 0 0 14px;
+    max-width: 22ch;
+  }
+  .app-mobile .prompt { font-size: 1.55rem; max-width: 16ch; }
+  .sub {
+    font-family: var(--sans);
+    font-weight: 300;
+    font-size: 0.95rem;
+    line-height: 1.45;
+    color: var(--ink-soft);
+    margin: 0 0 28px;
+    max-width: 42ch;
+  }
+  .app-mobile .sub { font-size: 0.9rem; margin-bottom: 36px; }
+  .field {
+    font-family: var(--serif);
+    font-size: 1.15rem;
+    color: rgba(13, 13, 13, 0.35);
+    padding: 8px 0 14px;
+    border-bottom: 1px solid rgba(13, 13, 13, 0.18);
+    max-width: 36ch;
+  }
+  .choices { max-width: 34ch; }
+  .choice {
+    display: flex; align-items: baseline;
+    padding: 16px 0;
+    border-top: 1px solid rgba(13, 13, 13, 0.12);
+    font-family: var(--serif); font-size: 1.2rem;
+  }
+  .choice:last-child { border-bottom: 1px solid rgba(13, 13, 13, 0.12); }
+  .choice span {
+    font-family: var(--mono); font-size: 9px; letter-spacing: 0.16em;
+    text-transform: uppercase; color: var(--ink-mute); margin-right: 14px;
+  }
+
+  /* —— Footer —— */
+  .chrome-bottom {
+    flex: 0 0 auto;
+    padding: 10px 28px 14px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    background: linear-gradient(0deg, var(--paper-top) 0%, #F5F2ED 72%, var(--paper) 100%);
+    border-top: 1px solid rgba(13, 13, 13, 0.09);
+  }
+  .app-mobile .chrome-bottom {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+    padding: 0 18px 14px;
+  }
+  .nav-utility {
+    display: flex; flex-wrap: wrap; align-items: center;
+    font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase;
+  }
+  .app-mobile .nav-utility {
+    justify-content: space-between;
+    padding: 12px 0;
+    border-top: 1px solid rgba(13, 13, 13, 0.09);
+    border-bottom: 1px solid rgba(13, 13, 13, 0.09);
+    margin-bottom: 10px;
+  }
+  .nav-utility .lang,
+  .nav-utility .link {
+    display: inline-flex; align-items: center; min-height: 40px;
+    padding: 8px 2px; margin-right: 18px;
+    color: rgba(13, 13, 13, 0.62); background: none; border: 0;
+    border-bottom: 1px solid rgba(13, 13, 13, 0.22);
+    font: inherit; letter-spacing: inherit; text-transform: inherit; cursor: pointer;
+  }
+  .app-mobile .nav-utility .link {
+    margin-right: 0;
+    min-height: 0;
+    padding: 4px 0;
+    font-size: 9px;
+    letter-spacing: 0.12em;
+  }
+  .nav-utility .lang {
+    gap: 6px; border-bottom-color: transparent; margin-right: 14px;
+  }
+  .nav-utility .lang button {
+    border: 0; background: none; font: inherit; letter-spacing: inherit;
+    text-transform: inherit; color: rgba(13, 13, 13, 0.35); padding: 0;
+    cursor: pointer; border-bottom: 1px solid transparent;
+  }
+  .nav-utility .lang button.is-on {
+    color: var(--ink); border-bottom-color: rgba(13, 13, 13, 0.45);
+  }
+  .nav-utility .lang .sep { color: rgba(13, 13, 13, 0.28); cursor: default; }
+  .nav-utility .divider {
+    width: 1px; height: 14px; margin: 0 10px 0 0;
+    background: rgba(13, 13, 13, 0.14);
+  }
+  .nav-utility .time {
+    display: inline-flex; align-items: center; gap: 6px;
+    color: rgba(13, 13, 13, 0.42);
+    font-size: 9px;
+    letter-spacing: 0.14em;
+    white-space: nowrap;
+  }
+  .nav-utility .time::before {
+    content: "";
+    width: 14px; height: 6px;
+    background:
+      radial-gradient(circle at 2px 50%, rgba(13,13,13,0.35) 1.1px, transparent 1.2px),
+      radial-gradient(circle at 7px 50%, rgba(13,13,13,0.28) 1.1px, transparent 1.2px),
+      radial-gradient(circle at 12px 50%, rgba(13,13,13,0.22) 1.1px, transparent 1.2px);
+  }
+  .nav-advance {
+    display: flex; align-items: center; gap: 18px; flex-shrink: 0;
+  }
+  .app-mobile .nav-advance { width: 100%; justify-content: space-between; }
+  .nav-advance .back {
+    font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase;
+    color: rgba(13, 13, 13, 0.62); background: none; border: 0;
+    border-bottom: 1px solid rgba(13, 13, 13, 0.22);
+    padding: 8px 2px; min-height: 40px; cursor: pointer; font-family: var(--mono);
+  }
+  .nav-advance .continue {
+    font-family: var(--mono); font-size: 10px; letter-spacing: 0.16em;
+    text-transform: uppercase; color: var(--ink); background: transparent;
+    border: 1px solid var(--ink); padding: 14px 28px; cursor: pointer;
+  }
+
+  /* —— Mobile menu sheet —— */
+  .menu-sheet {
+    position: absolute;
+    inset: 0;
+    z-index: 5;
+    background: rgba(13, 13, 13, 0.28);
+    display: flex;
+    justify-content: flex-end;
+  }
+  .menu-sheet__panel {
+    width: min(78%, 280px);
+    height: 100%;
+    background: var(--paper-top);
+    padding: 18px 20px 28px;
+    display: flex;
+    flex-direction: column;
+    box-shadow: -12px 0 40px rgba(13, 13, 13, 0.18);
+  }
+  .menu-sheet__head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 36px;
+  }
+  .menu-sheet__close {
+    border: 0; background: none; font-family: var(--mono);
+    font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase;
+    color: rgba(13, 13, 13, 0.55); cursor: pointer; padding: 8px 0;
+  }
+  .menu-sheet__chapter {
+    font-family: var(--serif);
+    font-size: 1.35rem;
+    margin: 0 0 6px;
+    color: var(--ink);
+  }
+  .menu-sheet__time {
+    font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase;
+    color: var(--ink-mute); margin: 0 0 40px;
+  }
+  .menu-sheet__nav {
+    display: flex; flex-direction: column; gap: 4px;
+  }
+  .menu-sheet__nav button {
+    text-align: left;
+    border: 0; background: none;
+    font-family: var(--mono);
+    font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase;
+    color: rgba(13, 13, 13, 0.7);
+    padding: 14px 0;
+    border-bottom: 1px solid rgba(13, 13, 13, 0.12);
+    cursor: pointer;
+  }
+  .menu-sheet__lang {
+    display: flex; gap: 10px; align-items: baseline;
+    padding: 14px 0;
+    border-bottom: 1px solid rgba(13, 13, 13, 0.12);
+    font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase;
+  }
+  .menu-sheet__lang button {
+    border: 0; background: none; font: inherit; padding: 0;
+    color: rgba(13, 13, 13, 0.35); cursor: pointer;
+    border-bottom: 1px solid transparent;
+  }
+  .menu-sheet__lang button.is-on {
+    color: var(--ink);
+    border-bottom-color: rgba(13, 13, 13, 0.45);
+  }
+
+  /* —— Film / chapter separator —— */
+  .app.is-film {
+    background: #0D0D0D;
+    color: #F4F1EC;
+  }
+  .app.is-film::before {
+    content: "";
+    position: absolute; inset: 0; z-index: 0;
+    background:
+      linear-gradient(180deg, rgba(13,13,13,0.42) 0%, rgba(13,13,13,0.08) 26%, rgba(13,13,13,0.12) 58%, rgba(13,13,13,0.62) 100%),
+      linear-gradient(90deg, rgba(13,13,13,0.55) 0%, rgba(13,13,13,0.18) 38%, rgba(13,13,13,0.05) 62%, rgba(13,13,13,0.2) 100%),
+      var(--film) var(--film-focus, 58% 38%) / cover no-repeat;
+  }
+  .app.is-film > * { position: relative; z-index: 1; }
+  .app.is-film .chrome-top,
+  .app.is-film .chrome-bottom {
+    background: transparent;
+    border-color: transparent;
+  }
+  .app.is-film .chrome-bottom { border-top: 0; }
+  .app.is-film .brand__type,
+  .app.is-film .chrome-top__chapter { color: rgba(244, 241, 236, 0.94); }
+  .app.is-film .chrome-top__place { color: rgba(244, 241, 236, 0.58); }
+  .app.is-film .chrome-top__sep { color: rgba(244, 241, 236, 0.32); }
+  .app.is-film .chrome-top__rule { background: rgba(244, 241, 236, 0.22); }
+  .app.is-film .chrome-top__rule::before { background: rgba(200, 169, 106, 0.7); }
+  .app.is-film .chrome-top__time::before {
+    background:
+      radial-gradient(circle at 2px 50%, rgba(244,241,236,0.55) 1.1px, transparent 1.2px),
+      radial-gradient(circle at 7px 50%, rgba(244,241,236,0.4) 1.1px, transparent 1.2px),
+      radial-gradient(circle at 12px 50%, rgba(244,241,236,0.28) 1.1px, transparent 1.2px);
+  }
+  .app.is-film .nav-utility .link,
+  .app.is-film .nav-advance .back {
+    color: rgba(244, 241, 236, 0.78);
+    border-bottom-color: rgba(244, 241, 236, 0.32);
+  }
+  .app.is-film .nav-utility .lang button { color: rgba(244, 241, 236, 0.42); }
+  .app.is-film .nav-utility .lang button.is-on {
+    color: rgba(244, 241, 236, 0.94);
+    border-bottom-color: rgba(200, 169, 106, 0.7);
+  }
+  .app.is-film .nav-utility .divider { background: rgba(244, 241, 236, 0.22); }
+  .app.is-film .nav-advance .continue {
+    color: var(--ink);
+    background: #F4F1EC;
+    border-color: #F4F1EC;
+  }
+
+  .stage--film {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    padding: 28px 48px 28px;
+    min-height: 0;
+  }
+  .film-body {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: end;
+    column-gap: 32px;
+    width: 100%;
+    margin-top: clamp(40px, 9vh, 80px);
+  }
+  .film-copy {
+    margin: 0;
+    max-width: 12em;
+  }
+  .film-copy .label {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin: 0 0 18px;
+  }
+  .film-copy .title {
+    font-family: var(--serif);
+    font-weight: 300;
+    font-size: clamp(2.6rem, 5.4vw, 4.2rem);
+    line-height: 1.02;
+    letter-spacing: -0.025em;
+    margin: 0 0 16px;
+    color: #F4F1EC;
+  }
+  .film-copy .title .row {
+    display: block;
+    white-space: nowrap;
+  }
+  .film-copy .dek {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: clamp(1.05rem, 1.6vw, 1.28rem);
+    line-height: 1.45;
+    color: rgba(244, 241, 236, 0.82);
+    margin: 0;
+    max-width: 28ch;
+  }
+  .film-credit {
+    margin: 0;
+    padding-bottom: 0.2em;
+    font-family: var(--mono);
+    font-size: 9.5px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: rgba(200, 169, 106, 0.78);
+    text-align: right;
+    white-space: nowrap;
+  }
+  .film-credit .sep {
+    margin: 0 0.55em;
+    opacity: 0.55;
+  }
+  /* Her name stays human: sentence case, no tracking. */
+  .film-credit__by {
+    font-family: var(--serif);
+    font-size: 13px;
+    letter-spacing: 0;
+    text-transform: none;
+    color: rgba(244, 241, 236, 0.78);
+  }
+
+  /* —— Return Plate —— */
+  .app.is-return { background: var(--void); }
+  .app.is-return .chrome-top,
+  .app.is-return .chrome-bottom {
+    background: transparent;
+    border-color: rgba(244, 241, 236, 0.08);
+  }
+  .app.is-return .brand__type { color: rgba(244, 241, 236, 0.92); }
+  .app.is-return .chrome-top__place,
+  .app.is-return .chrome-top__time { color: rgba(244, 241, 236, 0.55); }
+  .app.is-return .chrome-top__time::before {
+    background:
+      radial-gradient(circle at 2px 50%, rgba(244,241,236,0.55) 1.1px, transparent 1.2px),
+      radial-gradient(circle at 7px 50%, rgba(244,241,236,0.4) 1.1px, transparent 1.2px),
+      radial-gradient(circle at 12px 50%, rgba(244,241,236,0.28) 1.1px, transparent 1.2px);
+  }
+  .app.is-return .chrome-top__rule { background: rgba(244, 241, 236, 0.18); }
+  .app.is-return .chrome-top__rule::before { background: rgba(200, 169, 106, 0.65); }
+  .app.is-return .menu-btn span { background: rgba(244, 241, 236, 0.55); }
+  .app.is-return .nav-utility .link,
+  .app.is-return .nav-advance .back {
+    color: rgba(244, 241, 236, 0.72);
+    border-bottom-color: rgba(244, 241, 236, 0.28);
+  }
+  .app.is-return .nav-utility .time { color: rgba(244, 241, 236, 0.45); }
+  .app.is-return .nav-utility .time::before {
+    background:
+      radial-gradient(circle at 2px 50%, rgba(244,241,236,0.55) 1.1px, transparent 1.2px),
+      radial-gradient(circle at 7px 50%, rgba(244,241,236,0.4) 1.1px, transparent 1.2px),
+      radial-gradient(circle at 12px 50%, rgba(244,241,236,0.28) 1.1px, transparent 1.2px);
+  }
+  .app.is-return .nav-utility .lang button { color: rgba(244, 241, 236, 0.38); }
+  .app.is-return .nav-utility .lang button.is-on {
+    color: rgba(244, 241, 236, 0.92);
+    border-bottom-color: rgba(244, 241, 236, 0.55);
+  }
+  .app.is-return .nav-utility .divider { background: rgba(244, 241, 236, 0.18); }
+  .app.is-return .nav-advance .continue {
+    color: var(--ink); background: #F4F1EC; border: 0;
+  }
+  .app.is-return .stage {
+    display: flex; align-items: center; justify-content: center; padding: 0;
+  }
+  .app.is-return .nav-utility {
+    border-top-color: rgba(244, 241, 236, 0.1);
+    border-bottom-color: rgba(244, 241, 236, 0.1);
+  }
+  .leaf {
+    position: relative;
+    background: var(--paper);
+    width: min(92%, 920px);
+    height: min(92%, 560px);
+    box-shadow: 0 8px 28px rgba(0, 0, 0, 0.35);
+  }
+  .app-mobile.is-return .leaf { width: 94%; height: 88%; }
+  .leaf .artifact {
+    position: absolute;
+    left: 12%; right: 22%; top: 62%;
+    margin: 0;
+    font-family: var(--serif);
+    font-size: 1.32rem;
+    line-height: 1.8;
+    color: var(--ink);
+    max-width: 34ch;
+  }
+  .app-mobile .leaf .artifact {
+    left: 12%; right: 12%; top: 64%;
+    font-size: 1.12rem; max-width: 26ch;
+  }
+</style>
+</head>
+<body>
+  <div class="page">
+    <p class="doc-label">El Retrato · Chrome · Specimens</p>
+    <h1 class="doc">Todas las superficies</h1>
+    <p class="lede">
+      Desktop con top unificado (logomark oficial + logotype) · mobile con mark + menú ·
+      full-bleed · Return Plate. Al reducir, el type se desprende y queda el mark.
+    </p>
+    <ul class="toc">
+      <li><a href="#desktop">Desktop</a></li>
+      <li><a href="#film">Full-bleed</a></li>
+      <li><a href="#return">Return Plate</a></li>
+      <li><a href="archive-presence-study.html">Archive · Presence A/B/C</a></li>
+      <li><a href="#mobile">Mobile · menú</a></li>
+      <li><a href="index.html">App en vivo</a></li>
+    </ul>
+
+    <!-- ===================== DESKTOP ===================== -->
+    <p class="section-label" id="desktop">Desktop · top unificado</p>
+
+    <p class="frame-caption">01 · Introducción · escritura</p>
+    <div class="app">
+      <header class="chrome-top" style="--progress: 12%">
+        <div class="chrome-top__row">
+          <p class="brand">
+            <img class="brand__mark" src="assets/images/sharnay-logomark.png" width="267" height="270" alt="">
+            <span class="brand__type">Sharnay Photography</span>
+          </p>
+          <div class="chrome-top__place">
+            <span class="chrome-top__chapter">Introducción</span>
+            <span class="chrome-top__sep" aria-hidden="true">|</span>
+            <span class="chrome-top__time">~ 24 min restantes</span>
+          </div>
+        </div>
+        <div class="chrome-top__rule" aria-hidden="true"></div>
+      </header>
+      <main class="stage">
+        <h2 class="prompt">¿Cómo describirías el trabajo que haces, sin usar la palabra “fotografía”?</h2>
+        <p class="sub">Habla como le hablarías a alguien que no conoce tu práctica.</p>
+        <div class="field">Escribe aquí…</div>
+      </main>
+      <footer class="chrome-bottom">
+        <div class="nav-utility">
+          <span class="lang">
+            <button type="button" class="is-on">ES</button><span class="sep">/</span><button type="button">EN</button>
+          </span>
+          <span class="divider" aria-hidden="true"></span>
+          <button type="button" class="link">Guardar y seguir después</button>
+          <span class="divider" aria-hidden="true"></span>
+          <button type="button" class="link">Volver al principio</button>
+        </div>
+        <div class="nav-advance">
+          <button type="button" class="back">Atrás</button>
+          <button type="button" class="continue">Continuar</button>
+        </div>
+      </footer>
+    </div>
+
+    <p class="frame-caption">02 · Origen · opciones</p>
+    <div class="app">
+      <header class="chrome-top" style="--progress: 28%">
+        <div class="chrome-top__row">
+          <p class="brand">
+            <img class="brand__mark" src="assets/images/sharnay-logomark.png" width="267" height="270" alt="">
+            <span class="brand__type">Sharnay Photography</span>
+          </p>
+          <div class="chrome-top__place">
+            <span class="chrome-top__chapter">Origen</span>
+            <span class="chrome-top__sep" aria-hidden="true">|</span>
+            <span class="chrome-top__time">~ 20 min restantes</span>
+          </div>
+        </div>
+        <div class="chrome-top__rule" aria-hidden="true"></div>
+      </header>
+      <main class="stage">
+        <h2 class="prompt">¿Dónde suele ocurrir el trabajo?</h2>
+        <p class="sub">Elige todas las que apliquen.</p>
+        <div class="choices">
+          <div class="choice"><span>Uno</span>Estudio</div>
+          <div class="choice"><span>Dos</span>Locación</div>
+          <div class="choice"><span>Tres</span>En la casa de alguien</div>
+          <div class="choice"><span>Cuatro</span>Donde salga</div>
+        </div>
+      </main>
+      <footer class="chrome-bottom">
+        <div class="nav-utility">
+          <span class="lang">
+            <button type="button" class="is-on">ES</button><span class="sep">/</span><button type="button">EN</button>
+          </span>
+          <span class="divider" aria-hidden="true"></span>
+          <button type="button" class="link">Guardar y seguir después</button>
+          <span class="divider" aria-hidden="true"></span>
+          <button type="button" class="link">Volver al principio</button>
+        </div>
+        <div class="nav-advance">
+          <button type="button" class="back">Atrás</button>
+          <button type="button" class="continue">Continuar</button>
+        </div>
+      </footer>
+    </div>
+
+    <!-- ===================== FILM ===================== -->
+    <p class="section-label" id="film">Full-bleed · separador de capítulo</p>
+
+    <p class="frame-caption">03 · Color y sensación · umbral fotográfico</p>
+    <div class="app is-film" style="--film: url('assets/images/film-feel.jpg'); --film-focus: 42% 36%">
+      <header class="chrome-top" style="--progress: 50%">
+        <div class="chrome-top__row">
+          <p class="brand">
+            <img class="brand__mark" src="assets/images/sharnay-logomark.png" width="267" height="270" alt="">
+            <span class="brand__type">Sharnay Photography</span>
+          </p>
+          <div class="chrome-top__place">
+            <span class="chrome-top__chapter">Color y sensación</span>
+            <span class="chrome-top__sep" aria-hidden="true">|</span>
+            <span class="chrome-top__time">~ 9 min restantes</span>
+          </div>
+        </div>
+        <div class="chrome-top__rule" aria-hidden="true"></div>
+      </header>
+      <main class="stage stage--film">
+        <div class="film-body">
+          <div class="film-copy">
+            <p class="label">Capítulo</p>
+            <h2 class="title"><span class="row">Color y</span><span class="row">Sensación</span></h2>
+            <p class="dek">Lo que se siente antes de nombrarse.</p>
+          </div>
+          <p class="film-credit">Editorial portrait <span class="sep" aria-hidden="true">|</span> <span class="film-credit__by">By Erika Sharnay</span></p>
+        </div>
+      </main>
+      <footer class="chrome-bottom">
+        <div class="nav-utility">
+          <span class="lang">
+            <button type="button" class="is-on">ES</button><span class="sep">/</span><button type="button">EN</button>
+          </span>
+          <span class="divider" aria-hidden="true"></span>
+          <button type="button" class="link">Guardar y seguir después</button>
+        </div>
+        <div class="nav-advance">
+          <button type="button" class="back">Atrás</button>
+          <button type="button" class="continue">Continuar</button>
+        </div>
+      </footer>
+    </div>
+
+    <!-- ===================== RETURN ===================== -->
+    <p class="section-label" id="return">Return Plate · revelación</p>
+
+    <p class="frame-caption">04 · Desktop · hoja iluminada</p>
+    <div class="app is-return">
+      <header class="chrome-top" style="--progress: 72%">
+        <div class="chrome-top__row">
+          <p class="brand">
+            <img class="brand__mark" src="assets/images/sharnay-logomark.png" width="267" height="270" alt="">
+            <span class="brand__type">Sharnay Photography</span>
+          </p>
+          <div class="chrome-top__place">
+            <span class="chrome-top__time">~ 5 min restantes</span>
+          </div>
+        </div>
+        <div class="chrome-top__rule" aria-hidden="true"></div>
+      </header>
+      <main class="stage">
+        <div class="leaf">
+          <p class="artifact">Me quedo más tiempo cuando la luz está mal.</p>
+        </div>
+      </main>
+      <footer class="chrome-bottom">
+        <div class="nav-utility">
+          <span class="lang">
+            <button type="button" class="is-on">ES</button><span class="sep">/</span><button type="button">EN</button>
+          </span>
+          <span class="divider" aria-hidden="true"></span>
+          <button type="button" class="link">Guardar y seguir después</button>
+          <span class="divider" aria-hidden="true"></span>
+          <button type="button" class="link">Volver al principio</button>
+        </div>
+        <div class="nav-advance">
+          <button type="button" class="back">Atrás</button>
+          <button type="button" class="continue">Continuar</button>
+        </div>
+      </footer>
+    </div>
+
+    <!-- ===================== MOBILE ===================== -->
+    <p class="section-label" id="mobile">Mobile · marca + menú</p>
+    <p class="lede" style="margin-top:0;margin-bottom:8px;">
+      En teléfono el top se aligera: apertura a la izquierda, menú a la derecha.
+      El tiempo baja a la franja de utilidad. Idioma y “volver” viven en el menú.
+    </p>
+
+    <p class="frame-caption">05 · Mobile · pregunta (cerrado)</p>
+    <div class="row">
+      <div class="app app-mobile">
+        <header class="chrome-top chrome-top--mobile" style="--progress: 58%">
+          <div class="chrome-top__row">
+            <span class="brand"><img class="brand__mark" src="assets/images/sharnay-logomark.png" width="267" height="270" alt="Sharnay Photography"></span>
+            <button type="button" class="menu-btn" aria-label="Menú">
+              <span></span><span></span><span></span>
+            </button>
+          </div>
+          <div class="chrome-top__rule" aria-hidden="true"></div>
+        </header>
+        <main class="stage">
+          <h2 class="prompt">Tres marcas que se sientan bien para ti.</h2>
+          <p class="sub">Una línea de por qué en cada una.</p>
+          <div class="field">Escribe aquí…</div>
+        </main>
+        <footer class="chrome-bottom">
+          <div class="nav-utility">
+            <button type="button" class="link">Guardar y seguir después</button>
+            <span class="time">~ 9 min restantes</span>
+          </div>
+          <div class="nav-advance">
+            <button type="button" class="back">Atrás</button>
+            <button type="button" class="continue">Continuar</button>
+          </div>
+        </footer>
+      </div>
+      <div class="key">
+        <strong>Por qué el menú</strong>
+        En mobile el top no aguanta marca + capítulo + tiempo sin pelear con la pregunta. El menú guarda lo secundario; el tiempo se queda visible abajo, cerca de Continuar.
+      </div>
+    </div>
+
+    <p class="frame-caption">06 · Mobile · menú abierto</p>
+    <div class="row">
+      <div class="app app-mobile">
+        <header class="chrome-top chrome-top--mobile" style="--progress: 58%">
+          <div class="chrome-top__row">
+            <span class="brand"><img class="brand__mark" src="assets/images/sharnay-logomark.png" width="267" height="270" alt="Sharnay Photography"></span>
+            <button type="button" class="menu-btn" aria-label="Menú" aria-expanded="true">
+              <span></span><span></span><span></span>
+            </button>
+          </div>
+          <div class="chrome-top__rule" aria-hidden="true"></div>
+        </header>
+        <main class="stage">
+          <h2 class="prompt">Tres marcas que se sientan bien para ti.</h2>
+          <p class="sub">Una línea de por qué en cada una.</p>
+          <div class="field">Escribe aquí…</div>
+        </main>
+        <footer class="chrome-bottom">
+          <div class="nav-utility">
+            <button type="button" class="link">Guardar y seguir después</button>
+            <span class="time">~ 9 min restantes</span>
+          </div>
+          <div class="nav-advance">
+            <button type="button" class="back">Atrás</button>
+            <button type="button" class="continue">Continuar</button>
+          </div>
+        </footer>
+
+        <div class="menu-sheet" role="dialog" aria-label="Menú">
+          <div class="menu-sheet__panel">
+            <div class="menu-sheet__head">
+              <span class="brand"><img class="brand__mark" src="assets/images/sharnay-logomark.png" width="267" height="270" alt="Sharnay Photography"></span>
+              <button type="button" class="menu-sheet__close">Cerrar</button>
+            </div>
+            <p class="menu-sheet__chapter">Color y sensación</p>
+            <p class="menu-sheet__time">~ 9 min restantes</p>
+            <div class="menu-sheet__lang">
+              <button type="button" class="is-on">ES</button>
+              <span>/</span>
+              <button type="button">EN</button>
+            </div>
+            <div class="menu-sheet__nav">
+              <button type="button">Volver al principio</button>
+              <button type="button">Guardar y seguir después</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="key">
+        <strong>Qué vive adentro</strong>
+        Capítulo (orientación) · idioma · volver al principio · guardar.
+        Nada de ARCHIVO ni navegación por secciones: el menú es utilidad, no mapa.
+      </div>
+    </div>
+
+    <p class="frame-caption">07 · Mobile · Return Plate</p>
+    <div class="row">
+      <div class="app app-mobile is-return">
+        <header class="chrome-top chrome-top--mobile" style="--progress: 72%">
+          <div class="chrome-top__row">
+            <span class="brand"><img class="brand__mark" src="assets/images/sharnay-logomark.png" width="267" height="270" alt="Sharnay Photography"></span>
+            <button type="button" class="menu-btn" aria-label="Menú">
+              <span></span><span></span><span></span>
+            </button>
+          </div>
+          <div class="chrome-top__rule" aria-hidden="true"></div>
+        </header>
+        <main class="stage">
+          <div class="leaf">
+            <p class="artifact">Me quedo más tiempo cuando la luz está mal.</p>
+          </div>
+        </main>
+        <footer class="chrome-bottom">
+          <div class="nav-utility">
+            <button type="button" class="link">Guardar y seguir después</button>
+            <span class="time">~ 5 min restantes</span>
+          </div>
+          <div class="nav-advance">
+            <button type="button" class="back">Atrás</button>
+            <button type="button" class="continue">Continuar</button>
+          </div>
+        </footer>
+      </div>
+      <div class="key">
+        <strong>Misma lógica en revelación</strong>
+        El leaf sigue limpio. El menú no pone “Archivo” en la hoja ni en el top.
+      </div>
+    </div>
+
+  </div>
+</body>
+</html>

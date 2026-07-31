@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Exhibition v1 · Gaze · Production specimen</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400&family=IBM+Plex+Mono:wght@400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/exhibition-gaze/exhibition-gaze.css">
+<style>
+  :root {
+    --ink: #1F1C18;
+    --serif: "Cormorant Garamond", Georgia, serif;
+    --mono: "IBM Plex Mono", ui-monospace, monospace;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: #cfc7bb;
+    color: var(--ink);
+    font-family: var(--mono);
+    -webkit-font-smoothing: antialiased;
+  }
+  .page { max-width: 1180px; margin: 0 auto; padding: 36px 20px 100px; }
+  .doc-label {
+    font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase;
+    color: rgba(31, 28, 24, 0.4); margin: 0 0 8px;
+  }
+  h1 {
+    font-family: var(--serif); font-weight: 400; font-size: 1.8rem;
+    letter-spacing: -0.02em; margin: 0 0 8px;
+  }
+  .lede {
+    font-family: var(--serif); font-size: 1.1rem; line-height: 1.5;
+    max-width: 52ch; color: rgba(31, 28, 24, 0.58); margin: 0 0 12px;
+  }
+  .meta {
+    font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase;
+    line-height: 1.7; color: rgba(31, 28, 24, 0.4); margin: 0 0 28px; max-width: 70ch;
+  }
+  .jump {
+    display: flex; flex-wrap: wrap; gap: 10px 18px; margin: 0 0 32px;
+    font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase;
+  }
+  .jump a {
+    color: rgba(31, 28, 24, 0.55); text-decoration: none;
+    border-bottom: 1px solid rgba(31, 28, 24, 0.22);
+  }
+  .cap {
+    font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase;
+    color: rgba(31, 28, 24, 0.4); margin: 40px 0 12px;
+  }
+  .cap:first-of-type { margin-top: 0; }
+  .note {
+    font-family: var(--serif); font-size: 1rem; line-height: 1.5;
+    color: rgba(31, 28, 24, 0.55); max-width: 52ch; margin: 0 0 14px;
+  }
+
+  .app {
+    width: 100%;
+    max-width: 1024px;
+    background: #E8E2D7;
+    box-shadow: 0 22px 50px rgba(31, 28, 24, 0.16);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+  .app--desktop { aspect-ratio: 1024 / 720; }
+  .app--mobile {
+    max-width: 390px;
+    aspect-ratio: 390 / 844;
+  }
+  .chrome-top {
+    flex: 0 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding: 14px 22px 12px;
+    border-bottom: 1px solid rgba(31, 28, 24, 0.08);
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: rgba(31, 28, 24, 0.45);
+  }
+  .chrome-top .brand {
+    font-family: var(--serif);
+    font-size: 14px;
+    letter-spacing: -0.01em;
+    text-transform: none;
+    color: rgba(31, 28, 24, 0.85);
+  }
+  .chrome-top .time { letter-spacing: 0.16em; }
+  .chrome-bottom {
+    flex: 0 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 22px 16px;
+    border-top: 1px solid rgba(31, 28, 24, 0.1);
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: rgba(31, 28, 24, 0.4);
+  }
+  .chrome-bottom .action {
+    color: rgba(31, 28, 24, 0.85);
+    border: 1px solid rgba(31, 28, 24, 0.35);
+    padding: 10px 18px;
+    background: transparent;
+    font: inherit;
+    letter-spacing: inherit;
+    text-transform: inherit;
+  }
+  .app--mobile .chrome-top,
+  .app--mobile .chrome-bottom { padding-left: 16px; padding-right: 16px; }
+
+  .pair {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 28px;
+    align-items: start;
+  }
+  @media (max-width: 900px) {
+    .pair { grid-template-columns: 1fr; }
+  }
+  .principles {
+    font-family: var(--serif);
+    font-size: 1.05rem;
+    line-height: 1.55;
+    color: rgba(31, 28, 24, 0.62);
+    max-width: 48ch;
+    margin: 28px 0 0;
+  }
+  .principles strong { font-weight: 500; color: var(--ink); }
+</style>
+</head>
+<body>
+  <div class="page">
+    <p class="doc-label">El Retrato · Exhibition v1 · Gaze · Production specimen</p>
+    <h1>I stayed with this</h1>
+    <p class="lede">
+      One sentence. Exact words. Attention remaining. Gaze felt, not drawn.
+    </p>
+    <p class="meta">
+      Spec · EXHIBITION.md · Module · assets/exhibition-gaze/exhibition-gaze.css ·
+      Selected from Regard study C · A Distance / B Stillness retained as discoveries only
+    </p>
+    <nav class="jump">
+      <a href="EXHIBITION.md">Spec</a>
+      <a href="exhibition-regard-specimen.html">Regard study (A·B·C)</a>
+      <a href="COLLECTION.md">Collection</a>
+      <a href="archive-reveal-specimen.html">Archive</a>
+    </nav>
+
+    <p class="cap" id="desk-m">Desktop · medium band</p>
+    <p class="note">Meeting line slightly above center. Conversational measure. No title on chrome.</p>
+    <div class="app app--desktop" aria-label="Exhibition desktop medium">
+      <header class="chrome-top">
+        <span class="brand">Sharnay Photography</span>
+        <span class="time">~ 2 min</span>
+      </header>
+      <section class="portrait portrait--exhibition" data-ex-band="M">
+        <div class="exhibition-field">
+          <p class="exhibition-sentence">Lo que más me importa es que la persona se reconozca en la fotografía, no que yo demuestre lo que sé hacer con la cámara.</p>
+        </div>
+      </section>
+      <footer class="chrome-bottom">
+        <span>Atrás</span>
+        <button type="button" class="action">Continuar</button>
+      </footer>
+    </div>
+
+    <div class="pair" style="margin-top: 48px;">
+      <div>
+        <p class="cap" id="desk-s">Desktop · short band</p>
+        <p class="note">Short text stays at meeting scale — never monumentalized.</p>
+        <div class="app app--desktop" aria-label="Exhibition desktop short">
+          <header class="chrome-top">
+            <span class="brand">Sharnay Photography</span>
+            <span class="time">~ 2 min</span>
+          </header>
+          <section class="portrait portrait--exhibition" data-ex-band="S">
+            <div class="exhibition-field">
+              <p class="exhibition-sentence">Quiero que se sienta verdadero.</p>
+            </div>
+          </section>
+          <footer class="chrome-bottom">
+            <span>Atrás</span>
+            <button type="button" class="action">Continuar</button>
+          </footer>
+        </div>
+      </div>
+    </div>
+
+    <p class="cap" id="desk-l">Desktop · long band</p>
+    <p class="note">Longer measure, slightly quieter size — still face-to-face, not a wall.</p>
+    <div class="app app--desktop" aria-label="Exhibition desktop long">
+      <header class="chrome-top">
+        <span class="brand">Sharnay Photography</span>
+        <span class="time">~ 2 min</span>
+      </header>
+      <section class="portrait portrait--exhibition" data-ex-band="L">
+        <div class="exhibition-field">
+          <p class="exhibition-sentence">Ya existe un modo de trabajar que no necesita explicarse del todo: la gente lo reconoce cuando llega, y yo también lo reconozco cuando lo estoy haciendo bien, incluso si todavía no tengo las palabras exactas para nombrarlo frente a alguien más.</p>
+        </div>
+      </section>
+      <footer class="chrome-bottom">
+        <span>Atrás</span>
+        <button type="button" class="action">Continuar</button>
+      </footer>
+    </div>
+
+    <p class="cap" id="mobile">Mobile · compressed gaze</p>
+    <p class="note">Same posture. Unequal air below. Not a quote card.</p>
+    <div class="app app--mobile" aria-label="Exhibition mobile medium">
+      <header class="chrome-top">
+        <span class="brand">Sharnay Photography</span>
+        <span class="time">~ 2 min</span>
+      </header>
+      <section class="portrait portrait--exhibition" data-ex-band="M">
+        <div class="exhibition-field">
+          <p class="exhibition-sentence">Lo que más me importa es que la persona se reconozca en la fotografía, no que yo demuestre lo que sé hacer con la cámara.</p>
+        </div>
+      </section>
+      <footer class="chrome-bottom">
+        <span>Atrás</span>
+        <button type="button" class="action">Continuar</button>
+      </footer>
+    </div>
+
+    <p class="principles">
+      <strong>Archive</strong> — I received this.<br>
+      <strong>Collection</strong> — These belong together.<br>
+      <strong>Exhibition</strong> — I stayed with this.
+    </p>
+  </div>
+</body>
+</html>

@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hojas con preguntas · Specimen</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;1,400&family=IBM+Plex+Mono:wght@400&family=Inter:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --paper: #F4F1EC;
+    --paper-top: #FBF9F5;
+    --ink: #0D0D0D;
+    --ink-soft: rgba(13, 13, 13, 0.58);
+    --ink-mute: rgba(13, 13, 13, 0.42);
+    --line: rgba(13, 13, 13, 0.14);
+    --serif: "Cormorant Garamond", Georgia, serif;
+    --mono: "IBM Plex Mono", ui-monospace, monospace;
+    --sans: Inter, "Helvetica Neue", sans-serif;
+    --chrome-h: 58px;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: #d9d2c6;
+    color: var(--ink);
+    font-family: var(--mono);
+    -webkit-font-smoothing: antialiased;
+  }
+  .page { max-width: 1100px; margin: 0 auto; padding: 32px 20px 80px; }
+  .doc-label {
+    font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--ink-mute); margin: 0 0 8px;
+  }
+  h1.doc {
+    font-family: var(--serif); font-weight: 400; font-size: 1.7rem;
+    letter-spacing: -0.02em; margin: 0 0 8px;
+  }
+  .lede {
+    font-family: var(--serif); font-size: 1.08rem; line-height: 1.45;
+    color: var(--ink-soft); max-width: 52ch; margin: 0 0 20px;
+  }
+  .jump {
+    margin: 0 0 32px;
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+  .jump a { color: var(--ink-soft); }
+  .frame-caption {
+    font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase;
+    color: var(--ink-mute); margin: 36px 0 12px;
+  }
+  .frame-caption:first-of-type { margin-top: 0; }
+
+  .app {
+    width: 100%;
+    max-width: 1024px;
+    aspect-ratio: 1024 / 720;
+    background: var(--paper);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    box-shadow: 0 24px 60px rgba(13, 13, 13, 0.14);
+  }
+
+  /*
+    Unified top — one row only.
+    Brand left · chapter + time right · progress rule below.
+    No second franja.
+  */
+  .chrome-top {
+    --progress: 28%;
+    flex: 0 0 auto;
+    display: flex;
+    flex-direction: column;
+    padding: 16px 28px 0;
+    background: linear-gradient(180deg, var(--paper-top) 0%, #F5F2ED 72%, var(--paper) 100%);
+  }
+  .chrome-top__row {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 20px;
+    width: 100%;
+    padding-bottom: 14px;
+  }
+  .meta__brand {
+    font-family: var(--serif);
+    font-size: 15px;
+    letter-spacing: -0.01em;
+    text-transform: none;
+    color: var(--ink);
+    margin: 0;
+  }
+  .chrome-top__place {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    flex-shrink: 0;
+    font-size: 10px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: rgba(13, 13, 13, 0.48);
+  }
+  .chrome-top__chapter {
+    font-family: var(--serif);
+    font-style: normal;
+    font-weight: 400;
+    font-size: 15px;
+    letter-spacing: -0.01em;
+    text-transform: none;
+    color: var(--ink);
+  }
+  .chrome-top__sep {
+    color: rgba(13, 13, 13, 0.22);
+    font-style: normal;
+  }
+  .chrome-top__time {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+  }
+  .chrome-top__time::before {
+    content: "";
+    width: 14px;
+    height: 6px;
+    border-radius: 0;
+    background:
+      radial-gradient(circle at 2px 50%, rgba(13,13,13,0.35) 1.1px, transparent 1.2px),
+      radial-gradient(circle at 7px 50%, rgba(13,13,13,0.28) 1.1px, transparent 1.2px),
+      radial-gradient(circle at 12px 50%, rgba(13,13,13,0.22) 1.1px, transparent 1.2px);
+    opacity: 0.9;
+  }
+  .chrome-top__rule {
+    position: relative;
+    height: 1px;
+    width: 100%;
+    background: rgba(13, 13, 13, 0.1);
+  }
+  .chrome-top__rule::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: var(--progress);
+    background: rgba(90, 72, 48, 0.42);
+  }
+
+  .stage {
+    flex: 1 1 auto;
+    overflow: auto;
+    padding: 40px 48px 28px;
+    min-height: 0;
+  }
+
+  .prompt {
+    font-family: var(--serif);
+    font-weight: 400;
+    font-size: clamp(1.55rem, 3vw, 2.35rem);
+    line-height: 1.15;
+    letter-spacing: -0.015em;
+    margin: 0 0 14px;
+    max-width: 22ch;
+  }
+  .sub {
+    font-family: var(--sans);
+    font-weight: 300;
+    font-size: 0.95rem;
+    line-height: 1.55;
+    color: var(--ink-soft);
+    max-width: 46ch;
+    margin: 0 0 28px;
+  }
+  .field {
+    border-bottom: 1px solid var(--line);
+    padding: 8px 0 16px;
+    font-family: var(--serif);
+    font-size: 1.2rem;
+    line-height: 1.8;
+    color: var(--ink-mute);
+    max-width: 42ch;
+  }
+  .field.heavy { min-height: 5.5em; }
+
+  .choices {
+    display: grid;
+    gap: 10px;
+    max-width: 42ch;
+    margin-top: 8px;
+  }
+  .choice {
+    font-family: var(--serif);
+    font-size: 1.15rem;
+    line-height: 1.4;
+    padding: 12px 0;
+    border-bottom: 1px solid rgba(13, 13, 13, 0.08);
+    color: var(--ink);
+  }
+  .choice span {
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--ink-mute);
+    margin-right: 14px;
+  }
+
+  .chrome-bottom {
+    flex: 0 0 auto;
+    padding: 10px 28px 14px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    background: linear-gradient(0deg, var(--paper-top) 0%, #F5F2ED 72%, var(--paper) 100%);
+    border-top: 1px solid rgba(13, 13, 13, 0.09);
+  }
+
+  .nav-utility {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    font-size: 10px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+  }
+  .nav-utility .lang,
+  .nav-utility .link {
+    display: inline-flex;
+    align-items: center;
+    min-height: 40px;
+    padding: 8px 2px;
+    margin-right: 18px;
+    color: rgba(13, 13, 13, 0.62);
+    background: none;
+    border: 0;
+    border-bottom: 1px solid rgba(13, 13, 13, 0.22);
+    font: inherit;
+    letter-spacing: inherit;
+    text-transform: inherit;
+    cursor: pointer;
+  }
+  .nav-utility .lang {
+    gap: 6px;
+    border-bottom-color: transparent;
+    margin-right: 14px;
+  }
+  .nav-utility .lang button {
+    border: 0; background: none; font: inherit; letter-spacing: inherit;
+    text-transform: inherit; color: rgba(13, 13, 13, 0.35); padding: 0;
+    cursor: pointer; border-bottom: 1px solid transparent;
+  }
+  .nav-utility .lang button.is-on {
+    color: var(--ink);
+    border-bottom-color: rgba(13, 13, 13, 0.45);
+  }
+  .nav-utility .lang .sep { color: rgba(13, 13, 13, 0.28); cursor: default; }
+  .nav-utility .divider {
+    width: 1px; height: 14px; margin: 0 10px 0 0;
+    background: rgba(13, 13, 13, 0.14);
+  }
+
+  .nav-advance {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    flex-shrink: 0;
+  }
+  .nav-advance .back {
+    font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase;
+    color: rgba(13, 13, 13, 0.62); background: none; border: 0;
+    border-bottom: 1px solid rgba(13, 13, 13, 0.22);
+    padding: 8px 2px; min-height: 40px; cursor: pointer; font-family: var(--mono);
+  }
+  .nav-advance .continue {
+    font-family: var(--mono); font-size: 10px; letter-spacing: 0.16em;
+    text-transform: uppercase; color: var(--ink); background: transparent;
+    border: 1px solid var(--ink); padding: 14px 28px; cursor: pointer;
+  }
+
+  .app-mobile {
+    width: 360px;
+    height: 720px;
+    aspect-ratio: auto;
+    max-width: none;
+  }
+  .app-mobile .chrome-top,
+  .app-mobile .chrome-bottom,
+  .app-mobile .stage { padding-left: 16px; padding-right: 16px; }
+  .app-mobile .stage { padding-top: 24px; }
+  .app-mobile .chrome-bottom {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 8px;
+  }
+  .app-mobile .nav-advance { width: 100%; justify-content: space-between; }
+  .app-mobile .chrome-top { padding: 14px 16px 0; }
+  .app-mobile .chrome-top__row { flex-wrap: wrap; gap: 8px 12px; padding-bottom: 12px; }
+  .app-mobile .chrome-top__place { gap: 8px; font-size: 9px; }
+  .app-mobile .chrome-top__chapter { font-size: 13px; }
+  .app-mobile .prompt { font-size: 1.55rem; }
+  .app-mobile .stage { padding-top: 28px; }
+
+  .row { display: flex; flex-wrap: wrap; gap: 28px; align-items: flex-start; margin-top: 8px; }
+
+  /* —— Full-bleed film (photographic screens) —— */
+  .app.is-film {
+    background: #0D0D0D;
+    position: relative;
+  }
+  .app.is-film::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(180deg, rgba(13,13,13,0.55) 0%, rgba(13,13,13,0.15) 28%, rgba(13,13,13,0.2) 62%, rgba(13,13,13,0.72) 100%),
+      var(--film) center / cover no-repeat;
+    z-index: 0;
+  }
+  .app.is-film > * { position: relative; z-index: 1; }
+
+  .app.is-film .chrome-top,
+  .app.is-film .chrome-bottom {
+    background: transparent;
+    border-color: transparent;
+  }
+  .app.is-film .meta__brand { color: rgba(244, 241, 236, 0.92); }
+  .app.is-film .chrome-top__chapter { color: rgba(244, 241, 236, 0.92); }
+  .app.is-film .chrome-top__place { color: rgba(244, 241, 236, 0.55); }
+  .app.is-film .chrome-top__sep { color: rgba(244, 241, 236, 0.28); }
+  .app.is-film .chrome-top__rule { background: rgba(244, 241, 236, 0.18); }
+  .app.is-film .chrome-top__rule::before { background: rgba(200, 169, 106, 0.65); }
+  .app.is-film .chrome-top__time::before {
+    background:
+      radial-gradient(circle at 2px 50%, rgba(244,241,236,0.55) 1.1px, transparent 1.2px),
+      radial-gradient(circle at 7px 50%, rgba(244,241,236,0.4) 1.1px, transparent 1.2px),
+      radial-gradient(circle at 12px 50%, rgba(244,241,236,0.3) 1.1px, transparent 1.2px);
+  }
+
+  .app.is-film .nav-utility .lang,
+  .app.is-film .nav-utility .link,
+  .app.is-film .nav-advance .back {
+    color: rgba(244, 241, 236, 0.72);
+    border-bottom-color: rgba(244, 241, 236, 0.28);
+  }
+  .app.is-film .nav-utility .lang { border-bottom-color: transparent; }
+  .app.is-film .nav-utility .lang button { color: rgba(244, 241, 236, 0.38); }
+  .app.is-film .nav-utility .lang button.is-on {
+    color: rgba(244, 241, 236, 0.95);
+    border-bottom-color: rgba(244, 241, 236, 0.55);
+  }
+  .app.is-film .nav-utility .lang .sep { color: rgba(244, 241, 236, 0.3); }
+  .app.is-film .nav-utility .divider { background: rgba(244, 241, 236, 0.2); }
+  .app.is-film .nav-advance .continue {
+    color: #0D0D0D;
+    background: #F4F1EC;
+    border-color: #F4F1EC;
+  }
+
+  .app.is-film .stage {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding-bottom: 20px;
+  }
+  .film-copy {
+    max-width: 28ch;
+    color: #F4F1EC;
+  }
+  .film-copy .eyebrow {
+    font-size: 10.5px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: rgba(200, 169, 106, 0.9);
+    margin: 0 0 14px;
+  }
+  .film-copy .title {
+    font-family: var(--serif);
+    font-weight: 300;
+    font-size: clamp(2.2rem, 5vw, 3.6rem);
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    margin: 0 0 12px;
+  }
+  .film-copy .line {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 1.15rem;
+    line-height: 1.45;
+    color: rgba(244, 241, 236, 0.78);
+    margin: 0;
+  }
+  /* Caption lives in the film stage, under the copy — never absolute over the subhead */
+  .film-caption {
+    margin: 28px 0 0;
+    font-size: 9.5px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: rgba(244, 241, 236, 0.45);
+  }
+</style>
+</head>
+<body>
+  <div class="page">
+    <p class="doc-label">El Retrato · Hojas con preguntas · Specimen</p>
+    <h1 class="doc">Tres ejemplos de pregunta</h1>
+    <p class="lede">
+      Top unificado: marca a la izquierda · capítulo + tiempo a la derecha ·
+      una sola regla de progreso debajo. Sin segunda franja.
+    </p>
+    <p class="jump">
+      <a href="chrome-specimen.html">Todos los specimens</a>
+      &nbsp;·&nbsp;
+      <a href="archive-v2-specimen.html">Return Plate · Revelación</a>
+      &nbsp;·&nbsp;
+      <a href="index.html">App en vivo</a>
+    </p>
+
+    <!-- 01 -->
+    <p class="frame-caption">01 · Introducción · escritura</p>
+    <div class="app">
+      <header class="chrome-top" style="--progress: 12%">
+        <div class="chrome-top__row">
+          <p class="meta__brand">Sharnay Photography</p>
+          <div class="chrome-top__place">
+            <span class="chrome-top__chapter">Introducción</span>
+            <span class="chrome-top__sep" aria-hidden="true">|</span>
+            <span class="chrome-top__time">~ 24 min restantes</span>
+          </div>
+        </div>
+        <div class="chrome-top__rule" aria-hidden="true"></div>
+      </header>
+      <main class="stage">
+<h2 class="prompt">¿Cómo describirías el trabajo que haces, sin usar la palabra “fotografía”?</h2>
+        <p class="sub">Habla como le hablarías a alguien que no conoce tu práctica.</p>
+        <div class="field">Escribe aquí…</div>
+      </main>
+      <footer class="chrome-bottom">
+        <div class="nav-utility">
+          <span class="lang">
+            <button type="button" class="is-on">ES</button><span class="sep">/</span><button type="button">EN</button>
+          </span>
+          <span class="divider" aria-hidden="true"></span>
+          <button type="button" class="link">Guardar y seguir después</button>
+          <span class="divider" aria-hidden="true"></span>
+          <button type="button" class="link">Volver al principio</button>
+        </div>
+        <div class="nav-advance">
+          <button type="button" class="back">Atrás</button>
+          <button type="button" class="continue">Continuar</button>
+        </div>
+      </footer>
+    </div>
+
+    <!-- 02 -->
+    <p class="frame-caption">02 · Color y sensación · escritura larga</p>
+    <div class="app">
+      <header class="chrome-top" style="--progress: 58%">
+        <div class="chrome-top__row">
+          <p class="meta__brand">Sharnay Photography</p>
+          <div class="chrome-top__place">
+            <span class="chrome-top__chapter">Color y sensación</span>
+            <span class="chrome-top__sep" aria-hidden="true">|</span>
+            <span class="chrome-top__time">~ 9 min restantes</span>
+          </div>
+        </div>
+        <div class="chrome-top__rule" aria-hidden="true"></div>
+      </header>
+      <main class="stage">
+<h2 class="prompt">Tres marcas, de cualquier industria, que se sientan bien para ti.</h2>
+        <p class="sub">Y más útil todavía, una línea de por qué en cada una. “Porque es limpia” no me dice nada.</p>
+        <div class="field heavy">Escribe aquí…</div>
+      </main>
+      <footer class="chrome-bottom">
+        <div class="nav-utility">
+          <span class="lang">
+            <button type="button" class="is-on">ES</button><span class="sep">/</span><button type="button">EN</button>
+          </span>
+          <span class="divider" aria-hidden="true"></span>
+          <button type="button" class="link">Guardar y seguir después</button>
+          <span class="divider" aria-hidden="true"></span>
+          <button type="button" class="link">Volver al principio</button>
+        </div>
+        <div class="nav-advance">
+          <button type="button" class="back">Atrás</button>
+          <button type="button" class="continue">Continuar</button>
+        </div>
+      </footer>
+    </div>
+
+    <!-- 03 -->
+    <p class="frame-caption">03 · Origen · opciones</p>
+    <div class="app">
+      <header class="chrome-top" style="--progress: 28%">
+        <div class="chrome-top__row">
+          <p class="meta__brand">Sharnay Photography</p>
+          <div class="chrome-top__place">
+            <span class="chrome-top__chapter">Origen</span>
+            <span class="chrome-top__sep" aria-hidden="true">|</span>
+            <span class="chrome-top__time">~ 20 min restantes</span>
+          </div>
+        </div>
+        <div class="chrome-top__rule" aria-hidden="true"></div>
+      </header>
+      <main class="stage">
+<h2 class="prompt">¿Dónde suele ocurrir el trabajo?</h2>
+        <p class="sub">Elige todas las que apliquen.</p>
+        <div class="choices">
+          <div class="choice"><span>Uno</span>Estudio</div>
+          <div class="choice"><span>Dos</span>Locación</div>
+          <div class="choice"><span>Tres</span>En la casa de alguien</div>
+          <div class="choice"><span>Cuatro</span>Donde salga</div>
+        </div>
+      </main>
+      <footer class="chrome-bottom">
+        <div class="nav-utility">
+          <span class="lang">
+            <button type="button" class="is-on">ES</button><span class="sep">/</span><button type="button">EN</button>
+          </span>
+          <span class="divider" aria-hidden="true"></span>
+          <button type="button" class="link">Guardar y seguir después</button>
+          <span class="divider" aria-hidden="true"></span>
+          <button type="button" class="link">Volver al principio</button>
+        </div>
+        <div class="nav-advance">
+          <button type="button" class="back">Atrás</button>
+          <button type="button" class="continue">Continuar</button>
+        </div>
+      </footer>
+    </div>
+
+    <!-- Full-bleed film -->
+    <p class="frame-caption">04 · Full-bleed · umbral fotográfico (interludio)</p>
+    <div class="app is-film" style="--film: url('assets/images/film-feel.jpg')">
+      <header class="chrome-top" style="--progress: 50%">
+        <div class="chrome-top__row">
+          <p class="meta__brand">Sharnay Photography</p>
+          <div class="chrome-top__place">
+            <span class="chrome-top__chapter">Color y sensación</span>
+            <span class="chrome-top__sep" aria-hidden="true">|</span>
+            <span class="chrome-top__time">~ 9 min restantes</span>
+          </div>
+        </div>
+        <div class="chrome-top__rule" aria-hidden="true"></div>
+      </header>
+      <main class="stage">
+        <div class="film-copy">
+          <p class="eyebrow">Entrando a</p>
+          <h2 class="title">Color y sensación</h2>
+          <p class="line">Cómo se ve el trabajo cuando deja de explicarse.</p>
+          <p class="film-caption">Fotografía · Erika Sharnay</p>
+        </div>
+      </main>
+      <footer class="chrome-bottom">
+        <div class="nav-utility">
+          <span class="lang">
+            <button type="button" class="is-on">ES</button><span class="sep">/</span><button type="button">EN</button>
+          </span>
+          <span class="divider" aria-hidden="true"></span>
+          <button type="button" class="link">Guardar y seguir después</button>
+          <span class="divider" aria-hidden="true"></span>
+          <button type="button" class="link">Volver al principio</button>
+        </div>
+        <div class="nav-advance">
+          <button type="button" class="back">Atrás</button>
+          <button type="button" class="continue">Continuar</button>
+        </div>
+      </footer>
+    </div>
+
+    <p class="frame-caption">05 · Full-bleed · otra capa (Voz)</p>
+    <div class="app is-film" style="--film: url('assets/images/film-voice.jpg')">
+      <header class="chrome-top" style="--progress: 50%">
+        <div class="chrome-top__row">
+          <p class="meta__brand">Sharnay Photography</p>
+          <div class="chrome-top__place">
+            <span class="chrome-top__chapter">Voz</span>
+            <span class="chrome-top__sep" aria-hidden="true">|</span>
+            <span class="chrome-top__time">~ 9 min restantes</span>
+          </div>
+        </div>
+        <div class="chrome-top__rule" aria-hidden="true"></div>
+      </header>
+      <main class="stage">
+        <div class="film-copy">
+          <p class="eyebrow">Entrando a</p>
+          <h2 class="title">Voz</h2>
+          <p class="line">Cómo suena la práctica cuando ya no es solo imagen.</p>
+          <p class="film-caption">Fotografía · Erika Sharnay</p>
+        </div>
+      </main>
+      <footer class="chrome-bottom">
+        <div class="nav-utility">
+          <span class="lang">
+            <button type="button" class="is-on">ES</button><span class="sep">/</span><button type="button">EN</button>
+          </span>
+          <span class="divider" aria-hidden="true"></span>
+          <button type="button" class="link">Guardar y seguir después</button>
+          <span class="divider" aria-hidden="true"></span>
+          <button type="button" class="link">Volver al principio</button>
+        </div>
+        <div class="nav-advance">
+          <button type="button" class="back">Atrás</button>
+          <button type="button" class="continue">Continuar</button>
+        </div>
+      </footer>
+    </div>
+
+    <!-- Mobile -->
+    <p class="frame-caption">06 · Mobile · Color y sensación</p>
+    <div class="row">
+      <div class="app app-mobile">
+        <header class="chrome-top" style="--progress: 58%">
+          <div class="chrome-top__row">
+            <p class="meta__brand">Sharnay</p>
+            <div class="chrome-top__place">
+              <span class="chrome-top__chapter">Color y sensación</span>
+              <span class="chrome-top__sep" aria-hidden="true">|</span>
+              <span class="chrome-top__time">~ 9 min restantes</span>
+            </div>
+          </div>
+          <div class="chrome-top__rule" aria-hidden="true"></div>
+      </header>
+      <main class="stage">
+<h2 class="prompt">Tres marcas que se sientan bien para ti.</h2>
+          <p class="sub">Una línea de por qué en cada una.</p>
+          <div class="field">Escribe aquí…</div>
+        </main>
+        <footer class="chrome-bottom">
+          <div class="nav-utility">
+            <span class="lang">
+              <button type="button" class="is-on">ES</button><span class="sep">/</span><button type="button">EN</button>
+            </span>
+            <span class="divider" aria-hidden="true"></span>
+            <button type="button" class="link">Guardar y seguir después</button>
+          </div>
+          <div class="nav-advance">
+            <button type="button" class="back">Atrás</button>
+            <button type="button" class="continue">Continuar</button>
+          </div>
+        </footer>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

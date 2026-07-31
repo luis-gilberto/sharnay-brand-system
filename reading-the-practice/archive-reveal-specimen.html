@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Archive Reveal · Typography System v1 · Specimen</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400&family=EB+Garamond:wght@400&family=IBM+Plex+Mono:wght@400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/archive-typography/archive-typography.css">
+<style>
+  :root {
+    --ink: #1F1C18;
+    --mute: rgba(31, 28, 24, 0.52);
+    --serif: "Cormorant Garamond", Georgia, serif;
+    --mono: "IBM Plex Mono", ui-monospace, monospace;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: #d9d2c6;
+    color: var(--ink);
+    font-family: var(--mono);
+    -webkit-font-smoothing: antialiased;
+  }
+  .page { max-width: 1120px; margin: 0 auto; padding: 32px 20px 96px; }
+  .doc-label {
+    font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase;
+    color: rgba(31, 28, 24, 0.42); margin: 0 0 8px;
+  }
+  h1.doc {
+    font-family: var(--serif); font-weight: 400; font-size: 1.75rem;
+    letter-spacing: -0.02em; margin: 0 0 8px;
+  }
+  .lede {
+    font-family: var(--serif); font-size: 1.08rem; line-height: 1.45;
+    color: var(--mute); max-width: 54ch; margin: 0 0 18px;
+  }
+  .jump {
+    margin: 0 0 28px;
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    display: flex; flex-wrap: wrap; gap: 10px 16px;
+  }
+  .jump a { color: rgba(31, 28, 24, 0.58); text-decoration: none; border-bottom: 1px solid rgba(31,28,24,0.2); }
+  .frame-caption {
+    font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase;
+    color: rgba(31, 28, 24, 0.42); margin: 40px 0 12px;
+  }
+  .frame-caption:first-of-type { margin-top: 8px; }
+  .note {
+    font-family: var(--serif); font-size: 0.98rem; line-height: 1.5;
+    color: var(--mute); max-width: 58ch; margin: 0 0 20px;
+  }
+  .app {
+    width: 100%;
+    max-width: 1024px;
+    aspect-ratio: 1024 / 720;
+    background: #1b1815;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    box-shadow: 0 24px 60px rgba(13, 13, 13, 0.22);
+  }
+  .chrome-top {
+    --progress: 28%;
+    flex: 0 0 auto;
+    display: flex;
+    flex-direction: column;
+    padding: 16px 28px 0;
+  }
+  .chrome-top__row {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 16px;
+    padding-bottom: 14px;
+  }
+  .brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    margin: 0;
+  }
+  .brand__mark { width: 22px; height: 22px; object-fit: contain; display: block; }
+  .brand__type {
+    font-family: var(--serif);
+    font-size: 15px;
+    font-weight: 400;
+    letter-spacing: 0.01em;
+    color: rgba(246, 242, 235, 0.88);
+  }
+  .chrome-top__place {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 10px;
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: rgba(246, 242, 235, 0.55);
+  }
+  .chrome-top__time::before {
+    content: "";
+    display: inline-block;
+    width: 5px; height: 5px;
+    margin-right: 8px;
+    border-radius: 50%;
+    background: rgba(200, 169, 106, 0.7);
+    vertical-align: 1px;
+  }
+  .chrome-top__rule {
+    height: 1px;
+    background: rgba(244, 241, 236, 0.14);
+    position: relative;
+  }
+  .chrome-top__rule::before {
+    content: "";
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: var(--progress);
+    background: rgba(200, 169, 106, 0.55);
+  }
+  .app-stage {
+    flex: 1 1 auto;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+  }
+  .app-stage .archive-stage--inapp {
+    flex: 1 1 auto;
+  }
+  .chrome-bottom {
+    flex: 0 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 14px 28px 18px;
+    color: rgba(246, 242, 235, 0.42);
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+  .chrome-bottom .action {
+    color: rgba(246, 242, 235, 0.88);
+    border: 0;
+    background: transparent;
+    font: inherit;
+    letter-spacing: inherit;
+    text-transform: inherit;
+    cursor: default;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 18px;
+  }
+  .card {
+    background: #1b1815;
+    padding: 10px;
+    box-shadow: 0 16px 40px rgba(13, 13, 13, 0.18);
+  }
+  .card .archive-stage {
+    min-height: 0;
+    height: 420px;
+    padding: 28px 16px;
+  }
+  .meta-line {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    margin: 0 0 8px;
+    padding: 0 2px;
+    font-size: 9px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: rgba(246, 242, 235, 0.55);
+  }
+  .meta-line strong { color: rgba(246, 242, 235, 0.88); font-weight: 400; }
+  code {
+    font-family: var(--mono);
+    font-size: 0.92em;
+  }
+  @media (max-width: 720px) {
+    .app { aspect-ratio: auto; min-height: 78vh; }
+    .brand__type { display: none; }
+    .chrome-top { padding: 14px 16px 0; }
+    .chrome-bottom { padding: 12px 16px 16px; }
+  }
+</style>
+</head>
+<body>
+  <div class="page">
+    <p class="doc-label">El Retrato · Archive Reveal · Specimen</p>
+    <h1 class="doc">Typography System v1 — production path</h1>
+    <p class="lede">
+      Gen Spark length routing on the Return Plate. Same module wired into
+      <code>index.html</code> for the Archive stage. No ARCHIVO. No metadata. Words only.
+    </p>
+    <nav class="jump">
+      <a href="#production">In-app chrome</a>
+      <a href="#presets">All five presets</a>
+      <a href="assets/archive-typography/archive-typography-reference.html">Gen Spark reference</a>
+      <a href="archive-presence-study.html">Presence study</a>
+      <a href="EL-RETRATO.html">System document</a>
+    </nav>
+
+    <p class="frame-caption" id="production">Production frame — Archive after chapter I</p>
+    <p class="note">
+      Brand left · time only on the right (no chapter label) · progress hairline.
+      Leaf uses preset B for this fragment. Hard-rule fit runs after paint.
+    </p>
+    <div class="app" aria-label="Archive reveal in app chrome">
+      <header class="chrome-top">
+        <div class="chrome-top__row">
+          <p class="brand">
+            <img class="brand__mark" src="assets/images/sharnay-logomark.png" width="267" height="270" alt="">
+            <span class="brand__type">Sharnay Photography</span>
+          </p>
+          <div class="chrome-top__place">
+            <span class="chrome-top__time">~ 20 min restantes</span>
+          </div>
+        </div>
+        <div class="chrome-top__rule" aria-hidden="true"></div>
+      </header>
+      <div class="app-stage">
+        <div class="archive-stage archive-stage--inapp">
+          <article class="archive-leaf" id="leaf-production" data-preset="">
+            <p class="archive-fragment"></p>
+          </article>
+        </div>
+      </div>
+      <footer class="chrome-bottom">
+        <span>Guardar y continuar después</span>
+        <button type="button" class="action">Continuar</button>
+      </footer>
+    </div>
+
+    <p class="frame-caption" id="presets">Length routing — one leaf per preset</p>
+    <p class="note">
+      A₀ → C₁. Characters decide the preset. Overflow never truncates; size shrinks
+      1px at a time down to 16px, then rejects.
+    </p>
+    <div class="grid" id="preset-grid"></div>
+  </div>
+
+<script type="module">
+  import { renderFragment, PRESETS } from './assets/archive-typography/archive-typography.js';
+
+  const samples = {
+    a0: 'Quiero que se sienta.',
+    a:  'Trabajo con luz que no pide permiso.',
+    b:  'Lo que más me importa es que la persona se reconozca en la fotografía, no que yo demuestre lo que sé hacer con la cámara.',
+    c:  'Cuando alguien entra al estudio trae una historia que ya empezó antes de mí. Mi trabajo es no interrumpirla. Escuchar hasta que el gesto correcto aparece solo, sin que yo lo invente.',
+    c1: 'No busco una marca que hable más alto que el trabajo. Busco una presencia quieta: tipografía que se comporte como margen, color que no compita con la piel, y un sistema que pueda sostener lo íntimo sin convertirlo en campaña. Si algo se siente exhibido, está mal.'
+  };
+
+  renderFragment(samples.b, document.getElementById('leaf-production'));
+
+  const grid = document.getElementById('preset-grid');
+  Object.keys(PRESETS).forEach(function (key) {
+    const p = PRESETS[key];
+    const text = samples[key];
+    const card = document.createElement('div');
+    card.className = 'card';
+    card.innerHTML =
+      '<div class="meta-line">' +
+        '<span><strong>' + p.name + '</strong> · ' + p.kind + '</span>' +
+        '<span>' + text.length + ' chars · ' + p.size + 'px</span>' +
+      '</div>' +
+      '<div class="archive-stage">' +
+        '<article class="archive-leaf" data-preset="">' +
+          '<p class="archive-fragment"></p>' +
+        '</article>' +
+      '</div>';
+    grid.appendChild(card);
+    renderFragment(text, card.querySelector('.archive-leaf'));
+  });
+</script>
+</body>
+</html>

@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Archive · Presence Study · A / B / C</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=IBM+Plex+Mono:wght@400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --void: #0D0D0D;
+    --paper: #F4F1EC;
+    --ink: #0D0D0D;
+    --serif: "EB Garamond", "EB Garamond", Garamond, Georgia, serif;
+    --mono: "IBM Plex Mono", ui-monospace, monospace;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: #1a1814;
+    color: rgba(244, 241, 236, 0.55);
+    font-family: var(--mono);
+    -webkit-font-smoothing: antialiased;
+  }
+  .page {
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 36px 20px 96px;
+  }
+  .doc-label {
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: rgba(244, 241, 236, 0.38);
+    margin: 0 0 8px;
+  }
+  h1 {
+    font-family: var(--serif);
+    font-weight: 400;
+    font-size: 1.85rem;
+    letter-spacing: -0.02em;
+    color: #F4F1EC;
+    margin: 0 0 10px;
+  }
+  .lede {
+    font-family: var(--serif);
+    font-size: 1.12rem;
+    line-height: 1.5;
+    max-width: 58ch;
+    margin: 0 0 16px;
+    color: rgba(244, 241, 236, 0.55);
+  }
+  .constraint {
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    line-height: 1.7;
+    color: rgba(244, 241, 236, 0.38);
+    max-width: 72ch;
+    margin: 0 0 28px;
+  }
+  .jump {
+    margin: 0 0 40px;
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+  .jump a { color: rgba(244, 241, 236, 0.55); }
+
+  .frame-caption {
+    font-size: 10px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: rgba(244, 241, 236, 0.4);
+    margin: 40px 0 12px;
+  }
+  .frame-caption:first-of-type { margin-top: 0; }
+
+  /* Identical room + leaf. Only .artifact tokens change. */
+  .room {
+    width: 100%;
+    max-width: 1024px;
+    aspect-ratio: 1024 / 720;
+    background: var(--void);
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 28px 70px rgba(0, 0, 0, 0.45);
+  }
+  .leaf {
+    position: relative;
+    background: var(--paper);
+    width: min(92%, 920px);
+    height: min(92%, 560px);
+    box-shadow: 0 8px 28px rgba(0, 0, 0, 0.35);
+    /* Never crop her words. If type exits the leaf, the setting is illegal. */
+    overflow: visible;
+  }
+  .artifact {
+    position: absolute;
+    left: 12%;
+    right: 22%;
+    top: 62%;
+    bottom: 8%;
+    margin: 0;
+    font-family: var(--serif);
+    font-weight: 400;
+    font-style: normal;
+    color: var(--ink);
+    overflow: visible;
+    hyphens: none;
+    overflow-wrap: break-word;
+    word-break: normal;
+  }
+  .room.is-fail .leaf {
+    outline: 1px solid rgba(200, 100, 80, 0.55);
+  }
+  .fail-tag {
+    margin: 10px 0 0;
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: rgba(220, 140, 110, 0.85);
+  }
+
+  /* A · Document — quieter manuscript */
+  .is-a .artifact {
+    font-size: 1.12rem;
+    line-height: 1.95;
+    max-width: 36ch;
+    letter-spacing: 0.005em;
+    color: rgba(13, 13, 13, 0.82);
+  }
+
+  /* B · Threshold — returned and important */
+  .is-b .artifact {
+    font-size: 1.48rem;
+    line-height: 1.68;
+    max-width: 28ch;
+    letter-spacing: 0;
+    color: rgba(13, 13, 13, 0.94);
+  }
+
+  /* C · Artwork — presence without losing a letter */
+  .is-c .artifact {
+    font-size: 2.2rem;
+    line-height: 1.36;
+    max-width: 20ch;
+    letter-spacing: -0.015em;
+    color: #0D0D0D;
+  }
+
+  /* D · Monument — diagnostic pressure on medium sentences */
+  .is-d .artifact {
+    font-size: 3.1rem;
+    font-weight: 500;
+    line-height: 1.2;
+    max-width: 14ch;
+    letter-spacing: -0.024em;
+    color: #0D0D0D;
+  }
+
+  /* E · Breaking — past readable return (illegal to ship) */
+  .is-e .artifact {
+    font-size: 4.2rem;
+    font-weight: 500;
+    line-height: 1.1;
+    max-width: 10ch;
+    letter-spacing: -0.03em;
+    color: #0D0D0D;
+  }
+
+  /*
+    Length tiers — same room/leaf/position.
+    Rule: every character she wrote must remain readable on the leaf.
+  */
+  .is-short .artifact {
+    font-size: 2.75rem;
+    font-weight: 500;
+    line-height: 1.22;
+    max-width: 16ch;
+    letter-spacing: -0.02em;
+    color: #0D0D0D;
+  }
+  .is-medium .artifact {
+    font-size: 1.85rem;
+    line-height: 1.42;
+    max-width: 26ch;
+    letter-spacing: -0.01em;
+    color: #0D0D0D;
+  }
+  .is-long .artifact {
+    font-size: 1.28rem;
+    line-height: 1.72;
+    max-width: 34ch;
+    letter-spacing: 0;
+    color: rgba(13, 13, 13, 0.92);
+  }
+
+  .tier-note {
+    font-family: var(--serif);
+    font-size: 1.05rem;
+    line-height: 1.5;
+    color: rgba(244, 241, 236, 0.5);
+    max-width: 54ch;
+    margin: 8px 0 0;
+  }
+
+  .specs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 18px 28px;
+    margin: 14px 0 0;
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: rgba(244, 241, 236, 0.35);
+  }
+
+  .notes {
+    margin-top: 56px;
+    padding-top: 32px;
+    border-top: 1px solid rgba(244, 241, 236, 0.12);
+  }
+  .notes h2 {
+    font-family: var(--serif);
+    font-weight: 400;
+    font-size: 1.45rem;
+    color: #F4F1EC;
+    margin: 0 0 20px;
+  }
+  .card {
+    margin: 0 0 28px;
+    max-width: 62ch;
+  }
+  .card h3 {
+    font-family: var(--mono);
+    font-size: 10px;
+    font-weight: 400;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: rgba(200, 169, 106, 0.85);
+    margin: 0 0 10px;
+  }
+  .card p {
+    font-family: var(--serif);
+    font-size: 1.08rem;
+    line-height: 1.55;
+    color: rgba(244, 241, 236, 0.62);
+    margin: 0 0 8px;
+  }
+  .card p strong {
+    color: rgba(244, 241, 236, 0.88);
+    font-weight: 400;
+  }
+  .verdict {
+    margin-top: 36px;
+    padding: 22px 24px;
+    border: 1px solid rgba(200, 169, 106, 0.35);
+    max-width: 62ch;
+  }
+  .verdict h3 {
+    font-family: var(--mono);
+    font-size: 10px;
+    font-weight: 400;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: rgba(200, 169, 106, 0.95);
+    margin: 0 0 12px;
+  }
+  .verdict p {
+    font-family: var(--serif);
+    font-size: 1.18rem;
+    line-height: 1.5;
+    color: #F4F1EC;
+    margin: 0;
+  }
+</style>
+</head>
+<body>
+  <div class="page">
+    <p class="doc-label">El Retrato · Archive v2 · Presence study · Not production</p>
+    <h1>When do the words become a work?</h1>
+    <p class="lede">
+      Same room. Same leaf. Same margins. Same position. Same sentence.
+      Only size, density, measure, and optical presence change.
+      Hard rule: if a letter is cut, cropped, or unreadable, the setting is illegal for Archive.
+    </p>
+    <p class="constraint">
+      Locked: Return Plate · Recto Only · Dark room · Pale paper · EB Garamond ·
+      No metadata · No custody language · No institutional labels · No ARCHIVO title
+    </p>
+    <p class="jump">
+      <a href="#a">A · Document</a>
+      &nbsp;·&nbsp;
+      <a href="#b">B · Threshold</a>
+      &nbsp;·&nbsp;
+      <a href="#c">C · Artwork</a>
+      &nbsp;·&nbsp;
+      <a href="#d">D · Monument</a>
+      &nbsp;·&nbsp;
+      <a href="#e">E · Breaking</a>
+      &nbsp;·&nbsp;
+      <a href="#length">Length tiers</a>
+      &nbsp;·&nbsp;
+      <a href="#notes">Notes</a>
+      &nbsp;·&nbsp;
+      <a href="chrome-specimen.html">Chrome specimens</a>
+    </p>
+
+    <p class="frame-caption" id="a">A · Document — quieter manuscript</p>
+    <div class="room is-a" aria-label="Version A Document">
+      <div class="leaf">
+        <p class="artifact">Me quedo más tiempo cuando la luz está mal.</p>
+      </div>
+    </div>
+    <p class="specs">1.12rem · lh 1.95 · 36ch · ink 82%</p>
+
+    <p class="frame-caption" id="b">B · Threshold — returned and important</p>
+    <div class="room is-b" aria-label="Version B Threshold">
+      <div class="leaf">
+        <p class="artifact">Me quedo más tiempo cuando la luz está mal.</p>
+      </div>
+    </div>
+    <p class="specs">1.48rem · lh 1.68 · 28ch · ink 94%</p>
+
+    <p class="frame-caption" id="c">C · Artwork — first real object-presence</p>
+    <div class="room is-c" aria-label="Version C Artwork">
+      <div class="leaf">
+        <p class="artifact">Me quedo más tiempo cuando la luz está mal.</p>
+      </div>
+    </div>
+    <p class="specs">2.2rem · lh 1.36 · 20ch · tracking −0.015em</p>
+
+    <p class="frame-caption" id="d">D · Monument — diagnostic pressure</p>
+    <div class="room is-d is-fail" aria-label="Version D Monument">
+      <div class="leaf">
+        <p class="artifact">Me quedo más tiempo cuando la luz está mal.</p>
+      </div>
+    </div>
+    <p class="specs">3.1rem · weight 500 · lh 1.2 · 14ch</p>
+    <p class="fail-tag">Caution — on medium sentences this starts to crowd the leaf edge</p>
+
+    <p class="frame-caption" id="e">E · Breaking — past readable return</p>
+    <div class="room is-e is-fail" aria-label="Version E Breaking">
+      <div class="leaf">
+        <p class="artifact">Me quedo más tiempo cuando la luz está mal.</p>
+      </div>
+    </div>
+    <p class="specs">4.2rem · weight 500 · lh 1.1 · 10ch</p>
+    <p class="fail-tag">Illegal for Archive — presence wins, reading loses</p>
+
+    <p class="section-label" id="length" style="margin-top:56px;padding-top:32px;border-top:1px solid rgba(244,241,236,0.12);font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:rgba(244,241,236,0.4);">
+      Length changes the work
+    </p>
+    <p class="lede" style="margin-top:12px;">
+      Same leaf. Same philosophy. Three answer lengths — each gets the presence
+      it can carry without tipping into Exhibition.
+    </p>
+
+    <p class="frame-caption" id="short">Short · ≤ 48 characters · can carry monument</p>
+    <div class="room is-short" aria-label="Short fragment">
+      <div class="leaf">
+        <p class="artifact">La luz decide antes que yo.</p>
+      </div>
+    </div>
+    <p class="specs">27 chars · 2.75rem · 16ch · weight 500</p>
+    <p class="tier-note">Short enough to be an object — and still fully readable on the leaf.</p>
+
+    <p class="frame-caption" id="medium">Medium · 49–96 characters · artwork without shouting</p>
+    <div class="room is-medium" aria-label="Medium fragment">
+      <div class="leaf">
+        <p class="artifact">Me quedo más tiempo cuando la luz está mal y nadie está mirando todavía.</p>
+      </div>
+    </div>
+    <p class="specs">74 chars · 1.85rem · 26ch</p>
+    <p class="tier-note">Still one breath. Presence holds; measure widens so every word stays on the leaf.</p>
+
+    <p class="frame-caption" id="long">Long · 97–140 characters · manuscript authority</p>
+    <div class="room is-long" aria-label="Long fragment">
+      <div class="leaf">
+        <p class="artifact">Me quedo más tiempo cuando la luz está mal, porque ahí es donde la persona deja de posar y empieza a existir de verdad frente a mí.</p>
+      </div>
+    </div>
+    <p class="specs">133 chars · 1.28rem · 34ch · lh 1.72</p>
+    <p class="tier-note">Past this, large type becomes exhibition. Long answers stay returned by staying readable.</p>
+
+    <section class="notes" id="notes">
+      <h2>Reading the scale</h2>
+
+      <div class="card">
+        <h3>A · Document</h3>
+        <p><strong>Gained:</strong> Soft return. Private note energy.</p>
+        <p><strong>Lost:</strong> Authority. The room outweighs the words.</p>
+        <p><strong>Returned?</strong> Yes. <strong>Exhibited?</strong> No.</p>
+      </div>
+
+      <div class="card">
+        <h3>B · Threshold</h3>
+        <p><strong>Gained:</strong> The sentence holds without performing.</p>
+        <p><strong>Lost:</strong> A little hush. Almost nothing else.</p>
+        <p><strong>Returned?</strong> Yes. <strong>Exhibited?</strong> Not yet.</p>
+        <p><strong>Dignity / recognition:</strong> Both peak for Archive here — or just after, toward C.</p>
+      </div>
+
+      <div class="card">
+        <h3>C · Artwork</h3>
+        <p><strong>Gained:</strong> First moment the words feel like an object, not a note. Short measure forces the line to breathe as form.</p>
+        <p><strong>Lost:</strong> Some return intimacy. Still a leaf, but the leaf is now a carrier of presence.</p>
+        <p><strong>Returned?</strong> Borderline — yes if you still feel handed-back. <strong>Exhibited?</strong> Emerging.</p>
+      </div>
+
+      <div class="card">
+        <h3>D · Monument</h3>
+        <p><strong>Gained:</strong> Monumental presence. The sentence occupies the page like a carved fragment.</p>
+        <p><strong>Lost:</strong> Return. This is no longer “your words came back.” It is “look at this line.”</p>
+        <p><strong>Returned?</strong> No. <strong>Exhibited?</strong> Yes — Exhibition territory while still on one pale leaf.</p>
+      </div>
+
+      <div class="card">
+        <h3>E · Breaking</h3>
+        <p><strong>Gained:</strong> Pure display force. Poster / wall-label energy.</p>
+        <p><strong>Lost:</strong> Archive entirely. Custody becomes spectacle.</p>
+        <p><strong>Returned?</strong> No. <strong>Exhibited?</strong> Completely. Useful only as the red line.</p>
+      </div>
+
+      <div class="verdict">
+        <h3>Hard rule before beauty</h3>
+        <p>
+          Her words must be fully readable. No cropping at the leaf edge.
+          No hyphenation games. No “design crop.”
+          If presence requires cutting the sentence, presence has gone too far —
+          that setting belongs to Exhibition, not Archive.
+          <br><br>
+          So the system is: <strong>length tier → max presence that still fits every character</strong>.
+          Character caps protect the leaf; type recipes protect the reading.
+        </p>
+      </div>
+
+      <div class="verdict" style="margin-top:18px;">
+        <h3>Where the crossing actually is</h3>
+        <p>
+          Artwork-presence is real around <strong>C</strong> when the line is short enough to fit.
+          <strong>D/E</strong> are pressure tests — useful to see the cliff, illegal to ship if reading breaks.
+          <br><br>
+          Length is the other half:
+          <strong>short → more presence</strong>,
+          <strong>medium → moderated</strong>,
+          <strong>long → manuscript</strong>.
+          Always: complete sentence on the leaf.
+        </p>
+      </div>
+
+      <div class="verdict" style="margin-top:18px;">
+        <h3>Character counts · proposed lock</h3>
+        <p>
+          Today Archive only accepts fragments ≤ <strong>180</strong> chars (filter, not field UX).
+          To make the leaf a work, the source questions need a visible ceiling:
+          <br><br>
+          <strong>Short band</strong> · ideal Archive line · <strong>max 48</strong><br>
+          <strong>Medium band</strong> · still one breath · <strong>max 96</strong><br>
+          <strong>Hard ceiling for Archive-eligible answers</strong> · <strong>max 140</strong>
+          <br><br>
+          Anything above 140 can still be answered in the intake if needed,
+          but it should not enter the Return Plate — or it enters only as manuscript (long tier),
+          never as monument.
+          <br><br>
+          Next build step when you greenlight: put <code>maxlength</code> + a quiet counter
+          on portrait-eligible textareas, and pick type recipe from length at render time.
+        </p>
+      </div>
+    </section>
+  </div>
+</body>
+</html>

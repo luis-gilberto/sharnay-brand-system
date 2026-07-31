@@ -1,0 +1,691 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>El Retrato — Una carta</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;1,400&family=IBM+Plex+Mono:wght@400;500&family=Meddon&family=Homemade+Apple&display=swap" rel="stylesheet">
+<style>
+  /* ============================================================
+     Tokens · matched to chrome-specimen.html verbatim
+     ============================================================ */
+  :root {
+    --paper:      #F4F1EC;
+    --paper-top:  #FBF9F5;
+    --paper-warm: #EFE9DC;
+    --ink:        #0D0D0D;
+    --ink-soft:   rgba(13, 13, 13, 0.62);
+    --ink-mute:   rgba(13, 13, 13, 0.42);
+    --ink-faint:  rgba(13, 13, 13, 0.24);
+    --accent:     #C8A96A;
+    --accent-70:  rgba(200, 169, 106, 0.7);
+    --accent-40:  rgba(200, 169, 106, 0.4);
+
+    --serif: "Cormorant Garamond", Georgia, serif;
+    --mono:  "IBM Plex Mono", ui-monospace, monospace;
+    --script:"Meddon", "Homemade Apple", cursive;
+  }
+
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0; padding: 0;
+    height: 100%;
+    /* PORTRAIT SYSTEM RULE: no scrolling anywhere in the experience. */
+    overflow: hidden;
+  }
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--serif);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    height: 100vh;
+    /* Paper texture: three layered light noises + warm vertical wash.
+       Feels like laid paper under raking light — no image assets needed. */
+    background-image:
+      /* fibre grain (very fine, diagonal) */
+      repeating-linear-gradient(
+        112deg,
+        transparent 0px,
+        transparent 2px,
+        rgba(120, 96, 60, 0.020) 2px,
+        rgba(120, 96, 60, 0.020) 3px
+      ),
+      /* soft mottled specks */
+      radial-gradient(circle at 22% 18%, rgba(120, 96, 60, 0.045) 0px, transparent 1.5px),
+      radial-gradient(circle at 68% 42%, rgba(80, 60, 32, 0.06) 0px, transparent 1.2px),
+      radial-gradient(circle at 34% 72%, rgba(140, 108, 68, 0.05) 0px, transparent 1.4px),
+      radial-gradient(circle at 88% 88%, rgba(80, 60, 32, 0.05) 0px, transparent 1.6px),
+      /* broad tonal drift — warmer top, slightly cooler bottom */
+      radial-gradient(ellipse at 30% 12%, rgba(200, 169, 106, 0.06) 0%, transparent 55%),
+      radial-gradient(ellipse at 85% 85%, rgba(60, 45, 30, 0.03) 0%, transparent 60%),
+      /* base paper wash */
+      linear-gradient(180deg, var(--paper-top) 0%, var(--paper) 34%, #EFEBE3 100%);
+    background-size:
+      auto,
+      120px 120px, 180px 180px, 90px 90px, 150px 150px,
+      auto, auto, auto;
+    background-attachment: fixed;
+  }
+
+  /* ============================================================
+     App frame · fills the viewport, never scrolls
+     ============================================================ */
+  .app {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  /* ============================================================
+     Chrome · top unificado (canonical)
+     ============================================================ */
+  .chrome-top {
+    --progress: 3%;
+    flex: 0 0 auto;
+    display: flex;
+    flex-direction: column;
+    padding: 18px 44px 0;
+    background: transparent;
+  }
+  .chrome-top__row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    padding-bottom: 16px;
+  }
+  .brand {
+    display: inline-flex;
+    align-items: center;
+    min-width: 0;
+    text-decoration: none;
+  }
+  .brand__lockup {
+    display: block;
+    height: 48px;
+    width: auto;
+    max-width: 320px;
+    opacity: 0.92;
+    /* invert the white PNG to black — light chrome context */
+    filter: brightness(0) saturate(100%);
+  }
+  .chrome-top__place {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--ink-mute);
+    font-weight: 500;
+  }
+  .chrome-top__rule {
+    position: relative;
+    height: 1px;
+    width: 100%;
+    background: rgba(13, 13, 13, 0.1);
+  }
+  .chrome-top__rule::before {
+    content: "";
+    position: absolute; left: 0; top: 0; bottom: 0;
+    width: var(--progress);
+    background: var(--accent-70);
+  }
+
+  /* ============================================================
+     Stage · two-column editorial layout · fits viewport, no scroll
+     ============================================================ */
+  .stage {
+    flex: 1 1 auto;
+    min-height: 0;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 260px;
+    gap: 64px;
+    padding: 20px 80px 16px;
+    max-width: 1280px;
+    width: 100%;
+    margin: 0 auto;
+    align-items: start;
+    overflow: hidden;
+  }
+
+  /* ============================================================
+     Left column · the letter itself
+     ============================================================ */
+  .letter {
+    max-width: 52ch;
+  }
+
+  .letter__eyebrow {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--ink-mute);
+    font-weight: 500;
+    margin: 0 0 14px 0;
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .letter__eyebrow::after {
+    content: "";
+    width: 32px;
+    height: 1px;
+    background: var(--accent-70);
+  }
+
+  /* The greeting — script literaria, warm but not decorative */
+  .letter__greeting {
+    font-family: var(--script);
+    font-weight: 400;
+    font-size: clamp(1.9rem, 2.6vw, 2.4rem);
+    line-height: 1.05;
+    color: var(--ink);
+    margin: 0 0 18px 0;
+    letter-spacing: 0;
+    /* very subtle handwritten irregularity — 0.4° rotation, barely felt */
+    transform: rotate(-0.3deg);
+    transform-origin: left center;
+  }
+
+  /* Body paragraphs — Cormorant, tight rhythm to fit viewport */
+  .letter__body {
+    font-family: var(--serif);
+    font-weight: 400;
+    font-size: clamp(13.5px, 0.95vw, 15px);
+    line-height: 1.5;
+    color: var(--ink);
+    letter-spacing: 0.002em;
+  }
+  .letter__body p {
+    margin: 0 0 8px 0;
+    max-width: 46ch;
+  }
+  .letter__body p:last-child { margin-bottom: 0; }
+
+  /* Signature — same script family as greeting, subtle scale down */
+  .letter__signature {
+    margin-top: 16px;
+  }
+  .letter__signature-name {
+    font-family: var(--script);
+    font-weight: 400;
+    font-size: clamp(1.3rem, 1.7vw, 1.6rem);
+    line-height: 1.05;
+    color: var(--ink);
+    margin: 0 0 6px 0;
+    letter-spacing: 0;
+    transform: rotate(-0.4deg);
+    transform-origin: left center;
+    display: inline-block;
+  }
+  .letter__signature-tag {
+    font-family: var(--mono);
+    font-size: 9.5px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--ink-mute);
+    font-weight: 500;
+    display: block;
+  }
+
+  /* ============================================================
+     Right column · the album (two photographs · side-by-side to fit viewport)
+     ============================================================ */
+  .album {
+    position: relative;
+    padding-top: 0;
+  }
+  .album__photos {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    align-items: start;
+  }
+
+  .photo {
+    position: relative;
+    margin: 0;
+    max-width: 100%;
+  }
+
+  .photo__frame {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 4 / 5;
+    background: var(--paper-warm);
+    /* album-page shadow: like a print on paper, not floating */
+    box-shadow:
+      inset 0 0 0 1px rgba(13, 13, 13, 0.06),
+      0 2px 4px rgba(13, 13, 13, 0.06),
+      0 12px 32px -14px rgba(13, 13, 13, 0.18);
+    overflow: hidden;
+  }
+
+  .photo__frame img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 32%;
+  }
+
+  .photo__frame::before {
+    /* soft interior vignette · lays the print on paper, not floating */
+    content: "";
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse at center, transparent 55%, rgba(13, 13, 13, 0.22) 100%);
+    pointer-events: none;
+    z-index: 2;
+  }
+  .photo__frame::after {
+    /* inner hairline · echoes an album print edge */
+    content: "";
+    position: absolute; inset: 0;
+    box-shadow: inset 0 0 0 1px rgba(13, 13, 13, 0.08);
+    pointer-events: none;
+    z-index: 3;
+  }
+
+  .photo__caption {
+    margin-top: 8px;
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--ink);
+    font-weight: 500;
+  }
+  .photo__caption .year {
+    color: var(--accent);
+    font-weight: 400;
+  }
+  .photo__caption .dot {
+    color: var(--ink-faint);
+    margin: 0 2px;
+  }
+
+  /* The italic note under the album — anchored by a small amber rule */
+  .album__note {
+    position: relative;
+    max-width: 100%;
+    margin-top: 14px;
+    padding-top: 10px;
+  }
+  .album__note::before {
+    content: "";
+    display: block;
+    width: 22px;
+    height: 1px;
+    background: var(--accent-70);
+    margin-bottom: 8px;
+  }
+  .album__note p {
+    font-family: var(--serif);
+    font-style: italic;
+    font-weight: 400;
+    font-size: 12.5px;
+    line-height: 1.45;
+    color: var(--ink-soft);
+    margin: 0;
+    max-width: 26ch;
+  }
+
+  /* Ghost hexagon — barely there, cropped by the right margin */
+  .album__hex {
+    position: absolute;
+    top: -30px;
+    right: -160px;
+    width: 300px;
+    height: 300px;
+    opacity: 0.12;
+    pointer-events: none;
+    z-index: 0;
+  }
+  .album > * { position: relative; z-index: 1; }
+
+  /* ============================================================
+     Chrome · bottom
+     ============================================================ */
+  .chrome-bottom {
+    flex: 0 0 auto;
+    padding: 14px 44px 18px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    background: transparent;
+    border-top: 1px solid rgba(13, 13, 13, 0.08);
+  }
+  .nav-utility {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+  }
+  .nav-utility .lang {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 6px;
+    margin-right: 26px;
+  }
+  .nav-utility .lang button {
+    border: 0;
+    background: none;
+    font: inherit;
+    letter-spacing: inherit;
+    text-transform: inherit;
+    color: rgba(13, 13, 13, 0.32);
+    padding: 8px 2px;
+    cursor: pointer;
+    border-bottom: 1px solid transparent;
+  }
+  .nav-utility .lang button.is-on {
+    color: var(--ink);
+    border-bottom-color: var(--accent-70);
+  }
+  .nav-utility .lang .sep {
+    color: rgba(13, 13, 13, 0.22);
+    padding: 0 2px;
+  }
+  .nav-utility .divider {
+    width: 1px;
+    height: 12px;
+    margin: 0 14px;
+    background: rgba(13, 13, 13, 0.14);
+  }
+  .nav-utility .link {
+    display: inline-flex;
+    align-items: center;
+    min-height: 40px;
+    padding: 8px 2px;
+    color: rgba(13, 13, 13, 0.55);
+    background: none;
+    border: 0;
+    border-bottom: 1px solid rgba(13, 13, 13, 0.18);
+    font: inherit;
+    letter-spacing: inherit;
+    text-transform: inherit;
+    cursor: pointer;
+  }
+  .nav-advance {
+    display: flex;
+    align-items: center;
+    gap: 22px;
+    flex-shrink: 0;
+  }
+  .nav-advance .back {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: rgba(13, 13, 13, 0.55);
+    background: none;
+    border: 0;
+    border-bottom: 1px solid rgba(13, 13, 13, 0.18);
+    padding: 8px 2px;
+    min-height: 40px;
+    cursor: pointer;
+  }
+  .nav-advance .continue {
+    font-family: var(--mono);
+    font-size: 10.5px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--paper);
+    background: var(--ink);
+    border: 0;
+    padding: 14px 26px;
+    cursor: pointer;
+    font-weight: 500;
+  }
+
+  /* ============================================================
+     Responsive · always fits viewport, never scrolls
+     Strategy:
+       ≥ 1180px  → 2-col editorial (letter | album)
+       860-1180  → 2-col compressed
+       ≤ 860px   → single column, letter top, album row below
+     ============================================================ */
+
+  /* Compress rhythm when viewport is short */
+  @media (max-height: 820px) {
+    .letter__eyebrow { margin-bottom: 12px; }
+    .letter__greeting { margin-bottom: 16px; }
+    .letter__body p { margin-bottom: 8px; }
+    .letter__signature { margin-top: 16px; }
+    .stage { padding: 16px 72px 12px; }
+    .chrome-top { padding: 14px 44px 0; }
+    .chrome-top__row { padding-bottom: 12px; }
+    .chrome-bottom { padding: 10px 44px 12px; }
+    .brand__lockup { height: 42px; }
+  }
+
+  @media (max-height: 700px) {
+    .letter__greeting { font-size: 1.9rem; margin-bottom: 12px; }
+    .letter__body { font-size: 13.5px; line-height: 1.5; }
+    .letter__body p { margin-bottom: 6px; }
+    .letter__signature { margin-top: 12px; }
+    .letter__signature-name { font-size: 1.4rem; }
+    .stage { gap: 44px; padding: 12px 56px 8px; }
+    .brand__lockup { height: 38px; }
+  }
+
+  /* Compressed 2-column for laptops / large tablets */
+  @media (max-width: 1180px) {
+    .stage {
+      grid-template-columns: minmax(0, 1fr) 240px;
+      gap: 48px;
+      padding: 20px 56px 14px;
+    }
+    .brand__lockup { height: 44px; }
+  }
+
+  /* Single-column: letter top, album as a horizontal row below.
+     Same page feeling — the letter and the two photos + note live together
+     but the album collapses into a slim row instead of a right column. */
+  @media (max-width: 860px) {
+    .stage {
+      grid-template-columns: 1fr;
+      grid-template-rows: minmax(0, 1fr) auto;
+      gap: 18px;
+      padding: 16px 40px 12px;
+      align-items: start;
+    }
+    .letter { max-width: 640px; }
+    .letter__greeting { font-size: clamp(1.7rem, 4.5vw, 2rem); margin-bottom: 12px; }
+    .letter__body { font-size: 14px; line-height: 1.55; }
+    .letter__body p { margin-bottom: 7px; max-width: 60ch; }
+    .letter__signature { margin-top: 12px; }
+    .letter__signature-name { font-size: 1.4rem; }
+
+    /* Album becomes a horizontal band: two small photos + note aligned right */
+    .album { padding-top: 0; }
+    .album__hex { display: none; }
+    .album__photos {
+      display: inline-grid;
+      grid-template-columns: auto auto;
+      gap: 12px;
+      vertical-align: top;
+    }
+    .album {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 22px;
+      align-items: end;
+    }
+    .album__note {
+      margin-top: 0;
+      padding-top: 0;
+      max-width: 24ch;
+      align-self: end;
+      padding-bottom: 4px;
+    }
+    .album__note::before {
+      display: none;
+    }
+    .album__note p {
+      font-size: 12px;
+      line-height: 1.4;
+      padding-left: 14px;
+      border-left: 1px solid var(--accent-70);
+    }
+    .photo__frame { width: 108px; }
+    .photo__caption { font-size: 8.5px; margin-top: 6px; gap: 6px; }
+    .brand__lockup { height: 38px; }
+  }
+
+  /* Phone: single column, tighter, photos even smaller */
+  @media (max-width: 560px) {
+    .stage { padding: 14px 22px 10px; gap: 14px; }
+    .chrome-top { padding: 12px 22px 0; }
+    .chrome-top__row { padding-bottom: 10px; }
+    .chrome-bottom { padding: 10px 22px 14px; flex-wrap: wrap; gap: 10px; }
+    .chrome-top__place { display: none; }
+    .letter__eyebrow { margin-bottom: 8px; font-size: 9px; letter-spacing: 0.22em; }
+    .letter__eyebrow::after { width: 22px; }
+    .letter__greeting { font-size: 1.6rem; margin-bottom: 10px; }
+    .letter__body { font-size: 13px; line-height: 1.5; }
+    .letter__body p { margin-bottom: 6px; }
+    .letter__signature-name { font-size: 1.3rem; }
+    .photo__frame { width: 84px; }
+    .album { gap: 14px; }
+    .album__note p { font-size: 11.5px; line-height: 1.4; padding-left: 10px; }
+    .album__photos { gap: 8px; }
+    .nav-utility { gap: 6px 12px; }
+    .nav-utility .divider { display: none; }
+    .nav-utility .lang { margin-right: 12px; }
+    .nav-advance { gap: 12px; }
+    .nav-advance .continue { padding: 12px 18px; font-size: 10px; }
+    .brand__lockup { height: 32px; }
+  }
+</style>
+</head>
+<body>
+
+  <div class="app">
+
+    <header class="chrome-top" style="--progress: 3%">
+      <div class="chrome-top__row">
+        <a class="brand" href="#" aria-label="Sharnay Photography">
+          <img class="brand__lockup"
+               src="https://res.cloudinary.com/dogtoagya/image/upload/v1784930337/SharnayPhotography_white_logo_jeww77.png"
+               alt="Sharnay Photography">
+        </a>
+        <div class="chrome-top__place">Una carta</div>
+      </div>
+      <div class="chrome-top__rule" aria-hidden="true"></div>
+    </header>
+
+    <main class="stage">
+
+      <!-- Left · the letter -->
+      <section class="letter">
+        <p class="letter__eyebrow">Una carta</p>
+
+        <h1 class="letter__greeting">Hola chamakis,</h1>
+
+        <div class="letter__body">
+          <p>Gracias por confiarme tu práctica.</p>
+
+          <p>Antes de hablar de colores, de sitios web, o de cómo debe verse el trabajo, quiero entender cómo lo ves tú.</p>
+
+          <p>Algunas de estas preguntas te van a parecer prácticas. Otras te van a parecer raras. Es a propósito.</p>
+
+          <p>Mi trabajo no es solamente hacer que el negocio se vea mejor. Es entender qué hace que el trabajo sea inconfundiblemente tuyo.</p>
+
+          <p>Tómate tu tiempo. "No sé" siempre es una respuesta válida, y una sola frase basta en casi todo.</p>
+
+          <p>La idea es salir de aquí entendiendo mejor qué hace que tu trabajo se sienta tuyo.</p>
+
+          <p>Si cuando terminemos te reconoces en lo que encontremos, sabremos que vamos por buen camino.</p>
+        </div>
+
+        <div class="letter__signature">
+          <p class="letter__signature-name">Luis Gilberto</p>
+          <span class="letter__signature-tag">LG Studio</span>
+        </div>
+      </section>
+
+      <!-- Right · the album -->
+      <aside class="album">
+
+        <!-- ghost hexagon, cropped by right margin -->
+        <svg class="album__hex" viewBox="0 0 340 340" aria-hidden="true">
+          <polygon points="170,20 296,90 296,250 170,320 44,250 44,90"
+                   fill="none"
+                   stroke="#0d0d0d"
+                   stroke-width="1"
+                   opacity="0.55"/>
+        </svg>
+
+        <div class="album__photos">
+          <figure class="photo">
+            <div class="photo__frame">
+              <img src="https://res.cloudinary.com/dogtoagya/image/upload/c_thumb,g_face,z_0.72,ar_4:5,w_760/e_contrast:14/e_grayscale/e_tint:100:3d3327:f5f1e8/q_auto:good/v1785229771/photo_2026-07-28_02-06-47_o0guyw.jpg"
+                   alt="Luis, infancia"
+                   loading="eager">
+            </div>
+            <figcaption class="photo__caption">
+              <span>Luis</span>
+              <span class="dot">·</span>
+              <span class="year">1985</span>
+            </figcaption>
+          </figure>
+
+          <figure class="photo">
+            <div class="photo__frame">
+              <img src="https://res.cloudinary.com/dogtoagya/image/upload/c_thumb,g_face,z_0.62,ar_4:5,w_760/e_brightness:-13/e_contrast:28/e_grayscale/e_tint:100:3d3327:f5f1e8/q_auto:good/v1785229771/photo_2026-07-28_02-06-54_ca2aaq.jpg"
+                   alt="Erika, infancia"
+                   loading="eager">
+            </div>
+            <figcaption class="photo__caption">
+              <span>Erika</span>
+              <span class="dot">·</span>
+              <span class="year">1988</span>
+            </figcaption>
+          </figure>
+        </div>
+
+        <div class="album__note">
+          <p>Mucho antes de que esto fuera el trabajo de alguno de los dos.</p>
+        </div>
+
+      </aside>
+
+    </main>
+
+    <footer class="chrome-bottom">
+      <div class="nav-utility">
+        <span class="lang">
+          <button type="button" class="is-on">ES</button>
+          <span class="sep" aria-hidden="true">/</span>
+          <button type="button">EN</button>
+        </span>
+        <span class="divider" aria-hidden="true"></span>
+        <button type="button" class="link">Guardar y seguir después</button>
+        <span class="divider" aria-hidden="true"></span>
+        <button type="button" class="link">Volver al principio</button>
+      </div>
+      <div class="nav-advance">
+        <button type="button" class="back">Atrás</button>
+        <button type="button" class="continue">Empezar a leer</button>
+      </div>
+    </footer>
+
+  </div>
+
+</body>
+</html>

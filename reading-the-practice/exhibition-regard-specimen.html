@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Exhibition · Regard study · A · B · C (historical)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400&family=IBM+Plex+Mono:wght@400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #0D0D0D;
+    --serif: "Cormorant Garamond", Georgia, serif;
+    --mono: "IBM Plex Mono", ui-monospace, monospace;
+  }
+
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    background: #0D0D0D;
+    color: var(--ink);
+    font-family: var(--serif);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .lock {
+    position: fixed;
+    z-index: 30;
+    left: 22px;
+    top: 18px;
+    right: 88px;
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: rgba(244, 241, 236, 0.38);
+    line-height: 1.5;
+  }
+  .lock a {
+    color: rgba(200, 169, 106, 0.75);
+    text-decoration: none;
+    border-bottom: 1px solid rgba(200, 169, 106, 0.35);
+  }
+
+  .nav {
+    position: fixed;
+    z-index: 20;
+    top: 18px;
+    right: 22px;
+    display: flex;
+    gap: 14px;
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.2em;
+  }
+  .nav a {
+    color: rgba(244, 241, 236, 0.42);
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+    padding-bottom: 2px;
+  }
+  .nav a:hover,
+  .nav a:focus-visible {
+    color: rgba(244, 241, 236, 0.85);
+    border-bottom-color: rgba(200, 169, 106, 0.55);
+    outline: none;
+  }
+  .nav a.is-locked {
+    color: rgba(200, 169, 106, 0.85);
+    border-bottom-color: rgba(200, 169, 106, 0.55);
+  }
+
+  .room {
+    min-height: 100vh;
+    min-height: 100svh;
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .sentence {
+    margin: 0;
+    font-family: var(--serif);
+    font-weight: 400;
+    font-style: normal;
+    letter-spacing: 0.01em;
+  }
+
+  #a {
+    background:
+      radial-gradient(ellipse at 50% 42%, #1a1816 0%, #0f0e0d 55%, #0a0908 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  #a .sentence {
+    color: rgba(244, 241, 236, 0.78);
+    font-size: clamp(0.95rem, 1.15vw, 1.125rem);
+    line-height: 1.55;
+    max-width: 34ch;
+    text-align: left;
+    margin: 18vh 12vw 22vh;
+  }
+
+  #b {
+    background: #F4F1EC;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  #b .sentence {
+    color: rgba(13, 13, 13, 0.88);
+    font-size: 1.125rem;
+    line-height: 1.6;
+    max-width: 42ch;
+    text-align: left;
+    padding: 0 1.5rem;
+  }
+
+  #c {
+    background: #E8E2D7;
+    display: grid;
+    grid-template-rows: 1fr auto 1.35fr;
+    justify-items: center;
+    padding: 0 clamp(1.25rem, 4vw, 3rem);
+  }
+  #c .gaze-slot {
+    grid-row: 2;
+    width: min(100%, 28ch);
+  }
+  #c .sentence {
+    color: #0D0D0D;
+    font-size: clamp(1.05rem, 1.4vw, 1.2rem);
+    line-height: 1.45;
+    text-align: left;
+  }
+
+  @media (max-width: 560px) {
+    .lock { font-size: 8px; right: 72px; }
+    #a .sentence {
+      margin: 16vh 9vw 20vh;
+      max-width: 32ch;
+      font-size: 1rem;
+    }
+    #b .sentence { font-size: 1.05rem; max-width: 36ch; }
+    #c .gaze-slot { width: min(100%, 30ch); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+  }
+</style>
+</head>
+<body>
+
+<p class="lock">
+  Study · C selected →
+  <a href="exhibition-v1-specimen.html">Exhibition v1</a>
+  ·
+  <a href="EXHIBITION.md">Spec</a>
+</p>
+
+<nav class="nav" aria-label="Specimens">
+  <a href="#a">A</a>
+  <a href="#b">B</a>
+  <a class="is-locked" href="#c">C</a>
+</nav>
+
+<section class="room" id="a" aria-label="A">
+  <p class="sentence">Lo que más me importa es que la persona se reconozca en la fotografía, no que yo demuestre lo que sé hacer con la cámara.</p>
+</section>
+
+<section class="room" id="b" aria-label="B">
+  <p class="sentence">Lo que más me importa es que la persona se reconozca en la fotografía, no que yo demuestre lo que sé hacer con la cámara.</p>
+</section>
+
+<section class="room" id="c" aria-label="C">
+  <div class="gaze-slot">
+    <p class="sentence">Lo que más me importa es que la persona se reconozca en la fotografía, no que yo demuestre lo que sé hacer con la cámara.</p>
+  </div>
+</section>
+
+</body>
+</html>

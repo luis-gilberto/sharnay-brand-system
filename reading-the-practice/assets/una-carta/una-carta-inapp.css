@@ -1,0 +1,488 @@
+/* ================================================================
+   Una carta · in-app · Path A fidelity to handoff
+   Source of truth: assets/handoff_una_carta/una-carta.html
+   + una-carta-tokens.css
+   Do not redesign. Portrait rule: no scroll — ever.
+   ================================================================ */
+
+:root {
+  --uc-paper:      #F4F1EC;
+  --uc-paper-top:  #FBF9F5;
+  --uc-paper-warm: #EFE9DC;
+  --uc-ink:        #0D0D0D;
+  --uc-ink-soft:   rgba(13, 13, 13, 0.62);
+  --uc-ink-mute:   rgba(13, 13, 13, 0.42);
+  --uc-ink-faint:  rgba(13, 13, 13, 0.24);
+  --uc-accent:     #C8A96A;
+  --uc-accent-70:  rgba(200, 169, 106, 0.7);
+  --uc-serif:  "Cormorant Garamond", Georgia, serif;
+  --uc-mono:   "IBM Plex Mono", ui-monospace, monospace;
+  --uc-script: "Meddon", "Homemade Apple", cursive;
+}
+
+/* —— Portrait system rule —— */
+html:has(body.una-carta) {
+  height: 100%;
+  overflow: hidden;
+}
+body.una-carta {
+  overflow: hidden;
+  height: 100%;
+  max-height: 100vh;
+  max-height: 100svh;
+  color: var(--uc-ink);
+  background-color: var(--uc-paper);
+  background-image:
+    repeating-linear-gradient(
+      112deg,
+      transparent 0px, transparent 2px,
+      rgba(120, 96, 60, 0.020) 2px, rgba(120, 96, 60, 0.020) 3px
+    ),
+    radial-gradient(circle at 22% 18%, rgba(120, 96, 60, 0.045) 0px, transparent 1.5px),
+    radial-gradient(circle at 68% 42%, rgba(80, 60, 32, 0.06) 0px, transparent 1.2px),
+    radial-gradient(circle at 34% 72%, rgba(140, 108, 68, 0.05) 0px, transparent 1.4px),
+    radial-gradient(circle at 88% 88%, rgba(80, 60, 32, 0.05) 0px, transparent 1.6px),
+    radial-gradient(ellipse at 30% 12%, rgba(200, 169, 106, 0.06) 0%, transparent 55%),
+    radial-gradient(ellipse at 85% 85%, rgba(60, 45, 30, 0.03) 0%, transparent 60%),
+    linear-gradient(180deg, var(--uc-paper-top) 0%, var(--uc-paper) 34%, #EFEBE3 100%);
+  background-size:
+    auto,
+    120px 120px, 180px 180px, 90px 90px, 150px 150px,
+    auto, auto, auto;
+  background-attachment: fixed;
+}
+body.una-carta #paper,
+body.una-carta #backdrop { display: none !important; }
+
+/* Gen Spark .app — chrome IN FLOW, not fixed (critical for no-scroll) */
+body.una-carta #app {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  height: 100svh;
+  max-height: 100vh;
+  max-height: 100svh;
+  min-height: 0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+  background: transparent;
+}
+body.una-carta:not(.meddon-ready) .letter-layout {
+  visibility: hidden;
+}
+
+body.una-carta .chrome {
+  position: relative;
+  left: auto;
+  right: auto;
+  top: auto;
+  bottom: auto;
+  z-index: 5;
+  height: auto;
+  min-height: 0;
+  background: transparent;
+  padding-left: 44px;
+  padding-right: 44px;
+}
+body.una-carta .chrome--top {
+  flex: 0 0 auto;
+  padding-top: 18px;
+  padding-bottom: 0;
+  border-bottom: none;
+}
+body.una-carta .chrome-top__row {
+  align-items: center;
+  padding-bottom: 16px;
+}
+body.una-carta .chrome-top__place {
+  font-family: var(--uc-mono);
+  font-size: 10px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--uc-ink-mute);
+  font-weight: 500;
+  gap: 0;
+}
+body.una-carta .chrome-top__chapter {
+  font-family: var(--uc-mono);
+  font-size: 10px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--uc-ink-mute);
+  font-weight: 500;
+  font-style: normal;
+  max-width: none;
+  white-space: nowrap;
+}
+body.una-carta .chrome-top__rule {
+  background: rgba(13, 13, 13, 0.1);
+}
+body.una-carta .chrome-top__rule::before {
+  background: var(--uc-accent-70);
+}
+body.una-carta .chrome--bottom {
+  flex: 0 0 auto;
+  padding-top: 14px;
+  padding-bottom: calc(18px + env(safe-area-inset-bottom));
+  border-top: 1px solid rgba(13, 13, 13, 0.08);
+  background: transparent;
+}
+
+/* Brand · same mark + wordmark as later screens, ink on paper */
+body.una-carta .brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+  text-decoration: none;
+  border: 0;
+  border-bottom: 0;
+}
+body.una-carta .brand__lockup { display: none !important; }
+body.una-carta .brand__mark {
+  display: block !important;
+  width: 22px;
+  height: 22px;
+  object-fit: contain;
+  flex: 0 0 auto;
+  filter: brightness(0) saturate(100%);
+  opacity: 0.92;
+}
+body.una-carta .brand__type {
+  display: inline !important;
+  font-family: var(--uc-serif);
+  font-size: 15px;
+  font-weight: 400;
+  letter-spacing: -0.01em;
+  color: var(--uc-ink);
+  opacity: 0.92;
+  white-space: nowrap;
+  text-decoration: none;
+  border: 0;
+}
+
+body.una-carta .action {
+  background: var(--uc-ink);
+  border-color: var(--uc-ink);
+  color: var(--uc-paper);
+  font-family: var(--uc-mono);
+  font-size: 10.5px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  font-weight: 500;
+  padding: 14px 26px;
+  min-height: 0;
+  border-radius: 0;
+}
+body.una-carta .action:hover {
+  background: #1a1a1a;
+  border-color: #1a1a1a;
+  color: var(--uc-paper);
+}
+
+body.una-carta #stage {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  outline: none;
+}
+
+/* Stage grid = Gen Spark .stage */
+.letter-layout {
+  flex: 1 1 auto;
+  min-height: 0;
+  width: 100%;
+  max-width: 1280px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 260px;
+  gap: 64px;
+  padding: 20px 80px 16px;
+  align-items: start;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+.letter-layout .letter {
+  max-width: 52ch;
+  height: auto;
+  margin: 0;
+  padding: 0;
+  display: block;
+  animation: none;
+  background: transparent;
+  overflow: hidden;
+}
+
+.letter__eyebrow {
+  font-family: var(--uc-mono);
+  font-size: 10px;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--uc-ink-mute);
+  font-weight: 500;
+  margin: 0 0 14px 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+}
+.letter__eyebrow::after {
+  content: "";
+  width: 32px;
+  height: 1px;
+  background: var(--uc-accent-70);
+}
+
+.letter__greeting {
+  font-family: var(--uc-script);
+  font-weight: 400;
+  font-size: clamp(1.9rem, 2.6vw, 2.4rem);
+  line-height: 1.05;
+  color: var(--uc-ink);
+  margin: 0 0 18px 0;
+  letter-spacing: 0;
+  transform: rotate(-0.3deg);
+  transform-origin: left center;
+}
+
+.letter__body {
+  font-family: var(--uc-serif);
+  font-weight: 400;
+  font-size: clamp(13.5px, 0.95vw, 15px);
+  line-height: 1.5;
+  color: var(--uc-ink);
+  letter-spacing: 0.002em;
+  margin: 0;
+}
+.letter__body p {
+  margin: 0 0 8px 0;
+  max-width: 46ch;
+}
+.letter__body p:last-child { margin-bottom: 0; }
+
+.letter__signature { margin-top: 16px; }
+.letter__signature-name {
+  font-family: var(--uc-script);
+  font-weight: 400;
+  font-size: clamp(1.3rem, 1.7vw, 1.6rem);
+  line-height: 1.05;
+  color: var(--uc-ink);
+  margin: 0 0 6px 0;
+  letter-spacing: 0;
+  transform: rotate(-0.4deg);
+  transform-origin: left center;
+  display: inline-block;
+}
+.letter__signature-tag {
+  font-family: var(--uc-mono);
+  font-size: 9.5px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--uc-ink-mute);
+  font-weight: 500;
+  display: block;
+}
+
+.album { position: relative; padding-top: 0; min-width: 0; }
+.album > * { position: relative; z-index: 1; }
+
+.album__photos {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  align-items: start;
+}
+
+.photo { position: relative; margin: 0; max-width: 100%; }
+
+.photo__frame {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  background: var(--uc-paper-warm);
+  box-shadow:
+    inset 0 0 0 1px rgba(13, 13, 13, 0.06),
+    0 2px 4px rgba(13, 13, 13, 0.06),
+    0 12px 32px -14px rgba(13, 13, 13, 0.18);
+  overflow: hidden;
+}
+.photo__frame img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 32%;
+  max-height: none;
+}
+.photo__frame::before {
+  content: "";
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse at center, transparent 55%, rgba(13, 13, 13, 0.22) 100%);
+  pointer-events: none;
+  z-index: 2;
+}
+.photo__frame::after {
+  content: "";
+  position: absolute; inset: 0;
+  box-shadow: inset 0 0 0 1px rgba(13, 13, 13, 0.08);
+  pointer-events: none;
+  z-index: 3;
+}
+
+.photo__caption {
+  margin-top: 8px;
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  font-family: var(--uc-mono);
+  font-size: 9px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--uc-ink);
+  font-weight: 500;
+}
+.photo__caption .year { color: var(--uc-accent); font-weight: 400; }
+.photo__caption .dot  { color: var(--uc-ink-faint); margin: 0 2px; }
+
+.album__note {
+  position: relative;
+  max-width: 100%;
+  margin-top: 14px;
+  padding-top: 10px;
+}
+.album__note::before {
+  content: "";
+  display: block;
+  width: 22px;
+  height: 1px;
+  background: var(--uc-accent-70);
+  margin-bottom: 8px;
+}
+.album__note p {
+  font-family: var(--uc-serif);
+  font-style: italic;
+  font-weight: 400;
+  font-size: 12.5px;
+  line-height: 1.45;
+  color: var(--uc-ink-soft);
+  margin: 0;
+  max-width: 26ch;
+}
+
+.album__hex {
+  position: absolute;
+  top: -30px;
+  right: -160px;
+  width: 300px;
+  height: 300px;
+  opacity: 0.12;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Height nets — compress rhythm, never scroll */
+@media (max-height: 820px) {
+  .letter__eyebrow { margin-bottom: 12px; }
+  .letter__greeting { margin-bottom: 16px; }
+  .letter__body p { margin-bottom: 8px; }
+  .letter__signature { margin-top: 16px; }
+  .letter-layout { padding: 16px 72px 12px; }
+  body.una-carta .chrome { padding-left: 44px; padding-right: 44px; }
+  body.una-carta .chrome--top { padding-top: 14px; }
+  body.una-carta .chrome-top__row { padding-bottom: 12px; }
+  body.una-carta .chrome--bottom { padding-top: 10px; padding-bottom: calc(12px + env(safe-area-inset-bottom)); }
+}
+
+@media (max-height: 700px) {
+  .letter__greeting { font-size: 1.9rem; margin-bottom: 12px; }
+  .letter__body { font-size: 13.5px; line-height: 1.5; }
+  .letter__body p { margin-bottom: 6px; }
+  .letter__signature { margin-top: 12px; }
+  .letter__signature-name { font-size: 1.4rem; }
+  .letter-layout { gap: 44px; padding: 12px 56px 8px; }
+}
+
+@media (max-width: 1180px) {
+  .letter-layout {
+    grid-template-columns: minmax(0, 1fr) 240px;
+    gap: 48px;
+    padding: 20px 56px 14px;
+  }
+}
+
+@media (max-width: 860px) {
+  .letter-layout {
+    grid-template-columns: 1fr;
+    grid-template-rows: minmax(0, 1fr) auto;
+    gap: 18px;
+    padding: 16px 40px 12px;
+    align-items: start;
+  }
+  .letter-layout .letter { max-width: 640px; }
+  .letter__greeting { font-size: clamp(1.7rem, 4.5vw, 2rem); margin-bottom: 12px; }
+  .letter__body { font-size: 14px; line-height: 1.55; }
+  .letter__body p { margin-bottom: 7px; max-width: 60ch; }
+  .letter__signature { margin-top: 12px; }
+  .letter__signature-name { font-size: 1.4rem; }
+
+  .album__hex { display: none; }
+  .album {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 22px;
+    align-items: end;
+  }
+  .album__photos {
+    display: inline-grid;
+    grid-template-columns: auto auto;
+    gap: 12px;
+  }
+  .album__note {
+    margin-top: 0;
+    padding-top: 0;
+    max-width: 24ch;
+    align-self: end;
+    padding-bottom: 4px;
+  }
+  .album__note::after,
+  .album__note::before { display: none; }
+  .album__note p {
+    font-size: 12px;
+    line-height: 1.4;
+    padding-left: 14px;
+    border-left: 1px solid var(--uc-accent-70);
+  }
+  .photo__frame { width: 108px; }
+  .photo__caption { font-size: 8.5px; margin-top: 6px; gap: 6px; }
+  body.una-carta .chrome { padding-left: 40px; padding-right: 40px; }
+}
+
+@media (max-width: 560px) {
+  .letter-layout { padding: 14px 22px 10px; gap: 14px; }
+  body.una-carta .chrome { padding-left: 22px; padding-right: 22px; }
+  body.una-carta .chrome--top { padding-top: 12px; }
+  body.una-carta .chrome-top__row { padding-bottom: 10px; }
+  body.una-carta .chrome--bottom {
+    padding-top: 10px;
+    padding-bottom: calc(14px + env(safe-area-inset-bottom));
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  body.una-carta .chrome-top__place { display: none; }
+  .letter__eyebrow { margin-bottom: 8px; font-size: 9px; letter-spacing: 0.22em; }
+  .letter__eyebrow::after { width: 22px; }
+  .letter__greeting { font-size: 1.6rem; margin-bottom: 10px; }
+  .letter__body { font-size: 13px; line-height: 1.5; }
+  .letter__body p { margin-bottom: 6px; }
+  .letter__signature-name { font-size: 1.3rem; }
+  .photo__frame { width: 84px; }
+  .album { gap: 14px; }
+  .album__note p { font-size: 11.5px; line-height: 1.4; padding-left: 10px; }
+  .album__photos { gap: 8px; }
+  body.una-carta .action { padding: 12px 18px; font-size: 10px; }
+}

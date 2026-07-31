@@ -1,0 +1,126 @@
+/* ================================================================
+   Exhibition · Gaze · v1
+   El Retrato · Reading the Practice
+
+   Locked 2026-07-30 · PRODUCTION FREEZE · Spec: EXHIBITION.md
+   Condition: attention remaining. Not a room. Not a display.
+   Gaze is felt, not drawn — no axes, frames, sightlines, markers.
+   No design changes without documented QA failure.
+   ================================================================ */
+
+.portrait--exhibition {
+  flex: 1 1 auto;
+  min-height: 0;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  margin: 0;
+  padding: 0;
+  animation: none;
+}
+
+.exhibition-field {
+  --ex-row-top: 1fr;
+  --ex-row-bottom: 1.35fr;
+  --ex-pad-inline: clamp(1.25rem, 4vw, 3rem);
+  --ex-ink: rgba(13, 13, 13, 0.88);
+
+  position: relative;
+  flex: 1 1 auto;
+  min-height: 0;
+  width: 100%;
+  overflow: hidden;
+  display: grid;
+  grid-template-rows: var(--ex-row-top) auto var(--ex-row-bottom);
+  justify-items: center;
+  align-items: start;
+  padding-inline: var(--ex-pad-inline);
+  box-sizing: border-box;
+  background:
+    radial-gradient(ellipse at 50% 40%, #F0EBE3 0%, transparent 58%),
+    #E8E2D7;
+}
+
+.exhibition-sentence {
+  grid-row: 2;
+  margin: 0;
+  width: max-content;
+  max-width: min(28ch, 100%);
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-weight: 400;
+  font-style: normal;
+  font-size: clamp(1.08rem, 1.25vw, 1.2rem);
+  line-height: 1.48;
+  letter-spacing: -0.008em;
+  color: var(--ex-ink);
+  text-align: left;
+  text-wrap: pretty;
+  hyphens: none;
+  -webkit-hyphens: none;
+  overflow-wrap: break-word;
+  border: 0;
+  background: none;
+  box-shadow: none;
+}
+
+/* Length bands — optical meeting only, never meaning hierarchy */
+.portrait--exhibition[data-ex-band="S"] .exhibition-sentence {
+  font-size: clamp(1.12rem, 1.35vw, 1.28rem);
+  line-height: 1.42;
+  letter-spacing: -0.01em;
+  max-width: min(26ch, 100%);
+}
+
+.portrait--exhibition[data-ex-band="M"] .exhibition-sentence {
+  font-size: clamp(1.08rem, 1.25vw, 1.2rem);
+  line-height: 1.48;
+  letter-spacing: -0.008em;
+  max-width: min(28ch, 100%);
+}
+
+.portrait--exhibition[data-ex-band="L"] .exhibition-sentence {
+  font-size: clamp(1.02rem, 1.15vw, 1.12rem);
+  line-height: 1.52;
+  letter-spacing: -0.004em;
+  max-width: min(36ch, 100%);
+}
+
+/* Mobile — same posture, compressed air */
+@media (max-width: 720px) {
+  .exhibition-field {
+    --ex-row-top: 0.9fr;
+    --ex-row-bottom: 1.25fr;
+    --ex-pad-inline: clamp(1.1rem, 5vw, 1.75rem);
+  }
+
+  .portrait--exhibition[data-ex-band="S"] .exhibition-sentence {
+    font-size: clamp(1.05rem, 4.1vw, 1.18rem);
+    max-width: min(26ch, 100%);
+  }
+  .portrait--exhibition[data-ex-band="M"] .exhibition-sentence {
+    font-size: clamp(1.02rem, 3.9vw, 1.12rem);
+    max-width: min(28ch, 100%);
+  }
+  .portrait--exhibition[data-ex-band="L"] .exhibition-sentence {
+    font-size: clamp(0.98rem, 3.7vw, 1.06rem);
+    max-width: min(34ch, 100%);
+  }
+}
+
+/* Short height — keep meeting line; tighten air without scrolling */
+@media (max-height: 700px) {
+  .exhibition-field {
+    --ex-row-top: 0.75fr;
+    --ex-row-bottom: 1.1fr;
+  }
+  .exhibition-sentence {
+    line-height: 1.42;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .portrait--exhibition {
+    animation: none;
+  }
+}

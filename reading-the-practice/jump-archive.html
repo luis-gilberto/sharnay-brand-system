@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Jump → Archive reveal</title>
+</head>
+<body>
+<p style="font-family: Georgia, serif; padding: 2rem;">Preparing Archive reveal…</p>
+<script>
+(function () {
+  var KEY = 'lgs.reading-the-practice.sharnay.v1';
+  var fragment =
+    'Lo que más me importa es que la persona se reconozca en la fotografía, ' +
+    'no que yo demuestre lo que sé hacer con la cámara.';
+  var now = new Date().toISOString();
+  var state = {
+    index: 7,
+    mark: 0,
+    lang: 'es',
+    answers: {
+      1: fragment,
+      2: 'Trabajo con luz que no pide permiso.',
+      3: 'Quiero que se sienta verdadero.',
+      4: 'El estudio es un cuarto de escucha.'
+    },
+    files: {},
+    started: now,
+    updated: now,
+    completed: false,
+    portrait: {
+      version: 1,
+      fragments: [{
+        id: 'q:1',
+        questionN: 1,
+        sectionId: 'work',
+        source: 'answer',
+        text: fragment,
+        collectedAt: now,
+        lang: 'es'
+      }]
+    },
+    orientation: { roomId: 'work', minutesRemaining: 20 },
+    submissionStatus: null,
+    submissionId: null
+  };
+  try {
+    localStorage.setItem(KEY, JSON.stringify(state));
+  } catch (e) {
+    document.body.textContent = 'Could not write localStorage: ' + e;
+    return;
+  }
+  location.replace('./index.html');
+})();
+</script>
+</body>
+</html>

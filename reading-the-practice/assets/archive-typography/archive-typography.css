@@ -1,0 +1,267 @@
+/* ================================================================
+   Archive Typography System · v1
+   El Retrato · Return Plate
+   Approved 2026-07-29 · status: production
+
+   Do not modify preset values without re-validating the emotional
+   anchor. See README.md for the ruleset.
+   ================================================================ */
+
+:root {
+  /* ---- Room + paper ---- */
+  --archive-room-inner: #2b2621;
+  --archive-room-outer: #1b1815;
+  --archive-paper:      #F6F2EB;
+  --archive-ink:        #1F1C18;
+
+  /* ---- Anchor (invariant across all presets) ---- */
+  --archive-anchor-left:   12%;
+  --archive-anchor-bottom: 12%;
+  --archive-anchor-right:  12%; /* default right margin; A₀ + A override */
+
+  /* ---- Leaf proportion ---- */
+  --archive-leaf-aspect: 1 / 1.414;
+  --archive-leaf-max-width: 720px;
+
+  /* ---- Typography family (locked) ---- */
+  --archive-font-family: 'EB Garamond', Georgia, serif;
+  --archive-font-weight: 400;
+
+  /* ---- Preset A₀ · Micro · 0–21 chars ---- */
+  --archive-a0-size:    52px;
+  --archive-a0-lh:      1.06;
+  --archive-a0-track:   -0.012em;
+  --archive-a0-measure: 24ch;
+  --archive-a0-right:   26%;
+
+  /* ---- Preset A · Short · 22–48 chars ---- */
+  --archive-a-size:    42px;
+  --archive-a-lh:      1.14;
+  --archive-a-track:   -0.006em;
+  --archive-a-measure: 28ch;
+  --archive-a-right:   32%;
+
+  /* ---- Preset B · Medium (anchor) · 49–120 chars ---- */
+  --archive-b-size:    32px;
+  --archive-b-lh:      1.28;
+  --archive-b-track:   -0.002em;
+  --archive-b-measure: 30ch;
+
+  /* ---- Preset C · Long · 121–150 chars ---- */
+  --archive-c-size:    23px;
+  --archive-c-lh:      1.4;
+  --archive-c-track:   0.001em;
+  --archive-c-measure: 42ch;
+
+  /* ---- Preset C₁ · Dense · 151–180 chars ---- */
+  --archive-c1-size:    20px;
+  --archive-c1-lh:      1.5;
+  --archive-c1-track:   0.002em;
+  --archive-c1-measure: 46ch;
+}
+
+/* ================================================================
+   Stage — the room the leaf sits in
+   ================================================================ */
+.archive-stage {
+  display: grid;
+  place-items: center;
+  min-height: 100vh;
+  padding: 72px 24px;
+  background: radial-gradient(
+    ellipse at center,
+    var(--archive-room-inner) 0%,
+    var(--archive-room-outer) 76%
+  );
+}
+
+/* ================================================================
+   Leaf — the paper
+   ================================================================ */
+.archive-leaf {
+  position: relative;
+  width: min(var(--archive-leaf-max-width), 92vw);
+  aspect-ratio: var(--archive-leaf-aspect);
+  background: var(--archive-paper);
+  overflow: hidden;
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.02),
+    0 40px 80px -30px rgba(0, 0, 0, 0.55),
+    0 20px 40px -20px rgba(0, 0, 0, 0.35);
+  /* barely-there paper mottle */
+  background-image:
+    radial-gradient(circle at 20% 30%, rgba(31, 28, 24, 0.015) 0px, transparent 40%),
+    radial-gradient(circle at 70% 60%, rgba(31, 28, 24, 0.020) 0px, transparent 45%),
+    radial-gradient(circle at 40% 85%, rgba(31, 28, 24, 0.015) 0px, transparent 35%);
+}
+
+/* laid-paper vertical grain — felt, not seen */
+.archive-leaf::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image: repeating-linear-gradient(
+    90deg,
+    transparent 0px,
+    transparent 22px,
+    rgba(31, 28, 24, 0.010) 22px,
+    rgba(31, 28, 24, 0.010) 23px
+  );
+}
+
+/* ================================================================
+   Fragment — the participant's words
+   ================================================================ */
+.archive-fragment {
+  position: absolute;
+  left:   var(--archive-anchor-left);
+  right:  var(--archive-anchor-right);
+  bottom: var(--archive-anchor-bottom);
+  margin: 0;
+  font-family: var(--archive-font-family);
+  font-weight: var(--archive-font-weight);
+  color: var(--archive-ink);
+  text-align: left;
+  text-wrap: pretty;
+  hyphens: none;
+  -webkit-hyphens: none;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* ================================================================
+   Preset application
+   The leaf carries the preset via [data-preset]. The fragment
+   picks up its calibration from the leaf's data attribute.
+   ================================================================ */
+.archive-leaf[data-preset="a0"] .archive-fragment {
+  font-size:      var(--archive-a0-size);
+  line-height:    var(--archive-a0-lh);
+  letter-spacing: var(--archive-a0-track);
+  max-width:      var(--archive-a0-measure);
+  right:          var(--archive-a0-right);
+}
+
+.archive-leaf[data-preset="a"] .archive-fragment {
+  font-size:      var(--archive-a-size);
+  line-height:    var(--archive-a-lh);
+  letter-spacing: var(--archive-a-track);
+  max-width:      var(--archive-a-measure);
+  right:          var(--archive-a-right);
+}
+
+.archive-leaf[data-preset="b"] .archive-fragment {
+  font-size:      var(--archive-b-size);
+  line-height:    var(--archive-b-lh);
+  letter-spacing: var(--archive-b-track);
+  max-width:      var(--archive-b-measure);
+}
+
+.archive-leaf[data-preset="c"] .archive-fragment {
+  font-size:      var(--archive-c-size);
+  line-height:    var(--archive-c-lh);
+  letter-spacing: var(--archive-c-track);
+  max-width:      var(--archive-c-measure);
+}
+
+.archive-leaf[data-preset="c1"] .archive-fragment {
+  font-size:      var(--archive-c1-size);
+  line-height:    var(--archive-c1-lh);
+  letter-spacing: var(--archive-c1-track);
+  max-width:      var(--archive-c1-measure);
+}
+
+/* ================================================================
+   Reveal — a single, quiet entry. No bounce. No decoration.
+   The fragment fades in over 700ms. The paper is already there.
+   ================================================================ */
+@media (prefers-reduced-motion: no-preference) {
+  .archive-leaf[data-preset] .archive-fragment {
+    animation: archive-return 700ms cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+}
+
+@keyframes archive-return {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* ================================================================
+   Rejection state — leaf remains empty; upstream must handle UX.
+   The typography module does not render error UI.
+   ================================================================ */
+.archive-leaf:not([data-preset]) .archive-fragment,
+.archive-leaf[data-preset=""] .archive-fragment {
+  display: none;
+}
+
+/* ================================================================
+   In-app mount — fills the Reading the Practice stage between chrome.
+   Full-viewport .archive-stage remains for reference / standalone.
+
+   Hard layout rule: the Return Plate must fit the chrome gap with
+   zero vertical scroll. The leaf scales down to the available height;
+   fragment fit (1px shrink) still protects integrity.
+   ================================================================ */
+.archive-stage--inapp {
+  container-type: size;
+  display: grid;
+  place-items: center;
+  min-height: 0 !important; /* beat .archive-stage { min-height: 100vh } */
+  height: 100%;
+  width: 100%;
+  padding: clamp(10px, 1.8vh, 24px) clamp(12px, 2vw, 28px);
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+/* Height-first: leaf never taller than the stage. Width follows ISO ratio.
+   Prefer container query height; fall back to max-height shrink. */
+.archive-stage--inapp .archive-leaf {
+  width: min(var(--archive-leaf-max-width), 100%);
+  max-width: 100%;
+  height: auto;
+  max-height: 100%;
+  aspect-ratio: var(--archive-leaf-aspect);
+}
+@supports (width: 1cqh) {
+  .archive-stage--inapp .archive-leaf {
+    width: min(
+      var(--archive-leaf-max-width),
+      100%,
+      calc(100cqh / 1.414)
+    );
+  }
+}
+
+.portrait.portrait--archive {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  min-height: 0;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  background: transparent;
+  overflow: hidden;
+}
+
+/* Lock the app to one viewport while the plate is up — no page scroll. */
+body:has(.portrait--archive) {
+  overflow: hidden;
+  height: 100%;
+}
+body:has(.portrait--archive) #app {
+  height: 100vh;
+  height: 100svh;
+  min-height: 0;
+  overflow: hidden;
+}
+#stage:has(.portrait--archive) {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow: hidden;
+}

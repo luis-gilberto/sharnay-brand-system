@@ -32,6 +32,14 @@ Alongside the six, kept only as long as they are live.
 
 **[Discovery](discovery.md)** — the questions that unlock Phase 2, written to be sent to the client. Retires when its answers are recorded in the project overview.
 
+**[El Retrato](../reading-the-practice/EL-RETRATO.html)** — custody / return system inside Reading the Practice: Orientation, chrome, Archive Return Plate, and Typography System v1.
+
+**[Collection · Constellation](../reading-the-practice/COLLECTION.md)** — emergence stage (2–3 fragments); production spec for Gen Spark / implementers.
+
+**[Exhibition · Gaze](../reading-the-practice/EXHIBITION.md)** — regard stage; attention remaining; production spec.
+
+**[Production freeze · Jul 30, 2026](../reading-the-practice/PRODUCTION-FREEZE.md)** — locked Portrait surfaces, letter locks, audit trail, ship gate.
+
 ---
 
 ## Where to start
