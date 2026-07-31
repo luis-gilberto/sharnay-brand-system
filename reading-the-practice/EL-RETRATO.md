@@ -2,9 +2,11 @@
 
 **Product surface:** Reading the Practice (`reading-the-practice/`)  
 **Status:** Living system document — consolidates locked direction through July 30, 2026  
-**Canonical runtime:** `reading-the-practice/index.html`
+**Canonical runtime:** `reading-the-practice/index.html`  
+**Canonical HTML specification:** `reading-the-practice/EL-RETRATO.html` (corrective package, Jul 2026)  
+**Runtime patch record:** `reading-the-practice/EL-RETRATO-RUNTIME-PATCHES.md`
 
-This document describes **what El Retrato is**, **what it does**, and **how it works** inside the intake. It gathers philosophy, orientation, chrome, chapter film, and the Archive Return Plate typography system into one place.
+This Markdown document remains a working summary. Where it conflicts with `EL-RETRATO.html`, the HTML specification is authoritative.
 
 ---
 
@@ -28,9 +30,19 @@ The following surfaces are **locked**. Do not redesign, refine, restyle, or reop
 
 ---
 
-## 0. One-sentence definition
+## 0. Canonical definition
 
-El Retrato is the custody system inside Reading the Practice: it **holds** eligible words the participant wrote, then **returns** them unchanged at defined stages — without improving, summarizing, interpreting, or exhibiting them as campaign copy.
+**Spanish:** El Retrato es un sistema editorial para descubrir, leer y encuadrar una práctica o un encargo creativo.
+
+**English:** El Retrato is an editorial system for discovering, reading, and framing a creative practice or engagement.
+
+It serves people examining their own creative practice, and creative professionals using it with clients as part of a more personal and specific discovery and creative-briefing process. It is **not** only for photographers.
+
+Inside Reading the Practice, El Retrato also **holds** eligible words the participant wrote, then **returns** them unchanged at defined Portrait stages — without improving, summarizing, interpreting, or exhibiting them as campaign copy.
+
+### Brand naming lock
+
+The organization is always named exactly **LG Studio** (ES/EN). Never “the studio,” “Studio,” “el estudio,” or similar when referring to the LG Studio entity. Generic photographic uses of “studio/estudio” remain unchanged.
 
 ---
 
@@ -393,4 +405,34 @@ Typography system does **not**: moderate content, decide worthiness, animate pag
 
 ---
 
-*Compiled from Orientation v1, Archive emergency reset → Return Plate lock, unified chrome / mobile menu direction, full-bleed chapter film locks, presence studies, and Gen Spark Archive Typography System v1.*
+## 15. Information, privacy, consent, and retention
+
+Locked principles:
+
+> Nada privado se convierte en material público por defecto.  
+> Nothing private becomes public material by default.
+
+> Conservar evidencia suficiente para sostener la lectura, nunca más de la necesaria.  
+> Retain enough evidence to support the reading, never more than necessary.
+
+| Surface | Route / file |
+|---------|----------------|
+| Sobre El Retrato / About | In-experience `#info-sheet` via drawer `data-act="about"` |
+| FAQ | In-experience `#info-sheet` via `data-act="faq"` (accordion) |
+| Privacy summary | In-experience `#info-sheet` via `data-act="privacy"` |
+| Full Privacy Policy | `privacy.html` |
+| Case-study consent model (future) | `EL-RETRATO-CASE-STUDY-CONSENT.md` |
+| Submission acknowledgment | Required checkbox on send screen — not case-study consent |
+| Supabase table | `public.reading_practice_submissions` |
+| Retention migration | `sql/20260731_retention_90_days.sql` (**activation pending** until verified in the connected project) |
+| Server submission | `POST /api/intake` (service role only; no browser SELECT/UPDATE/DELETE) |
+
+**Raw responses vs strategic deliverables:** Original answers in Supabase are deleted within a maximum of 90 days from `submitted_at`. Briefs, readings, workspaces, and plans may remain in StrategyIQ. Only fragments needed to support a reading may remain inside those deliverables; they are not reused for other clients.
+
+**AI-assisted processing:** Internal support for organize/summarize/analyze under human review; not for training public models; not for other clients’ work; minimum necessary information; reduce identifiers where reasonably possible. Do not name a specific AI provider unless the production workflow is verified.
+
+**Case studies:** Prior express authorization only; never bundled into the submission privacy checkbox.
+
+---
+
+*Compiled from Orientation v1, Archive emergency reset → Return Plate lock, unified chrome / mobile menu direction, full-bleed chapter film locks, presence studies, Gen Spark Archive Typography System v1, and the Jul 2026 privacy / consent / retention architecture.*

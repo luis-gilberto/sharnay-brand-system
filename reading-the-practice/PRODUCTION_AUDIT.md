@@ -178,7 +178,7 @@ What exists today as a “finish” path:
    - Export a copy (JSON)
    - Print or save as PDF
 
-Delivery mechanisms today are **manual**: the client exports or prints; the studio is not notified automatically.
+Delivery mechanisms today are **manual**: the client exports or prints; LG Studio is not notified automatically.
 
 This is intentional and documented in `README.md` §10.
 
@@ -256,9 +256,9 @@ No npm, no CDN frameworks, no analytics SDKs, no auth SDKs.
 | Risk | Why it matters | Severity |
 | --- | --- | --- |
 | No server of record | Answers exist only on the client device | Critical for production use |
-| File names ≠ files | Studio cannot receive the thirty–fifty photographs through the app | Critical for Send chapter |
+| File names ≠ files | LG Studio cannot receive the thirty–fifty photographs through the app | Critical for Send chapter |
 | Single-device resume | New phone/laptop = empty intake unless export was done | High |
-| Completion is local only | Studio is not notified when she finishes | High |
+| Completion is local only | LG Studio is not notified when she finishes | High |
 | Storage quota / private mode | Rare; already degraded gracefully, but progress can be lost | Medium |
 | Cloudinary as fallback | Fine for resilience; production should not depend on it for privacy-critical payloads | Medium |
 | `buildExport()` note hardcodes “prototype does not transmit” | Must update copy when submission exists | Low (copy) |
@@ -289,7 +289,7 @@ Prefer **surgical hooks** at existing function boundaries. Do not insert a paral
 | Answer sync (optional draft) | `save(immediate)` after writeStore | Mirror local persistence; never replace it |
 | File upload | `stage` `change` handler for `input[type=file]` | Already owns `state.files` |
 | Review/edit | Existing `data-act="edit"` | No change needed for backend |
-| Notifications | After successful server accept of submission | Studio email, not client UX rewrite |
+| Notifications | After successful server accept of submission | LG Studio email, not client UX rewrite |
 | Session identity | New thin ID in `state` (e.g. `intakeId`) created once | Allows server rows without accounts |
 
 **Anti-pattern:** replacing `render()`, `SCREENS`, or CSS film/paper systems with a new front-end stack.
@@ -401,7 +401,7 @@ Suggested functions (names illustrative):
 | `POST /api/intake` | Create/upsert intake from `buildExport()` (+ intakeId) |
 | `POST /api/intake/:id/files` | Issue signed upload URL(s) for a request key |
 | `POST /api/intake/:id/complete` | Mark complete, fan out Resend, finalize |
-| `GET /api/intake/:id` | Studio-only read (auth protected) — not needed for client UX |
+| `GET /api/intake/:id` | LG Studio–only read (auth protected) — not needed for client UX |
 
 **Front-end attachment:** one small client module calling these endpoints from the hooks in §10–13.
 

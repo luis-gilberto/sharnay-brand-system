@@ -277,7 +277,7 @@ Interlude copy lives on each section as `reflection` and `line`, and the photogr
 
 ## 11 · Recommended next phase
 
-**A real submission path.** A small endpoint that receives the intake, stores it against the client, and notifies the studio. Everything needed is already in `buildExport()`.
+**A real submission path.** A small endpoint that receives the intake, stores it against the client, and notifies LG Studio. Everything needed is already in `buildExport()`.
 
 **Secure file uploads.** Direct to storage with signed URLs, resumable for the thirty to fifty image selection, with a delivery receipt she can see.
 

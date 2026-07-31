@@ -115,10 +115,10 @@
 
     /* Production submission. Local answers are never discarded on failure. */
     submitFailed: {
-      en: 'Could not send to the studio. Nothing you wrote was lost. You can retry, or export a copy.',
-      es: 'No se pudo enviar al estudio. No se perdió nada de lo que escribiste. Puedes reintentar, o exportar una copia.'
+      en: 'Could not send to LG Studio. Nothing you wrote was lost. You can retry, or export a copy.',
+      es: 'No se pudo enviar a LG Studio. No se perdió nada de lo que escribiste. Puedes reintentar, o exportar una copia.'
     },
-    retrySubmit: { en: 'Retry sending to the studio', es: 'Reintentar el envío al estudio' }
+    retrySubmit: { en: 'Retry sending to LG Studio', es: 'Reintentar el envío a LG Studio' }
   };
 
   /* ------------------------------------------------------------------------
@@ -2051,7 +2051,7 @@
 
   render();
 
-  /* If she already finished in a prior session but the studio never received
+  /* If she already finished in a prior session but LG Studio never received
      the row (upgrade, failed POST, offline), try once on load. */
   if (state.index === CLOSING_INDEX && state.completed &&
       state.submissionStatus !== 'ok' && state.submissionStatus !== 'pending') {

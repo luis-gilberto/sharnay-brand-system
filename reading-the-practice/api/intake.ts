@@ -83,6 +83,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     const row = {
       id: intakeId,
       updated_at: now,
+      submitted_at: now,
       status: 'submitted',
       client_name: clientName,
       client_email: clientEmail,

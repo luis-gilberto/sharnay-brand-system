@@ -951,17 +951,10 @@ body.is-title .action:hover {
   color: #0D0D0D;
 }
 
-/* Brand: identical lockup to letter / film — 22px mark + 15px type, same row */
+/* Brand lockup size/filter: see §21 (El Retrato SS 6.7). Do not reintroduce
+   a 22px mark or brightness(0) invert(1) here — those contradict the ladder. */
 .chrome-top__row {
   align-items: center;
-}
-body.is-film .brand__mark,
-body.tone-dark .brand__mark,
-body.is-title .brand__mark {
-  width: 22px;
-  height: 22px;
-  filter: brightness(0) invert(1);
-  opacity: 0.92;
 }
 body.is-film .brand__type,
 body.tone-dark .brand__type,
@@ -1004,7 +997,7 @@ body.is-title .chrome-top__row {
 /* --------------------------------------------------------------------------
    10 · Interlude · chapter opener (EL-RETRATO §6)
    Single right editorial column: intervention → Capítulo → title → dek → credit.
-   Brand lockup stays the chrome 22px mark + 15px type (not the GenSpark wordmark).
+   Brand lockup follows SS 6.7 (§21 ladder). Do not reintroduce a 22px mark.
    -------------------------------------------------------------------------- */
 
 .film--interlude {
@@ -1561,6 +1554,8 @@ body.is-title .chrome-top__row {
   letter-spacing: 0;
   text-transform: none;
   color: rgba(244, 241, 236, 0.82);
+  /* SS 16.6: never splits By from the name. */
+  white-space: nowrap;
 }
 
 /* Closing chrome: Cierre surface — hide advance / save / back / bottom bar */
@@ -1590,14 +1585,12 @@ body.is-closing .chrome-top__chapter {
   color: rgba(244, 241, 236, 0.94);
 }
 
-/* Closing menu — dark editorial sheet */
+/* Closing menu — dark editorial sheet (panel width from shared drawer ladder) */
 body.is-closing .menu-sheet {
   background: rgba(0, 0, 0, 0.55);
-  justify-content: stretch;
+  justify-content: flex-end;
 }
 body.is-closing .menu-sheet__panel {
-  width: 100%;
-  max-width: none;
   background: #0D0D0D;
   color: #F4F1EC;
   padding: 22px clamp(20px, 5vw, 32px) 28px;
@@ -1703,12 +1696,17 @@ body.is-closing .menu-sheet__lang button.is-on {
 }
 body.is-closing .menu-sheet__social {
   display: flex;
-  gap: 18px;
+  gap: 4px;
   align-items: center;
 }
 body.is-closing .menu-sheet__social a {
   color: rgba(244, 241, 236, 0.75);
   display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 44px;
+  min-height: 44px;
+  padding: 0;
 }
 body.is-closing .menu-sheet__social svg {
   width: 18px;
@@ -1717,12 +1715,35 @@ body.is-closing .menu-sheet__social svg {
   fill: none;
   stroke-width: 1.4;
 }
+body.is-closing .menu-sheet__social svg.menu-sheet__icon--fill {
+  fill: currentColor;
+  stroke: none;
+}
 
-/* Non-closing: hide closing-only menu chrome; keep quiet place in the menu */
+/* Non-closing: hide closing-only menu chrome; keep quiet place + info links */
 body:not(.is-closing) .menu-sheet__nav-closing,
-body:not(.is-closing) .menu-sheet__meta,
 body:not(.is-closing) .menu-sheet__foot,
 body:not(.is-closing) .menu-sheet__rule { display: none !important; }
+body:not(.is-closing) .menu-sheet__meta {
+  display: flex !important;
+  flex-direction: column;
+  margin-top: clamp(20px, 3vh, 32px);
+}
+body:not(.is-closing) .menu-sheet__meta button {
+  text-align: left;
+  border: 0;
+  background: none;
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(13, 13, 13, 0.7);
+  padding: 14px 0;
+  min-height: 44px;
+  border-bottom: 1px solid rgba(13, 13, 13, 0.12);
+  cursor: pointer;
+  width: 100%;
+}
 body:not(.is-closing) .menu-sheet__brand-default { display: inline-flex; }
 body:not(.is-closing) .menu-sheet__head {
   flex-wrap: wrap;
@@ -1770,85 +1791,363 @@ body:not(.is-closing) .menu-sheet__chapter {
    14 · Review
    -------------------------------------------------------------------------- */
 
-.review { align-content: start; max-width: 1120px; }
-.review__masthead { border-bottom: 1px solid var(--fg); padding-bottom: 22px; }
+/* Response-record folio — participant register, not an admin export */
+.review {
+  align-content: start;
+  width: min(100%, 1180px);
+  max-width: none;
+  margin-inline: auto;
+  padding-bottom: clamp(48px, 8vh, 96px);
+}
+.review__masthead {
+  border-bottom: 1px solid var(--line);
+  padding-bottom: clamp(28px, 4vh, 40px);
+  margin-bottom: 0;
+}
 .review__title {
   font-family: var(--serif);
-  font-size: clamp(2rem, 4vw, 3.1rem);
-  line-height: 1.05;
+  font-size: clamp(1.65rem, 2.8vw, 2.25rem);
+  line-height: 1.1;
+  font-weight: 400;
+  margin: 0;
 }
-/* Her mark stands where her name was set. Held to 168px because the file only
-   carries 351px of ink, which is exactly two device pixels per point at that
-   width and nothing to spare. */
 .review__client {
-  margin-top: clamp(14px, 2vh, 20px);
+  margin: clamp(18px, 2.4vh, 26px) 0 0;
 }
 .mark {
   display: block;
-  width: 168px;
-  max-width: 60%;
-  height: auto;
+  width: auto;
+  height: 44px;
+  max-width: 56px;
+  object-fit: contain;
 }
-.review__stamp {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px 26px;
-  margin-top: 20px;
+.review__label {
+  margin: clamp(22px, 3vh, 32px) 0 0;
+  font-family: var(--mono);
   font-size: 10px;
-  letter-spacing: 0.16em;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--fg);
+}
+.review__prepared,
+.review__date,
+.review__count {
+  margin: 10px 0 0;
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--fg-soft);
 }
+.review__lede {
+  margin: clamp(18px, 2.6vh, 26px) 0 0;
+  font-family: var(--serif);
+  font-size: clamp(1.02rem, 1.35vw, 1.15rem);
+  line-height: 1.55;
+  color: var(--fg-soft);
+  max-width: 36em;
+}
 
-.review__section { margin-top: clamp(40px, 6vh, 72px); }
+.review__section {
+  margin-top: clamp(56px, 9vh, 96px);
+  padding-top: clamp(8px, 1.2vh, 16px);
+}
+.review__section + .review__section {
+  border-top: 1px solid var(--line-faint);
+}
 .review__section-head {
   display: flex;
-  align-items: baseline;
-  gap: 16px;
-  border-bottom: 1px solid var(--line);
-  padding-bottom: 10px;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
+  margin-bottom: clamp(18px, 2.5vh, 28px);
 }
 .review__section-numeral {
   font-family: var(--serif);
   font-size: 0.95rem;
   color: var(--fg-soft);
-  min-width: 2.2em;
+  letter-spacing: 0.04em;
 }
 .review__section-title {
   font-family: var(--serif);
-  font-size: clamp(1.2rem, 1.9vw, 1.55rem);
+  font-size: clamp(1.2rem, 1.9vw, 1.5rem);
   font-weight: 400;
+  margin: 0;
 }
-
-.entry { padding: clamp(20px, 3vh, 30px) 0; border-bottom: 1px solid var(--line-faint); }
-@media (min-width: 860px) {
-  .entry { display: grid; grid-template-columns: 4.5em minmax(0, 1fr) auto; column-gap: 26px; align-items: start; }
-}
-.entry__n {
-  font-size: 10px;
-  letter-spacing: 0.14em;
+.review__section-count {
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 0.16em;
   text-transform: uppercase;
   color: var(--fg-soft);
-  padding-top: 6px;
+  opacity: 0.75;
+}
+.review__section-body { min-width: 0; }
+
+@media (min-width: 1024px) {
+  .review__section {
+    display: grid;
+    grid-template-columns: minmax(9.5rem, 13rem) minmax(0, 1fr);
+    column-gap: clamp(36px, 5vw, 72px);
+    align-items: start;
+  }
+  .review__section-head {
+    position: sticky;
+    top: calc(var(--chrome-h) + 16px);
+    margin-bottom: 0;
+    padding-top: 4px;
+  }
+}
+
+.entry {
+  padding: 0 0 14px;
+  margin: 0 0 14px;
+  border-bottom: 1px solid var(--line-faint);
+}
+.entry:last-child {
+  border-bottom: 0;
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+.entry__n {
+  margin: 0 0 8px;
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--fg-soft);
 }
 .entry__q {
   font-family: var(--serif);
-  font-size: clamp(1.05rem, 1.4vw, 1.22rem);
-  line-height: 1.4;
+  font-size: clamp(0.95rem, 1.15vw, 1.05rem);
+  line-height: 1.45;
+  color: var(--fg-soft);
+  margin: 0;
 }
 .entry__a {
   font-family: var(--serif);
-  font-size: 1.02rem;
-  line-height: 1.75;
-  color: var(--fg-soft);
-  margin-top: 10px;
+  font-size: clamp(1.08rem, 1.35vw, 1.22rem);
+  line-height: 1.8;
+  color: var(--fg, #171715);
+  margin: 12px 0 0;
   white-space: pre-wrap;
 }
-.entry__a--empty { font-style: italic; opacity: 0.65; }
-.entry__edit { justify-self: end; }
-@media (max-width: 859px) {
-  .entry__n { padding-top: 0; margin-bottom: 8px; }
-  .entry__edit { display: inline-block; margin-top: 10px; }
+.entry__a--empty {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  font-style: normal;
+  line-height: 1.5;
+  color: var(--fg-soft);
+  opacity: 0.55;
+}
+.entry__edit {
+  display: inline-block;
+  margin-top: 12px;
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.review__foot {
+  margin-top: clamp(56px, 9vh, 96px);
+  padding-top: clamp(22px, 3vh, 32px);
+  border-top: 1px solid var(--line);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 28px;
+  align-items: center;
+}
+.review__foot .action,
+.review__foot .link {
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+}
+.review__privacy-note {
+  margin: 18px 0 0;
+  max-width: 42em;
+  font-family: var(--serif);
+  font-size: 0.98rem;
+  line-height: 1.65;
+  color: var(--fg-soft);
+}
+.review__privacy-note a {
+  color: inherit;
+}
+
+/* --------------------------------------------------------------------------
+   14b · Info sheet · About / FAQ / Privacy summary
+   -------------------------------------------------------------------------- */
+
+.info-sheet {
+  position: fixed;
+  inset: 0;
+  z-index: 95;
+  display: flex;
+  justify-content: flex-end;
+  background: rgba(13, 13, 13, 0.34);
+}
+.info-sheet[hidden] { display: none !important; }
+.info-sheet__panel {
+  width: 42vw;
+  max-width: 32rem;
+  height: 100%;
+  background: var(--paper, #FBF9F5);
+  color: var(--ink, #171715);
+  padding: 22px clamp(20px, 4vw, 32px) 36px;
+  overflow: auto;
+  box-shadow: -12px 0 40px rgba(13, 13, 13, 0.18);
+  display: flex;
+  flex-direction: column;
+}
+@media (max-width: 900px) {
+  .info-sheet__panel { width: 58vw; max-width: none; }
+}
+@media (max-width: 720px) {
+  .info-sheet__panel { width: 90vw; }
+}
+.info-sheet__head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 22px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid rgba(13, 13, 13, 0.12);
+}
+.info-sheet__title {
+  font-family: var(--serif);
+  font-size: clamp(1.45rem, 2.4vw, 1.85rem);
+  font-weight: 400;
+  line-height: 1.15;
+  margin: 0;
+}
+.info-sheet__close {
+  border: 0;
+  background: none;
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(13, 13, 13, 0.55);
+  cursor: pointer;
+  min-width: 44px;
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 0;
+}
+.info-sheet__body {
+  font-family: var(--serif);
+  font-size: 1.05rem;
+  line-height: 1.7;
+}
+.info-sheet__body p { margin: 0 0 1em; }
+.info-sheet__body a {
+  color: inherit;
+  text-underline-offset: 0.15em;
+}
+.info-sheet__more {
+  margin-top: 28px;
+  padding-top: 18px;
+  border-top: 1px solid rgba(13, 13, 13, 0.12);
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+.info-sheet__contact {
+  margin-top: 22px;
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+.info-faq {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+.info-faq details {
+  border-bottom: 1px solid rgba(13, 13, 13, 0.12);
+  padding: 4px 0;
+}
+.info-faq summary {
+  font-family: var(--serif);
+  font-size: 1.08rem;
+  line-height: 1.4;
+  cursor: pointer;
+  list-style: none;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  padding: 12px 0;
+}
+.info-faq summary::-webkit-details-marker { display: none; }
+.info-faq summary::before {
+  content: "+";
+  font-family: var(--mono);
+  font-size: 12px;
+  margin-right: 12px;
+  color: rgba(13, 13, 13, 0.45);
+}
+.info-faq details[open] summary::before { content: "–"; }
+.info-faq__a {
+  padding: 0 0 16px 1.5rem;
+  color: rgba(13, 13, 13, 0.78);
+}
+.info-faq__a p { margin: 0 0 0.8em; }
+.info-faq__a p:last-child { margin-bottom: 0; }
+
+body.info-open { overflow: hidden; touch-action: none; }
+
+.send__consent {
+  margin-top: clamp(28px, 5vh, 44px);
+  padding-top: 22px;
+  border-top: 1px solid var(--line, rgba(13, 13, 13, 0.12));
+}
+.send__consent-row {
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+}
+.send__consent input {
+  width: 20px;
+  height: 20px;
+  margin-top: 2px;
+  flex: 0 0 auto;
+  accent-color: var(--ink, #171715);
+}
+.send__consent-label {
+  font-family: var(--serif);
+  font-size: 1.05rem;
+  line-height: 1.5;
+  cursor: pointer;
+}
+.send__consent-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 22px;
+  margin: 14px 0 0 34px;
+}
+.send__consent-links button,
+.send__consent-links a {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--fg-soft);
+  background: none;
+  border: 0;
+  padding: 10px 0;
+  min-height: 44px;
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 0.18em;
 }
 
 /* --------------------------------------------------------------------------
@@ -1893,12 +2192,8 @@ body.tone-dark .toast { background: var(--paper); color: var(--ink); }
    -------------------------------------------------------------------------- */
 
 @media (max-width: 640px) {
-  :root { --chrome-h: 52px; }
-
+  /* --chrome-h and .menu-btn visibility live with SS 6.7 (§21 / §23). */
   .chrome-top__place { display: none; }
-  .brand__type { display: none; }
-  .brand__mark { width: 24px; height: 24px; }
-  .menu-btn { display: inline-flex; }
   .chrome-top__row { align-items: center; padding-bottom: 12px; }
 
   .panel { padding-top: 32px; padding-bottom: 40px; }
@@ -1906,9 +2201,6 @@ body.tone-dark .toast { background: var(--paper); color: var(--ink); }
   .nav { flex-wrap: wrap; row-gap: 4px; padding: 8px 0 12px; }
   .nav__advance { width: 100%; justify-content: space-between; }
   .nav__utility { width: 100%; justify-content: flex-start; gap: 0 18px; }
-  /* Language + volver live in the hamburger on small screens. */
-  .nav__utility .lang,
-  .nav__utility #to-beginning { display: none; }
   .action { flex: 0 0 auto; padding: 15px 26px; }
   .link { padding: 12px 4px; margin-left: -4px; }
 
@@ -1955,64 +2247,100 @@ body.tone-dark .toast { background: var(--paper); color: var(--ink); }
     padding-bottom: 10pt;
     margin-bottom: 22pt;
   }
-  .p-title { font-size: 22pt; line-height: 1.05; margin: 0; font-weight: 400; }
+  .p-title { font-size: 16pt; line-height: 1.1; margin: 0; font-weight: 400; }
   .p-client { margin-top: 8pt; }
-  /* 34mm on the page. The supplied file is soft at this size, which is the one
-     honest limit of printing from this asset. See the README. */
-  .p-client .mark { width: 34mm; max-width: none; }
+  .p-client .mark {
+    width: auto;
+    height: 11mm;
+    max-width: 14mm;
+  }
+  .p-label {
+    font-family: var(--mono), monospace;
+    font-size: 7.5pt;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    margin-top: 12pt;
+  }
   .p-stamp {
-    font-family: var(--sans);
+    font-family: var(--mono), monospace;
     font-size: 7.5pt;
     letter-spacing: 0.12em;
     text-transform: uppercase;
-    margin-top: 12pt;
+    margin-top: 8pt;
     display: flex;
-    gap: 22pt;
-    flex-wrap: wrap;
+    flex-direction: column;
+    gap: 3pt;
+  }
+  .p-lede {
+    font-family: var(--serif);
+    font-size: 10pt;
+    line-height: 1.45;
+    margin-top: 10pt;
+    color: #444;
   }
 
-  .p-section { margin-top: 20pt; break-inside: auto; }
+  .p-section {
+    margin-top: 22pt;
+    break-inside: auto;
+    page-break-before: auto;
+  }
+  .p-section + .p-section {
+    page-break-before: always;
+    break-before: page;
+  }
   .p-section-head {
     border-bottom: 0.5pt solid #000;
     padding-bottom: 5pt;
-    margin-bottom: 6pt;
+    margin-bottom: 8pt;
     break-after: avoid;
     page-break-after: avoid;
   }
-  .p-section-title { font-size: 13pt; font-weight: 400; margin: 0; }
+  .p-section-title { font-size: 12pt; font-weight: 400; margin: 2pt 0 0; }
   .p-section-numeral {
-    font-family: var(--sans);
-    font-size: 7.5pt;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
+    font-family: var(--serif);
+    font-size: 10pt;
     color: #444;
     display: block;
-    margin-bottom: 3pt;
+  }
+  .p-section-count {
+    font-family: var(--mono), monospace;
+    font-size: 7pt;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #666;
+    margin-top: 3pt;
   }
 
   .p-entry {
     break-inside: avoid;
     page-break-inside: avoid;
-    padding: 9pt 0;
-    border-bottom: 0.35pt solid rgba(0, 0, 0, 0.22);
+    padding: 7pt 0;
+    border-bottom: 0.35pt solid rgba(0, 0, 0, 0.18);
   }
-  .p-q { font-size: 11pt; line-height: 1.32; margin: 0; }
+  .p-q { font-size: 9.5pt; line-height: 1.35; margin: 0; color: #555; }
   .p-n {
-    font-family: var(--sans);
+    font-family: var(--mono), monospace;
+    font-size: 7pt;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #666;
+    margin: 0 0 3pt;
+  }
+  .p-a {
+    font-size: 11pt;
+    line-height: 1.65;
+    margin-top: 5pt;
+    white-space: pre-wrap;
+    color: #111;
+  }
+  .p-a--empty {
+    font-family: var(--mono), monospace;
+    font-style: normal;
     font-size: 7.5pt;
     letter-spacing: 0.12em;
     text-transform: uppercase;
-    color: #555;
-    margin-bottom: 3pt;
+    color: #888;
   }
-  .p-a {
-    font-size: 10.5pt;
-    line-height: 1.6;
-    margin-top: 5pt;
-    white-space: pre-wrap;
-    color: #1a1a1a;
-  }
-  .p-a--empty { font-style: italic; color: #777; }
 
   .p-foot {
     margin-top: 26pt;
@@ -2070,20 +2398,13 @@ body.tone-dark .toast { background: var(--paper); color: var(--ink); }
 .question__prompt    { font-size: clamp(1.85rem, 3.9vw, 3.2rem); }
 
 
-/* -- Brand lockup (official logomark) ------------------------------------ */
+/* -- Brand lockup structure (size/filter live in §21 · SS 6.7) ------------ */
 .brand {
   display: inline-flex;
   align-items: center;
   gap: 10px;
   min-width: 0;
   margin: 0;
-}
-.brand__mark {
-  display: block;
-  width: 22px;
-  height: 22px;
-  object-fit: contain;
-  flex: 0 0 auto;
 }
 .brand__type {
   font-family: var(--serif);
@@ -2105,11 +2426,14 @@ body.tone-dark .brand__type { color: rgba(244, 241, 236, 0.94); }
   padding: 0;
   border: 0;
   background: none;
+  flex: 0 0 auto;
+  flex-shrink: 0;
   flex-direction: column;
   align-items: flex-end;
   justify-content: center;
   gap: 5px;
   cursor: pointer;
+  z-index: 2;
 }
 .menu-btn span {
   display: block;
@@ -2129,8 +2453,10 @@ body.tone-dark .menu-btn span { background: rgba(244, 241, 236, 0.55); }
   justify-content: flex-end;
 }
 .menu-sheet[hidden] { display: none !important; }
+/* Responsive drawer ladder — always a right panel with a visible page strip */
 .menu-sheet__panel {
-  width: min(78%, 280px);
+  width: 42vw; /* desktop / wide landscape · 38–44vw */
+  max-width: none;
   height: 100%;
   background: var(--paper, #FBF9F5);
   padding: 18px 20px 28px;
@@ -2138,6 +2464,17 @@ body.tone-dark .menu-btn span { background: rgba(244, 241, 236, 0.55); }
   flex-direction: column;
   box-shadow: -12px 0 40px rgba(13, 13, 13, 0.18);
   overflow: auto;
+}
+@media (max-width: 900px) {
+  .menu-sheet__panel {
+    width: 58vw; /* tablet · 52–62vw */
+  }
+}
+@media (max-width: 720px) {
+  .menu-sheet__panel {
+    width: 90vw; /* mobile · 88–92vw, leaves a page strip */
+    max-width: none;
+  }
 }
 .menu-sheet__head {
   display: flex;
@@ -2155,6 +2492,11 @@ body.tone-dark .menu-btn span { background: rgba(244, 241, 236, 0.55); }
   color: rgba(13, 13, 13, 0.55);
   cursor: pointer;
   padding: 8px 0;
+  min-width: 44px;
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-end;
 }
 .menu-sheet__chapter {
   font-family: var(--serif);
@@ -2210,6 +2552,7 @@ body.tone-dark .menu-btn span { background: rgba(244, 241, 236, 0.55); }
   text-transform: uppercase;
   color: rgba(13, 13, 13, 0.7);
   padding: 14px 0;
+  min-height: 44px;
   border-bottom: 1px solid rgba(13, 13, 13, 0.12);
   cursor: pointer;
 }
@@ -2294,15 +2637,6 @@ body.tone-dark .menu-btn span { background: rgba(244, 241, 236, 0.55); }
 
 .mark { filter: brightness(0); }
 
-/* -- Legacy mark sizing (review/print only; cover no longer uses title mark) */
-
-.mark--title {
-  width: clamp(148px, 17vw, 236px);
-  max-width: 54%;
-  filter: brightness(0) invert(1);
-  opacity: 0.94;
-}
-
 /* -- The rail ------------------------------------------------------------ */
 /* Every cover now resolves onto a third row. The credit used to be pinned to
    the viewport, which put it in the same corner as Continue on one side and
@@ -2348,11 +2682,8 @@ body.tone-dark .menu-btn span { background: rgba(244, 241, 236, 0.55); }
   color: rgba(244, 241, 236, 0.74);
 }
 .film .film__rail .film__credit .sep { opacity: 0.55; }
-.film__aperture { color: var(--accent); display: inline-flex; flex: 0 0 auto; }
-.film__aperture svg { display: block; }
 
 @media (max-width: 760px) {
-  .mark--title { max-width: 74%; width: 190px; }
   .film__rail { flex-direction: column; align-items: flex-start; gap: 9px; }
   .film .film__rail .film__credit { text-align: left; }
 }
@@ -2378,8 +2709,7 @@ body.tone-dark .menu-btn span { background: rgba(244, 241, 236, 0.55); }
       rgba(13, 13, 13, 0) 58%),
     linear-gradient(to bottom,
       rgba(13, 13, 13, var(--scrim-head)) 0%,
-      rgba(13, 13, 13, 0) 21%),
-    linear-gradient(rgba(13, 13, 13, 0.17), rgba(13, 13, 13, 0.17));
+      rgba(13, 13, 13, 0) 21%);
 }
 
 @media (max-width: 899px) {
@@ -2391,8 +2721,7 @@ body.tone-dark .menu-btn span { background: rgba(244, 241, 236, 0.55); }
         rgba(13, 13, 13, calc(var(--scrim-side) * 0.32)) 100%),
       linear-gradient(to bottom,
         rgba(13, 13, 13, var(--scrim-head)) 0%,
-        rgba(13, 13, 13, 0) 22%),
-      linear-gradient(rgba(13, 13, 13, 0.17), rgba(13, 13, 13, 0.17));
+        rgba(13, 13, 13, 0) 22%);
   }
 }
 
@@ -2403,13 +2732,20 @@ body.tone-dark .menu-btn span { background: rgba(244, 241, 236, 0.55); }
 .rule--short { background: var(--accent); opacity: 1; }
 
 /* -- The two documents --------------------------------------------------- */
-/* The review and the print are letterhead, so the mark keeps its size there
-   and the crop of the head is set by the rule beneath it, not by the image. */
-
-.review__client .mark { width: 186px; }
+/* Folio mark stays a quiet aperture — never a letterhead banner. */
+.review__client .mark {
+  width: auto;
+  height: 44px;
+  max-width: 56px;
+  filter: brightness(0);
+}
 
 @media print {
-  .chrome__mark, .mark--title { display: none !important; }
+  .brand__mark { display: none !important; }
+  .menu-btn,
+  .menu-sheet,
+  .entry__edit,
+  .review__foot { display: none !important; }
 }
 /* --------------------------------------------------------------------------
    20 · The sheet
@@ -2427,13 +2763,9 @@ body.tone-dark .menu-btn span { background: rgba(244, 241, 236, 0.55); }
    grows to carry it. */
 
 :root { --chrome-h: 70px; }
-.chrome__mark { height: 22px; opacity: 0.94; }
-body.tone-dark .chrome__mark,
-body.is-film .chrome__mark { opacity: 0.9; }
 
 @media (max-width: 640px) {
   :root { --chrome-h: 60px; }
-  .chrome__mark { height: 18px; }
 }
 
 /* -- Raking light -------------------------------------------------------- */
@@ -2610,14 +2942,138 @@ body.tone-light .chrome--bottom {
 /* Closing goes single column, held to the quiet left of the frame. */
 @media (min-width: 1000px) {
   .film--closing .film__body { max-width: min(60ch, 50vw); }
-  .film--closing .closing__body { grid-template-columns: minmax(0, 1fr); column-gap: 0; }
-  .film--closing .closing__body > .prose { grid-column: 1; grid-row: auto; }
+
 }
-.film--closing .closing__lede  { font-size: clamp(2rem, 3.6vw, 2.95rem); }
-.film--closing .closing__three { font-size: clamp(1.3rem, 1.9vw, 1.62rem); }
-.film--closing .closing__body  { gap: clamp(16px, 2.2vh, 26px); }
+
 .film--closing .prose p        { font-size: 1.02rem; line-height: 1.62; }
 .film--closing .actions-row    { margin-top: clamp(20px, 3vh, 34px); }
+/* --------------------------------------------------------------------------
+   21 · Brand lockup · El Retrato SS 6.7
+   The lockup is the anchor of the chrome: the official logomark and the
+   wordmark breathing together on one baseline, never compressed. The size
+   ladder is height driven first, because a short window is what actually
+   crowds the head, and width driven second for tablet and phone.
+   -------------------------------------------------------------------------- */
+
+.brand { align-items: baseline; gap: 12px; }
+
+.brand__mark {
+  display: block;
+  width: auto;
+  height: 56px;
+  max-width: 360px;
+  object-fit: contain;
+  flex: 0 0 auto;
+  opacity: 0.96;
+  align-self: center;
+}
+
+/* Film mode applies no colour filter. The asset ships cream and stays cream.
+   On paper the same asset is forced to the true negro of the system, which is
+   a tone correction for a light ground, not a recolour of the brand. */
+body.is-film .brand__mark,
+body.tone-dark .brand__mark,
+body.is-title .brand__mark {
+  width: auto;
+  height: 56px;
+  filter: none;
+  opacity: 0.96;
+}
+body:not(.is-film):not(.tone-dark):not(.is-title) .brand__mark {
+  filter: brightness(0);
+}
+
+/* Height driven first. */
+@media (max-height: 800px) {
+  .brand__mark,
+  body.is-film .brand__mark,
+  body.tone-dark .brand__mark,
+  body.is-title .brand__mark { height: 50px; }
+}
+@media (max-height: 680px) {
+  .brand__mark,
+  body.is-film .brand__mark,
+  body.tone-dark .brand__mark,
+  body.is-title .brand__mark { height: 44px; }
+}
+
+/* Width driven second, so a tablet or phone always wins over the height
+   ladder above rather than the two contradicting each other. */
+@media (max-width: 1024px) {
+  .brand__mark,
+  body.is-film .brand__mark,
+  body.tone-dark .brand__mark,
+  body.is-title .brand__mark { height: 46px; }
+}
+@media (max-width: 720px) {
+  .brand__mark,
+  body.is-film .brand__mark,
+  body.tone-dark .brand__mark,
+  body.is-title .brand__mark { height: 40px; }
+}
+
+/* The head has to clear the lockup at every step of the ladder. */
+:root { --chrome-h: 92px; }
+@media (max-height: 800px) { :root { --chrome-h: 86px; } }
+@media (max-height: 680px) { :root { --chrome-h: 80px; } }
+@media (max-width: 1024px) { :root { --chrome-h: 82px; } }
+@media (max-width:  720px) { :root { --chrome-h: 74px; } }
+
+/* --------------------------------------------------------------------------
+   23 · Responsive chrome · hamburger (must follow §21 and .menu-btn base)
+   Cascade note: an earlier ≤640px show-rule was overridden when .menu-btn
+   { display: none } moved below it during the corrective package. This block
+   is the only place that reveals the trigger, and it sits after that base.
+   Tablet/mobile: mark + hamburger. Language + volver live in the menu.
+   -------------------------------------------------------------------------- */
+
+@media (max-width: 1024px) {
+  .menu-btn { display: inline-flex; }
+  .brand__type { display: none; }
+  .meta__left { min-width: 0; flex: 0 1 auto; }
+  .chrome-top__place { flex: 1 1 auto; justify-content: flex-end; }
+  /* Language + volver live in the hamburger on tablet/phone. */
+  .nav__utility .lang,
+  .nav__utility #to-beginning { display: none; }
+}
+
+body.menu-open {
+  overflow: hidden;
+  touch-action: none;
+}
+
+/* --------------------------------------------------------------------------
+   22 · Closing letter composition · El Retrato SS 16.7
+   Photograph on the right half, letter in the left column. The only permitted
+   interventions are two localized pools: one protecting the letter column,
+   one protecting the colophon. Never a uniform veil, never a global overlay.
+   -------------------------------------------------------------------------- */
+
+body.is-closing .backdrop__scrim {
+  background-image:
+    radial-gradient(58% 82% at 0% 46%,
+      rgba(13, 13, 13, 0.72) 0%,
+      rgba(13, 13, 13, 0.34) 46%,
+      rgba(13, 13, 13, 0) 74%),
+    radial-gradient(86% 42% at 22% 100%,
+      rgba(13, 13, 13, 0.58) 0%,
+      rgba(13, 13, 13, 0.2) 54%,
+      rgba(13, 13, 13, 0) 80%);
+}
+
+@media (max-width: 899px) {
+  body.is-closing .backdrop__scrim {
+    background-image:
+      radial-gradient(120% 62% at 50% 100%,
+        rgba(13, 13, 13, 0.76) 0%,
+        rgba(13, 13, 13, 0.38) 52%,
+        rgba(13, 13, 13, 0.08) 82%),
+      radial-gradient(120% 36% at 50% 0%,
+        rgba(13, 13, 13, 0.5) 0%,
+        rgba(13, 13, 13, 0) 78%);
+  }
+}
+
 </style>
 </head>
 <body class="tone-light">
@@ -2681,7 +3137,7 @@ body.tone-light .chrome--bottom {
         <button type="button" data-act="print" id="menu-print">Print</button>
         <button type="button" id="menu-beginning-closing">Beginning</button>
       </div>
-      <div class="menu-sheet__meta" id="menu-meta" hidden>
+      <div class="menu-sheet__meta" id="menu-meta">
         <button type="button" data-act="about" id="menu-about">About</button>
         <button type="button" data-act="faq" id="menu-faq">FAQ</button>
         <button type="button" data-act="privacy" id="menu-privacy">Privacy</button>
@@ -2693,14 +3149,27 @@ body.tone-light .chrome--bottom {
           <button type="button" data-lang="en">EN</button>
         </div>
         <div class="menu-sheet__social">
-          <a href="https://instagram.com/" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+          <a href="https://www.luis-gilberto.com/studio" target="_blank" rel="noopener noreferrer" aria-label="LG Studio">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3a14 14 0 0 1 0 18"/><path d="M12 3a14 14 0 0 0 0 18"/></svg>
           </a>
-          <a href="mailto:hello@lgstudio.com" aria-label="Email">
+          <a href="https://www.linkedin.com/in/luisgilberto00" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+            <svg class="menu-sheet__icon--fill" viewBox="0 0 24 24" aria-hidden="true"><path d="M6.4 9.5H3.2V20h3.2V9.5zM4.8 8.2a1.85 1.85 0 1 0 0-3.7 1.85 1.85 0 0 0 0 3.7zM20.8 20h-3.2v-5.2c0-1.24-.02-2.83-1.73-2.83-1.73 0-2 1.35-2 2.74V20H10.5V9.5h3.07v1.43h.04c.43-.81 1.47-1.66 3.03-1.66 3.24 0 3.84 2.13 3.84 4.9V20z"/></svg>
+          </a>
+          <a href="mailto:luis@strategyiq.com" aria-label="Email">
             <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M4 7l8 6 8-6"/></svg>
           </a>
         </div>
       </div>
+    </div>
+  </div>
+
+  <div class="info-sheet" id="info-sheet" role="dialog" aria-modal="true" aria-labelledby="info-title" hidden>
+    <div class="info-sheet__panel">
+      <div class="info-sheet__head">
+        <h1 class="info-sheet__title" id="info-title"></h1>
+        <button type="button" class="info-sheet__close" id="info-close" aria-label="Close">Close</button>
+      </div>
+      <div class="info-sheet__body" id="info-body"></div>
     </div>
   </div>
 
@@ -2852,9 +3321,15 @@ body.tone-light .chrome--bottom {
     print:       { en: 'Print', es: 'Imprimir' },
     returnClose: { en: 'Return to closing', es: 'Volver al cierre' },
     editResp:    { en: 'Edit response', es: 'Editar respuesta' },
-    notAnswered: { en: 'Not answered', es: 'Sin contestar' },
+    notAnswered: { en: 'No response', es: 'Sin respuesta' },
     preparedFor: { en: 'Prepared for', es: 'Preparado para' },
     prepared:    { en: 'Prepared', es: 'Preparado' },
+    responseRecord: { en: 'Response record', es: 'Registro de respuestas' },
+    wordsGathered: {
+      en: 'Your words, gathered as you left them.',
+      es: 'Tus palabras, reunidas tal como las dejaste.'
+    },
+    chapterAnswered: { en: '{n} of {total} answered', es: '{n} de {total} contestadas' },
     enclosures:  { en: 'Enclosures', es: 'Anexos' },
     nothingSel:  { en: 'Nothing selected', es: 'Nada seleccionado' },
 
@@ -2871,19 +3346,37 @@ body.tone-light .chrome--bottom {
     exportBlock: { en: 'Export was blocked by the browser.', es: 'El navegador bloqueó la exportación.' },
     /* Production submission. Local answers are never discarded on failure. */
     submitFailed: {
-      en: 'Could not send to the studio. Nothing you wrote was lost. You can retry, or export a copy.',
-      es: 'No se pudo enviar al estudio. No se perdió nada de lo que escribiste. Puedes reintentar, o exportar una copia.'
+      en: 'Could not send to LG Studio. Nothing you wrote was lost. You can retry, or export a copy.',
+      es: 'No se pudo enviar a LG Studio. No se perdió nada de lo que escribiste. Puedes reintentar, o exportar una copia.'
     },
     retrySubmit: { en: 'Retry sending', es: 'Reintentar el envío' },
     downloadCopy: { en: 'Download a copy', es: 'Descargar una copia' },
-    aboutRetrato: { en: 'About El Retrato', es: 'Acerca de El Retrato' },
+    aboutRetrato: { en: 'About El Retrato', es: 'Sobre El Retrato' },
     faq: { en: 'FAQ', es: 'Preguntas frecuentes' },
-    privacy: { en: 'Privacy policy', es: 'Política de privacidad' },
-    closingRoom: { en: 'Closing', es: 'Cierre' },
-    infoSoon: {
-      en: 'That page is not connected yet.',
-      es: 'Esa página todavía no está conectada.'
+    privacy: { en: 'Privacy', es: 'Privacidad' },
+    privacyFull: { en: 'Read the full Privacy Policy', es: 'Leer la Política de Privacidad completa' },
+    privacyTitle: {
+      en: 'Your words remain yours',
+      es: 'Tus palabras permanecen tuyas'
     },
+    learnMoreRetrato: {
+      en: 'Learn more about El Retrato at LG Studio',
+      es: 'Conoce más sobre El Retrato en LG Studio'
+    },
+    consentLabel: {
+      en: 'I have read how LG Studio will use and protect my responses.',
+      es: 'He leído cómo LG Studio utilizará y protegerá mis respuestas.'
+    },
+    consentRequired: {
+      en: 'Confirm the privacy acknowledgment before sending your responses to LG Studio.',
+      es: 'Confirma el aviso de privacidad antes de enviar tus respuestas a LG Studio.'
+    },
+    reviewPrivacyNote: {
+      en: 'Your original responses are deleted from Supabase within a maximum of 90 days. Fragments needed to support your reading may remain within your strategic deliverables and StrategyIQ project record.',
+      es: 'Tus respuestas originales se eliminan de Supabase en un plazo máximo de 90 días. Los fragmentos necesarios para sostener tu lectura pueden permanecer dentro de tus entregables estratégicos y del registro de tu proyecto en StrategyIQ.'
+    },
+    closingRoom: { en: 'Closing', es: 'Cierre' },
+    infoClose: { en: 'Close', es: 'Cerrar' },
     /* The Portrait · structural labels only. Never interpret fragment text. */
     portraitHeld: { en: 'From what you wrote', es: 'De lo que escribiste' },
     portraitArchive: { en: 'Archive', es: 'Archivo' },
@@ -3561,8 +4054,8 @@ body.tone-light .chrome--bottom {
       es: 'Tres cosas, cuando tengas una hora tranquila. Nada de esto necesita prepararse, y nada de esto necesita estar perfecto.'
     },
     sendNote: {
-      en: 'Files stay on your computer. This prototype does not send or store anything, it only shows what you selected. When the intake goes live, delivery connects here.',
-      es: 'Los archivos se quedan en tu computadora. Este prototipo no manda ni guarda nada, solo muestra lo que seleccionaste. Cuando esto entre en vivo, la entrega se conecta aquí.'
+      en: 'Selected file names stay listed here for now; file contents are not transmitted in this phase. Your written responses are sent privately to LG Studio when you finish.',
+      es: 'Por ahora solo se listan aquí los nombres de los archivos seleccionados; su contenido no se transmite en esta fase. Tus respuestas escritas se envían de forma privada a LG Studio cuando terminas.'
     },
     sendNext: {
       en: 'Three things, whenever you have a quiet hour. Nothing here needs to be prepared.',
@@ -3593,11 +4086,11 @@ body.tone-light .chrome--bottom {
     },
     closingError: {
       en: [
-        'I could not send them to the studio yet.',
+        'I could not send them to LG Studio yet.',
         'Nothing was lost. You can try again or save a copy before you leave.'
       ],
       es: [
-        'No pude enviarlas al estudio todavía.',
+        'No pude enviarlas a LG Studio todavía.',
         'No se perdió nada. Puedes intentarlo nuevamente o guardar una copia antes de salir.'
       ]
     },
@@ -3605,6 +4098,273 @@ body.tone-light .chrome--bottom {
     pairNote: {
       en: 'Long before either of us did this for a living.',
       es: 'Mucho antes de que esto fuera el trabajo de alguno de los dos.'
+    }
+  };
+
+  /* ------------------------------------------------------------------------
+     07b · About / FAQ / Privacy summary (in-experience)
+     ---------------------------------------------------------------------- */
+
+  var INFO = {
+    about: {
+      title: { en: 'About El Retrato', es: 'Sobre El Retrato' },
+      body: {
+        en: [
+          'El Retrato is an editorial system for discovering, reading, and framing a creative practice or engagement.',
+          'It can be used to see one’s own work more clearly or to open a more personal, thoughtful, and specific process with a client.',
+          'Responses remain exactly as written. When submitted, they are sent privately to LG Studio to support the preparation of a brief, reading, workspace, or strategic plan created for that practice, brand, or engagement.'
+        ],
+        es: [
+          'El Retrato es un sistema editorial para descubrir, leer y encuadrar una práctica o un encargo creativo.',
+          'Puede utilizarse para mirar con mayor claridad el trabajo propio o para abrir un proceso más personal, profundo y específico con un cliente.',
+          'Las respuestas permanecen tal como fueron escritas. Al enviarlas, pasan de forma privada a LG Studio para apoyar la preparación de un brief, una lectura, un workspace o un plan estratégico propio para esa práctica, marca o encargo.'
+        ]
+      }
+    },
+    privacy: {
+      title: { en: 'Your words remain yours', es: 'Tus palabras permanecen tuyas' },
+      body: {
+        en: [
+          'The responses you share in El Retrato are private.',
+          'LG Studio uses them only to understand and analyze your practice, brand, or creative engagement and to prepare a brief, reading, workspace, or strategic plan created for you.',
+          'LG Studio does not sell your responses, does not publish them, and does not share them with other clients, audiences, or advertisers.',
+          'Original responses are stored temporarily in Supabase for a maximum of 90 days from submission and are then deleted automatically.',
+          'LG Studio may use AI-assisted tools internally to organize or analyze the information, always under human review and only to prepare the requested work.',
+          'Some fragments may remain inside the strategic deliverables when needed to show the basis of a reading, recommendation, or decision.',
+          'Nothing private becomes public material by default.',
+          'Any use in a case study, testimonial, presentation, or publication requires prior express authorization.'
+        ],
+        es: [
+          'Las respuestas que compartes en El Retrato son privadas.',
+          'LG Studio las utiliza únicamente para comprender y analizar tu práctica, tu marca o tu encargo creativo y preparar un brief, una lectura, un workspace o un plan estratégico propio para ti.',
+          'LG Studio no vende tus respuestas, no las publica y no las comparte con otros clientes, audiencias ni anunciantes.',
+          'Las respuestas originales se almacenan temporalmente en Supabase durante un máximo de 90 días desde su envío y después se eliminan automáticamente.',
+          'LG Studio puede utilizar herramientas asistidas por inteligencia artificial como apoyo interno para organizar o analizar la información, siempre bajo revisión humana y únicamente para preparar el trabajo solicitado.',
+          'Algunos fragmentos pueden conservarse dentro de los entregables estratégicos cuando sean necesarios para mostrar el fundamento de una lectura, recomendación o decisión.',
+          'Nada privado se convierte en material público por defecto.',
+          'Cualquier uso en un caso de estudio, testimonio, presentación o publicación requiere autorización previa y expresa.'
+        ]
+      },
+      contact: 'luis@strategyiq.com'
+    },
+    faq: {
+      title: { en: 'FAQ', es: 'Preguntas frecuentes' },
+      items: [
+        {
+          q: {
+            en: 'What is El Retrato?',
+            es: '¿Qué es El Retrato?'
+          },
+          a: {
+            en: [
+              'El Retrato is an editorial system created by LG Studio for discovering, reading, and framing a creative practice or engagement.',
+              'It can be used to see one’s own work more clearly or to open a more personal and specific process with a client.'
+            ],
+            es: [
+              'El Retrato es un sistema editorial creado por LG Studio para descubrir, leer y encuadrar una práctica o un encargo creativo.',
+              'Puede utilizarse para mirar con mayor claridad el trabajo propio o para abrir un proceso más personal y específico con un cliente.'
+            ]
+          }
+        },
+        {
+          q: {
+            en: 'Do I have to answer every question?',
+            es: '¿Tengo que responder todas las preguntas?'
+          },
+          a: {
+            en: [
+              'No. You can answer only what makes sense for you.',
+              'Still, the more complete the journey, the more context LG Studio will have to understand your practice, brand, or creative engagement.'
+            ],
+            es: [
+              'No. Puedes responder únicamente aquello que tenga sentido para ti.',
+              'Sin embargo, cuanto más completo sea el recorrido, más contexto tendrá LG Studio para comprender tu práctica, tu marca o tu encargo creativo.'
+            ]
+          }
+        },
+        {
+          q: {
+            en: 'Can I save and continue later?',
+            es: '¿Puedo guardar y continuar después?'
+          },
+          a: {
+            en: [
+              'Yes. You can save your progress and return later from the same device and browser.'
+            ],
+            es: [
+              'Sí. Puedes guardar tu progreso y regresar más adelante desde el mismo dispositivo y navegador.'
+            ]
+          }
+        },
+        {
+          q: {
+            en: 'Can I change my answers?',
+            es: '¿Puedo cambiar mis respuestas?'
+          },
+          a: {
+            en: [
+              'Yes. You can return to earlier questions and edit your answers before sending them to LG Studio.',
+              'Once they have been sent, you can write to LG Studio if you need to correct any information.'
+            ],
+            es: [
+              'Sí. Puedes volver a las preguntas anteriores y editar tus respuestas antes de enviarlas a LG Studio.',
+              'Una vez enviadas, puedes escribir a LG Studio si necesitas corregir alguna información.'
+            ]
+          }
+        },
+        {
+          q: {
+            en: 'What happens when I send my responses?',
+            es: '¿Qué ocurre cuando envío mis respuestas?'
+          },
+          a: {
+            en: [
+              'Your responses are sent privately to LG Studio and stored temporarily in Supabase.',
+              'LG Studio uses them to understand your practice, brand, or creative engagement and to prepare a brief, reading, workspace, or strategic plan created for you.'
+            ],
+            es: [
+              'Tus respuestas se envían de forma privada a LG Studio y se almacenan temporalmente en Supabase.',
+              'LG Studio las utiliza para comprender tu práctica, tu marca o tu encargo creativo y preparar un brief, una lectura, un workspace o un plan estratégico propio para ti.'
+            ]
+          }
+        },
+        {
+          q: {
+            en: 'Who can read my responses?',
+            es: '¿Quién puede leer mis respuestas?'
+          },
+          a: {
+            en: [
+              'Access is limited to LG Studio and the technology providers needed to host, transmit, store, and protect the information.',
+              'Your responses are not visible to other participants or other clients.'
+            ],
+            es: [
+              'El acceso está limitado a LG Studio y a los proveedores tecnológicos necesarios para alojar, transmitir, almacenar y proteger la información.',
+              'Tus respuestas no son visibles para otros participantes ni para otros clientes.'
+            ]
+          }
+        },
+        {
+          q: {
+            en: 'Will my responses be shared?',
+            es: '¿Se compartirán mis respuestas?'
+          },
+          a: {
+            en: [
+              'No.',
+              'LG Studio does not sell, publish, or share your responses with clients, audiences, advertisers, or other people for purposes unrelated to the work you requested.'
+            ],
+            es: [
+              'No.',
+              'LG Studio no vende, publica ni comparte tus respuestas con clientes, audiencias, anunciantes u otras personas para fines ajenos al trabajo que solicitaste.'
+            ]
+          }
+        },
+        {
+          q: {
+            en: 'Are artificial intelligence tools used?',
+            es: '¿Se utilizan herramientas de inteligencia artificial?'
+          },
+          a: {
+            en: [
+              'LG Studio may use AI-assisted tools internally to organize or analyze your responses and prepare the requested work.',
+              'That process is subject to human review.',
+              'Your responses are not used to train public models or to produce work for other clients.'
+            ],
+            es: [
+              'LG Studio puede utilizar herramientas asistidas por inteligencia artificial como apoyo interno para organizar o analizar tus respuestas y preparar el trabajo solicitado.',
+              'Ese proceso está sujeto a revisión humana.',
+              'Tus respuestas no se utilizan para entrenar modelos públicos ni para producir trabajo destinado a otros clientes.'
+            ]
+          }
+        },
+        {
+          q: {
+            en: 'How long are my responses kept?',
+            es: '¿Durante cuánto tiempo se conservan mis respuestas?'
+          },
+          a: {
+            en: [
+              'Original responses stored in Supabase are retained for a maximum of 90 days from submission.',
+              'After that period, they are automatically deleted from the database.'
+            ],
+            es: [
+              'Las respuestas originales almacenadas en Supabase se conservan durante un máximo de 90 días desde su envío.',
+              'Después de ese período, se eliminan automáticamente de la base de datos.'
+            ]
+          }
+        },
+        {
+          q: {
+            en: 'Is any part of my responses kept after 90 days?',
+            es: '¿Se conserva alguna parte de mis respuestas después de 90 días?'
+          },
+          a: {
+            en: [
+              'Original responses are deleted from Supabase within a maximum of 90 days.',
+              'Some fragments may remain inside your brief, reading, workspace, or strategic plan when needed to show where an observation, recommendation, or decision comes from.',
+              'Those fragments form part of your own project record in StrategyIQ and are not used for other purposes.'
+            ],
+            es: [
+              'Las respuestas originales se eliminan de Supabase en un plazo máximo de 90 días.',
+              'Algunos fragmentos pueden permanecer dentro de tu brief, lectura, workspace o plan estratégico cuando sean necesarios para mostrar de dónde surge una observación, recomendación o decisión.',
+              'Esos fragmentos forman parte de tu propio registro de proyecto en StrategyIQ y no se utilizan para otros fines.'
+            ]
+          }
+        },
+        {
+          q: {
+            en: 'Can my responses appear in a case study?',
+            es: '¿Mis respuestas pueden aparecer en un caso de estudio?'
+          },
+          a: {
+            en: [
+              'Only with your prior express authorization.',
+              'LG Studio will not publish your responses or identifiable fragments without consulting you first and explaining exactly what content is proposed and where it will appear.',
+              'You may authorize it, request changes, or decline. Your decision does not affect the strategic work done for you.'
+            ],
+            es: [
+              'Solo con tu autorización previa.',
+              'LG Studio no publicará tus respuestas ni fragmentos identificables sin consultarte primero y explicarte exactamente qué contenido se propone utilizar y dónde aparecerá.',
+              'Puedes autorizarlo, solicitar cambios o rechazarlo. Tu decisión no afecta el trabajo estratégico realizado para ti.'
+            ]
+          }
+        },
+        {
+          q: {
+            en: 'Can I ask for earlier deletion?',
+            es: '¿Puedo pedir que se eliminen antes?'
+          },
+          a: {
+            en: [
+              'Yes.',
+              'You may request access, correction, or earlier deletion of your responses by writing to:',
+              'luis@strategyiq.com'
+            ],
+            es: [
+              'Sí.',
+              'Puedes solicitar acceso, corrección o eliminación anticipada de tus respuestas escribiendo a:',
+              'luis@strategyiq.com'
+            ]
+          }
+        },
+        {
+          q: {
+            en: 'Does El Retrato replace professional advice?',
+            es: '¿El Retrato sustituye asesoramiento profesional?'
+          },
+          a: {
+            en: [
+              'No.',
+              'El Retrato is a discovery and creative-framing experience. It does not constitute legal, financial, medical, or psychological advice.'
+            ],
+            es: [
+              'No.',
+              'El Retrato es una experiencia de descubrimiento y encuadre creativo. No constituye asesoramiento legal, financiero, médico ni psicológico.'
+            ]
+          }
+        }
+      ]
     }
   };
 
@@ -3850,6 +4610,11 @@ body.tone-light .chrome--bottom {
       return list.slice(0, 1);
     }
     if (cfg.stage === 'collection') {
+      /* SS 9.8 terminal branch: a fragment that could not be rendered whole
+         at both floors is withheld from the composition, never clipped. */
+      list = list.filter(function (f) {
+        return collectionDropped.indexOf(f.id) === -1;
+      });
       list = list.slice().sort(function (a, b) { return a.questionN - b.questionN; });
       return list.slice(0, cfg.maxFragments || 3);
     }
@@ -3886,6 +4651,8 @@ body.tone-light .chrome--bottom {
     /* null | pending | ok | failed */
     submissionStatus: null,
     submittedAt: null,
+    /* Required acknowledgment before final submission. Never case-study consent. */
+    privacyAcknowledged: false,
     /* The Portrait: exact phrases held in trust. Phase 1 = data only. */
     portrait: { version: 1, fragments: [] },
     /* Reading Line: which held rooms have been entered (names appear only then). */
@@ -3914,6 +4681,7 @@ body.tone-light .chrome--bottom {
       if (merged.submissionStatus !== 'pending' && merged.submissionStatus !== 'ok' &&
           merged.submissionStatus !== 'failed') merged.submissionStatus = null;
       if (merged.submittedAt != null && typeof merged.submittedAt !== 'string') merged.submittedAt = null;
+      merged.privacyAcknowledged = merged.privacyAcknowledged === true;
       merged.portrait = normalizePortrait(merged.portrait);
       merged.readingLine = normalizeReadingLine(merged.readingLine);
       if (!merged.orientation || typeof merged.orientation !== 'object') {
@@ -3984,6 +4752,10 @@ body.tone-light .chrome--bottom {
   var menuFoot = document.getElementById('menu-foot');
   var menuLangClosing = document.getElementById('menu-lang-closing');
   var menuRule = document.getElementById('menu-rule');
+  var infoSheet = document.getElementById('info-sheet');
+  var infoTitle = document.getElementById('info-title');
+  var infoBody = document.getElementById('info-body');
+  var infoClose = document.getElementById('info-close');
   var btnBack = document.getElementById('go-back');
   var btnNext = document.getElementById('go-next');
   var btnSaveLater = document.getElementById('save-later');
@@ -3996,6 +4768,7 @@ body.tone-light .chrome--bottom {
 
   var reviewMode = false;
   var toastTimer = null;
+  var infoKind = null;
 
   /* The foot is pinned to the window, so the app has to reserve exactly its
      height. That height is not a constant: the controls wrap onto a second
@@ -4060,17 +4833,9 @@ body.tone-light .chrome--bottom {
     return ' data-side="' + esc(frame && frame.side ? frame.side : 'left') + '"';
   }
 
-  /* The aperture. Six blades meeting in a circle: the master mark of the
-     system, reduced to the one size at which it still reads. */
-  var APERTURE =
-    '<span class="film__aperture" aria-hidden="true">' +
-    '<svg viewBox="0 0 200 200" width="11" height="11" fill="none" stroke="currentColor"' +
-    ' stroke-width="11" stroke-linecap="round" stroke-linejoin="round">' +
-    '<circle cx="100" cy="100" r="88"/>' +
-    '<path d="M100 12 L144 39 L144 100"/><path d="M100 12 L56 39 L56 100"/>' +
-    '<path d="M12 100 L56 127 L56 39"/><path d="M188 100 L144 127 L144 39"/>' +
-    '<path d="M100 188 L144 161 L144 100"/><path d="M100 188 L56 161 L56 100"/>' +
-    '</svg></span>';
+  /* No improvised mark exists in this runtime. El Retrato SS 05 and SS 11:
+     the only permitted mark is assets/images/sharnay-logomark.png. An
+     inline aperture SVG stood here and was removed. Do not reintroduce it. */
 
   /* The frame itself lives in the fixed backdrop, outside the panel. What the
      screen renders is the foot of the cover: one hairline, the description of
@@ -4335,7 +5100,52 @@ body.tone-light .chrome--bottom {
   function clientMark() {
     return '<img class="mark" src="' + esc(ENGAGEMENT.clientMark) + '"' +
       ' data-remote="' + esc(ENGAGEMENT.clientMarkRemote) + '"' +
-      ' alt="' + esc(ENGAGEMENT.client) + '" width="351" height="102">';
+      ' alt="' + esc(ENGAGEMENT.client) + '" width="267" height="270">';
+  }
+
+  function isPresented(el) {
+    if (!el || el.hidden) return false;
+    var style = window.getComputedStyle(el);
+    if (style.display === 'none' || style.visibility === 'hidden') return false;
+    /* Parent display:none still yields a non-none computed display on the child. */
+    return el.getClientRects().length > 0;
+  }
+
+  function syncMenuDuplicates() {
+    var screen = SCREENS[state.index];
+    var onClosing = !reviewMode && screen && screen.kind === 'closing';
+    var onReview = !!reviewMode;
+    var saveOnPage = isPresented(btnSaveLater);
+    var beginOnPage = isPresented(btnBeginning);
+    var colophonBegin = stage ? stage.querySelector('.closing-colophon__begin') : null;
+
+    if (menuSave) {
+      /* Never on Closing, response-record, or completed; also hide when the
+         page already exposes the same action. */
+      menuSave.hidden = !!(saveOnPage || onClosing || onReview || state.completed);
+    }
+    if (menuBeginning) {
+      menuBeginning.hidden = !!beginOnPage;
+    }
+    if (menuBeginningClosing) {
+      menuBeginningClosing.hidden = !!(isPresented(colophonBegin) || beginOnPage);
+    }
+
+    if (onClosing && stage) {
+      var pageHasAct = function (act) {
+        return isPresented(stage.querySelector('[data-act="' + act + '"]'));
+      };
+      if (menuRetry) {
+        menuRetry.hidden = closingSubmissionConfirmed() || pageHasAct('retry-submit');
+      }
+      if (menuReview) menuReview.hidden = pageHasAct('review');
+      if (menuExport) menuExport.hidden = pageHasAct('export');
+      if (menuPrint) menuPrint.hidden = pageHasAct('print');
+    } else if (!onClosing) {
+      if (menuReview) menuReview.hidden = false;
+      if (menuExport) menuExport.hidden = false;
+      if (menuPrint) menuPrint.hidden = false;
+    }
   }
 
   function bindField(root, q) {
@@ -4449,7 +5259,9 @@ body.tone-light .chrome--bottom {
           '<h1 class="letter__greeting">' + esc(ENGAGEMENT.salutation) + '</h1>' +
           '<div class="letter__body">' + bodyParas + '</div>' +
           '<div class="letter__signature">' +
+            '<p class="letter__signature-close">Tu hermano,</p>' +
             '<p class="letter__signature-name">' + esc(ENGAGEMENT.author) + '</p>' +
+            '<p class="letter__signature-alias">(El Chamako)</p>' +
             '<span class="letter__signature-tag">' + esc(ENGAGEMENT.studio) + '</span>' +
           '</div>' +
         '</section>' +
@@ -4557,6 +5369,20 @@ body.tone-light .chrome--bottom {
     html += '</div>';
 
     html += '<p class="aside-note send__note">' + esc(t(COPY.sendNote)) + '</p>';
+    html += '<div class="send__consent">' +
+      '<div class="send__consent-row">' +
+        '<input type="checkbox" id="privacy-consent" name="privacy-consent"' +
+          (state.privacyAcknowledged ? ' checked' : '') + '>' +
+        '<label class="send__consent-label" for="privacy-consent">' +
+          esc(t(UI.consentLabel)) +
+        '</label>' +
+      '</div>' +
+      '<div class="send__consent-links">' +
+        '<button type="button" data-act="faq">' + esc(t(UI.faq)) + '</button>' +
+        '<button type="button" data-act="privacy">' + esc(t(UI.privacy)) + '</button>' +
+        '<a href="privacy.html">' + esc(t(UI.privacyFull)) + '</a>' +
+      '</div>' +
+    '</div>';
     html += '</section>';
     return html;
   }
@@ -4617,6 +5443,8 @@ body.tone-light .chrome--bottom {
       html += '<div class="closing-letter__secondaries">' +
         '<button type="button" class="link" data-act="export">' + esc(t(UI.downloadCopy || UI.exportCopy)) + '</button>' +
         '<button type="button" class="link" data-act="print">' + esc(t(UI.printSave)) + '</button>' +
+        '<button type="button" class="link" data-act="privacy">' + esc(t(UI.privacy)) + '</button>' +
+        '<a class="link" href="privacy.html">' + esc(t(UI.privacyFull)) + '</a>' +
       '</div>';
     } else {
       html += '<h1 class="closing-letter__lede">' + esc(t(COPY.closingErrorLede)) + '</h1>';
@@ -4631,6 +5459,8 @@ body.tone-light .chrome--bottom {
         '<button type="button" class="link" data-act="review">' + esc(t(UI.reviewMine)) + '</button>' +
         '<button type="button" class="link" data-act="export">' + esc(t(UI.downloadCopy || UI.exportCopy)) + '</button>' +
         '<button type="button" class="link" data-act="print">' + esc(t(UI.printSave)) + '</button>' +
+        '<button type="button" class="link" data-act="privacy">' + esc(t(UI.privacy)) + '</button>' +
+        '<a class="link" href="privacy.html">' + esc(t(UI.privacyFull)) + '</a>' +
       '</div>';
     }
 
@@ -4785,6 +5615,62 @@ body.tone-light .chrome--bottom {
     }
   }
 
+  /* Collection · SS 9.8 length handling and terminal branch.
+     Floors first: font-size in 1px steps to 17px, then measure in 2ch steps
+     to 20ch. A fragment that still exceeds the field after both floors is
+     removed from the composition whole and the stage is resolved again with
+     what remains; below minFragments the stage is skipped entirely.
+     Participant text is never clipped, truncated, ellipsized, hyphenated or
+     partially rendered. Dropping a fragment whole is legal. Showing part of
+     one is not. */
+  var collectionDropped = [];
+
+  function resetCollectionFit() { collectionDropped = []; }
+
+  function fitCollectionFragments(root) {
+    if (!root) return [];
+    var field = root.querySelector('.collection-field');
+    if (!field) return [];
+    /* If collection-inapp.css has not applied, the field has no measurable
+       box and every fragment would read as an overflow. A stylesheet that
+       failed to load must never cause participant words to be withheld, so
+       measurement only runs once the field is genuinely laid out. */
+    if (!field.clientWidth || field.clientHeight < 80) return [];
+    var frags = Array.prototype.slice.call(root.querySelectorAll('.collection-frag'));
+    var failed = [];
+    frags.forEach(function (el) {
+      function overflows() {
+        if (el.scrollHeight > el.clientHeight + 1) return true;
+        if (el.scrollWidth > el.clientWidth + 1) return true;
+        /* Containment inside the field is only meaningful for the absolutely
+           positioned slots the constellation actually uses. */
+        if (window.getComputedStyle(el).position === 'absolute') {
+          if (el.offsetTop + el.offsetHeight > field.clientHeight + 1) return true;
+          if (el.offsetLeft + el.offsetWidth > field.clientWidth + 1) return true;
+        }
+        return false;
+      }
+      if (!overflows()) return;
+      var size = parseFloat(window.getComputedStyle(el).fontSize) || 20;
+      var guard = 0;
+      while (guard < 60 && size > 17 && overflows()) {
+        size -= 1;
+        el.style.fontSize = size + 'px';
+        guard += 1;
+      }
+      if (!overflows()) return;
+      var measure = 30;
+      guard = 0;
+      while (guard < 20 && measure > 20 && overflows()) {
+        measure -= 2;
+        el.style.maxWidth = measure + 'ch';
+        guard += 1;
+      }
+      if (overflows()) failed.push(el.getAttribute('data-frag-id'));
+    });
+    return failed;
+  }
+
   function renderPortrait(screen) {
     var cfg = screen.portrait || {};
     var stage = cfg.stage || 'archive';
@@ -4810,7 +5696,8 @@ body.tone-light .chrome--bottom {
         esc(String(count)) + '">';
       htmlC += '<div class="collection-field">';
       fragments.forEach(function (f, i) {
-        htmlC += '<p class="collection-frag" data-slot="' + (i + 1) + '">' +
+        htmlC += '<p class="collection-frag" data-slot="' + (i + 1) + '"' +
+          ' data-frag-id="' + esc(f.id) + '">' +
           esc(f.text) + '</p>';
       });
       htmlC += '</div></section>';
@@ -4838,36 +5725,44 @@ body.tone-light .chrome--bottom {
     html += '<header class="review__masthead">' +
       '<h1 class="review__title">' + esc(t(ENGAGEMENT.title)) + '</h1>' +
       '<p class="review__client">' + clientMark() + '</p>' +
-      '<p class="review__stamp">' +
-        '<span>' + esc(t(UI.preparedFor) + ' ' + ENGAGEMENT.studio) + '</span>' +
-        '<span>' + esc(formatDate(state.updated)) + '</span>' +
-        '<span>' + answeredCount() + ' ' + esc(t(UI.of)) + ' ' + QUESTIONS.length + ' ' + esc(t(UI.answered)) + '</span>' +
+      '<p class="review__label">' + esc(t(UI.responseRecord)) + '</p>' +
+      '<p class="review__prepared">' + esc(t(UI.preparedFor) + ' ' + ENGAGEMENT.studio) + '</p>' +
+      '<p class="review__date">' + esc(formatDate(state.updated)) + '</p>' +
+      '<p class="review__count">' +
+        answeredCount() + ' ' + esc(t(UI.of)) + ' ' + QUESTIONS.length + ' ' + esc(t(UI.answered)) +
       '</p>' +
+      '<p class="review__lede">' + esc(t(UI.wordsGathered)) + '</p>' +
     '</header>';
 
     SECTIONS.forEach(function (section) {
+      var sectionQs = QUESTIONS.filter(function (q) { return q.section === section.id; });
+      var sectionAnswered = sectionQs.filter(function (q) { return !!answerText(q); }).length;
+      var countLabel = t(UI.chapterAnswered)
+        .replace('{n}', String(sectionAnswered))
+        .replace('{total}', String(sectionQs.length));
+
       html += '<div class="review__section">' +
         '<div class="review__section-head">' +
           '<span class="review__section-numeral">' + esc(section.numeral) + '</span>' +
           '<h2 class="review__section-title">' + esc(t(section.title)) + '</h2>' +
-        '</div>';
+          '<p class="review__section-count">' + esc(countLabel) + '</p>' +
+        '</div>' +
+        '<div class="review__section-body">';
 
-      QUESTIONS.filter(function (q) { return q.section === section.id; }).forEach(function (q) {
+      sectionQs.forEach(function (q) {
         var text = answerText(q);
         html += '<article class="entry">' +
           '<p class="entry__n">' + esc(t(UI.question)) + ' ' + pad(q.n) + '</p>' +
-          '<div>' +
-            '<p class="entry__q">' + esc(t(q.prompt)) + '</p>' +
-            '<p class="entry__a' + (text ? '' : ' entry__a--empty') + '">' +
-              (text ? esc(text) : esc(t(UI.notAnswered))) +
-            '</p>' +
-          '</div>' +
+          '<p class="entry__q">' + esc(t(q.prompt)) + '</p>' +
+          '<p class="entry__a' + (text ? '' : ' entry__a--empty') + '">' +
+            (text ? esc(text) : esc(t(UI.notAnswered))) +
+          '</p>' +
           '<button type="button" class="link entry__edit" data-act="edit" data-n="' + q.n + '">' +
             esc(t(UI.editResp)) + '</button>' +
         '</article>';
       });
 
-      html += '</div>';
+      html += '</div></div>';
     });
 
     if (REQUESTS.some(function (r) { return (state.files[r.key] || []).length > 0; })) {
@@ -4875,27 +5770,29 @@ body.tone-light .chrome--bottom {
         '<div class="review__section-head">' +
           '<span class="review__section-numeral">VII</span>' +
           '<h2 class="review__section-title">' + esc(t(COPY.finalReflectionNext)) + '</h2>' +
-        '</div>';
+        '</div>' +
+        '<div class="review__section-body">';
       REQUESTS.forEach(function (r, i) {
         var names = state.files[r.key] || [];
         html += '<article class="entry">' +
           '<p class="entry__n">' + esc(t(UI.ordinalsM)[i]) + '</p>' +
-          '<div>' +
-            '<p class="entry__q">' + esc(t(r.title)) + '</p>' +
-            '<p class="entry__a' + (names.length ? '' : ' entry__a--empty') + '">' +
-              (names.length ? esc(names.join('\n')) : esc(t(UI.nothingSel))) +
-            '</p>' +
-          '</div>' +
+          '<p class="entry__q">' + esc(t(r.title)) + '</p>' +
+          '<p class="entry__a' + (names.length ? '' : ' entry__a--empty') + '">' +
+            (names.length ? esc(names.join('\n')) : esc(t(UI.nothingSel))) +
+          '</p>' +
         '</article>';
       });
-      html += '</div>';
+      html += '</div></div>';
     }
 
-    html += '<div class="actions-row">' +
+    html += '<footer class="review__foot">' +
       '<button type="button" class="action" data-act="close-review">' + esc(t(UI.returnClose)) + '</button>' +
-      '<button type="button" class="link" data-act="export">' + esc(t(UI.exportJSON)) + '</button>' +
-      '<button type="button" class="link" data-act="print">' + esc(t(UI.print)) + '</button>' +
-    '</div>';
+      '<button type="button" class="link" data-act="export">' + esc(t(UI.downloadCopy || UI.exportCopy)) + '</button>' +
+      '<button type="button" class="link" data-act="print">' + esc(t(UI.printSave)) + '</button>' +
+      '<button type="button" class="link" data-act="privacy">' + esc(t(UI.privacy)) + '</button>' +
+      '<a class="link" href="privacy.html">' + esc(t(UI.privacyFull)) + '</a>' +
+    '</footer>';
+    html += '<p class="review__privacy-note">' + esc(t(UI.reviewPrivacyNote)) + '</p>';
 
     html += '</section>';
     return html;
@@ -5236,17 +6133,32 @@ body.tone-light .chrome--bottom {
   function closeMenu() {
     if (!menuSheet) return;
     menuSheet.hidden = true;
+    body.classList.remove('menu-open');
     if (menuBtn) {
       menuBtn.setAttribute('aria-expanded', 'false');
       menuBtn.focus();
     }
   }
 
+  function menuFocusables() {
+    if (!menuSheet) return [];
+    return Array.prototype.filter.call(
+      menuSheet.querySelectorAll('a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])'),
+      function (el) {
+        return !el.hidden && isPresented(el) && el.getAttribute('aria-hidden') !== 'true';
+      }
+    );
+  }
+
   function openMenu() {
     if (!menuSheet) return;
+    syncMenuDuplicates();
     menuSheet.hidden = false;
+    body.classList.add('menu-open');
     if (menuBtn) menuBtn.setAttribute('aria-expanded', 'true');
-    if (menuClose) menuClose.focus();
+    var focusables = menuFocusables();
+    if (menuClose && isPresented(menuClose)) menuClose.focus();
+    else if (focusables[0]) focusables[0].focus();
   }
 
   function toggleMenu() {
@@ -5258,7 +6170,7 @@ body.tone-light .chrome--bottom {
   function syncClosingMenu(isClosing) {
     var ok = closingSubmissionConfirmed();
     if (menuNavClosing) menuNavClosing.hidden = !isClosing;
-    if (menuMeta) menuMeta.hidden = !isClosing;
+    if (menuMeta) menuMeta.hidden = false;
     if (menuFoot) menuFoot.hidden = !isClosing;
     if (menuRule) menuRule.hidden = !isClosing;
     if (menuChapter && isClosing) {
@@ -5337,6 +6249,7 @@ body.tone-light .chrome--bottom {
          the very bottom of it. Back stays so there is a way out from anywhere. */
       btnBack.hidden = false;
       syncClosingMenu(false);
+      syncMenuDuplicates();
       measureChrome();
       return;
     }
@@ -5401,6 +6314,7 @@ body.tone-light .chrome--bottom {
       btnNext.textContent = t(UI.continue);
     }
     syncClosingMenu(!reviewMode && screen && screen.kind === 'closing');
+    syncMenuDuplicates();
     measureChrome();
   }
 
@@ -5487,6 +6401,24 @@ body.tone-light .chrome--bottom {
     if (!reviewMode && screen && screen.kind === 'portrait' &&
       screen.portrait && screen.portrait.stage === 'exhibition') {
       fitExhibitionSentence(stage);
+    }
+    if (!reviewMode && screen && screen.kind === 'portrait' &&
+      screen.portrait && screen.portrait.stage === 'collection') {
+      var dropped = fitCollectionFragments(stage);
+      if (dropped.length) {
+        dropped.forEach(function (id) {
+          if (id && collectionDropped.indexOf(id) === -1) collectionDropped.push(id);
+        });
+        var minFrag = screen.portrait.minFragments || 2;
+        if (selectPortraitFragments(screen).length < minFrag) {
+          /* Below the gate. goTo re-evaluates shouldSkipPortrait and moves
+             past this stage rather than showing a hole. */
+          window.setTimeout(function () { goTo(state.index, { skipThreshold: true }); }, 0);
+          return;
+        }
+        stage.innerHTML = renderPortrait(screen);
+        fitCollectionFragments(stage);
+      }
     }
     body.classList.toggle('una-carta', !reviewMode && screen.kind === 'letter');
     body.classList.remove('meddon-ready');
@@ -5579,6 +6511,13 @@ body.tone-light .chrome--bottom {
 
   function next() {
     if (reviewMode) return;
+    var screen = SCREENS[state.index];
+    if (screen && screen.kind === 'send' && !state.privacyAcknowledged) {
+      toast(t(UI.consentRequired));
+      var consent = document.getElementById('privacy-consent');
+      if (consent) consent.focus();
+      return;
+    }
     if (state.index < SCREENS.length - 1) goTo(state.index + 1);
   }
 
@@ -5616,12 +6555,21 @@ body.tone-light .chrome--bottom {
     render();
   }
 
+  /* SS 9.10. Interface chrome and system-authored copy change language.
+     Participant fragments remain exactly as originally entered: the switch
+     only re-reads UI dictionaries through t(), and t() returns any plain
+     string unchanged. state.answers and state.portrait.fragments are never
+     re-derived, re-keyed or passed through a language map here. The fit
+     cache is cleared because measurement is language dependent; the held
+     text is not. */
   function setLanguage(code) {
     if (code !== 'en' && code !== 'es') return;
     if (code === lang) return;
     lang = code;
+    resetCollectionFit();
     save(true);
     render({ keepScroll: true, keepFocus: true });
+    if (infoKind) openInfo(infoKind);
   }
 
   /* ------------------------------------------------------------------------
@@ -5662,7 +6610,8 @@ body.tone-light .chrome--bottom {
       filesSelected: REQUESTS.map(function (r) {
         return { request: t(r.title), files: state.files[r.key] || [] };
       }),
-      note: 'Files are listed by name only. This prototype does not transmit or store file contents.'
+      privacyAcknowledged: state.privacyAcknowledged === true,
+      note: 'File names are listed only. Written responses are stored temporarily in Supabase for a maximum of 90 days from submission to LG Studio.'
     };
   }
 
@@ -5687,9 +6636,13 @@ body.tone-light .chrome--bottom {
 
   /* Posts the canonical buildExport() payload. Local-first: failures keep
      every answer, localStorage, export, and print. The same intakeId is reused
-     on retry so a lost success response does not create a second studio row. */
+     on retry so a lost success response does not create a second submission row. */
   function submitIntake() {
     if (state.submissionStatus === 'ok' || state.submissionStatus === 'pending') return;
+    if (!state.privacyAcknowledged) {
+      toast(t(UI.consentRequired));
+      return;
+    }
 
     ensureIntakeId();
     state.submissionStatus = 'pending';
@@ -5757,20 +6710,28 @@ body.tone-light .chrome--bottom {
     html += '<div class="p-masthead">' +
       '<h1 class="p-title">' + esc(t(ENGAGEMENT.title)) + '</h1>' +
       '<p class="p-client">' + clientMark() + '</p>' +
+      '<p class="p-label">' + esc(t(UI.responseRecord)) + '</p>' +
       '<div class="p-stamp">' +
         '<span>' + esc(t(UI.preparedFor) + ' ' + ENGAGEMENT.studio) + '</span>' +
         '<span>' + esc(formatDate(state.updated)) + '</span>' +
         '<span>' + answeredCount() + ' ' + esc(t(UI.of)) + ' ' + QUESTIONS.length + ' ' + esc(t(UI.answered)) + '</span>' +
       '</div>' +
+      '<p class="p-lede">' + esc(t(UI.wordsGathered)) + '</p>' +
     '</div>';
 
     SECTIONS.forEach(function (section) {
+      var sectionQs = QUESTIONS.filter(function (q) { return q.section === section.id; });
+      var sectionAnswered = sectionQs.filter(function (q) { return !!answerText(q); }).length;
+      var countLabel = t(UI.chapterAnswered)
+        .replace('{n}', String(sectionAnswered))
+        .replace('{total}', String(sectionQs.length));
       html += '<section class="p-section">' +
         '<div class="p-section-head">' +
-          '<span class="p-section-numeral">' + esc(t(UI.section)) + ' ' + esc(section.numeral) + '</span>' +
+          '<span class="p-section-numeral">' + esc(section.numeral) + '</span>' +
           '<h2 class="p-section-title">' + esc(t(section.title)) + '</h2>' +
+          '<p class="p-section-count">' + esc(countLabel) + '</p>' +
         '</div>';
-      QUESTIONS.filter(function (q) { return q.section === section.id; }).forEach(function (q) {
+      sectionQs.forEach(function (q) {
         var text = answerText(q);
         html += '<article class="p-entry">' +
           '<p class="p-n">' + esc(t(UI.question)) + ' ' + pad(q.n) + '</p>' +
@@ -5805,6 +6766,7 @@ body.tone-light .chrome--bottom {
       '<span>' + esc(ENGAGEMENT.client) + '</span>' +
       '<span>' + esc(t(UI.prepared) + ' ' + formatDate(state.updated)) + '</span>' +
     '</div>';
+    html += '<p class="p-lede">' + esc(t(UI.reviewPrivacyNote)) + '</p>';
 
     printDoc.innerHTML = html;
     bindRemoteFallback(printDoc);
@@ -5831,6 +6793,10 @@ body.tone-light .chrome--bottom {
       if (act === 'print') { printIntake(); return; }
       if (act === 'retry-submit') { submitIntake(); return; }
       if (act === 'to-beginning') { toBeginning(); return; }
+      if (act === 'privacy' || act === 'about' || act === 'faq') {
+        openInfo(act);
+        return;
+      }
       if (act === 'edit') { goTo(questionScreenIndex(Number(trigger.getAttribute('data-n')))); return; }
     }
 
@@ -5852,6 +6818,11 @@ body.tone-light .chrome--bottom {
 
   stage.addEventListener('change', function (event) {
     var input = event.target;
+    if (input && input.id === 'privacy-consent') {
+      state.privacyAcknowledged = !!input.checked;
+      save(true);
+      return;
+    }
     if (input.type !== 'file') return;
     var key = input.getAttribute('data-key');
     var names = Array.prototype.map.call(input.files || [], function (f) { return f.name; });
@@ -5923,12 +6894,88 @@ body.tone-light .chrome--bottom {
   if (menuBeginningClosing) {
     menuBeginningClosing.addEventListener('click', closingMenuAct(function () { toBeginning(); }));
   }
-  function infoSoonToast() {
-    toast(t(UI.infoSoon));
+  function isInfoOpen() {
+    return infoSheet && !infoSheet.hidden;
   }
-  if (menuAbout) menuAbout.addEventListener('click', closingMenuAct(infoSoonToast));
-  if (menuFaq) menuFaq.addEventListener('click', closingMenuAct(infoSoonToast));
-  if (menuPrivacy) menuPrivacy.addEventListener('click', closingMenuAct(infoSoonToast));
+
+  function closeInfo() {
+    if (!infoSheet) return;
+    infoSheet.hidden = true;
+    body.classList.remove('info-open');
+    infoKind = null;
+    if (menuBtn && isPresented(menuBtn)) menuBtn.focus();
+  }
+
+  function renderInfoMarkup(kind) {
+    if (kind === 'faq') {
+      var faq = INFO.faq;
+      var html = '<div class="info-faq">';
+      faq.items.forEach(function (item, i) {
+        html += '<details' + (i === 0 ? ' open' : '') + '>' +
+          '<summary>' + esc(t(item.q)) + '</summary>' +
+          '<div class="info-faq__a">';
+        t(item.a).forEach(function (p) {
+          if (/@/.test(p)) {
+            html += '<p><a href="mailto:' + esc(p) + '">' + esc(p) + '</a></p>';
+          } else {
+            html += '<p>' + esc(p) + '</p>';
+          }
+        });
+        html += '</div></details>';
+      });
+      html += '</div>';
+      html += '<p class="info-sheet__more"><a href="https://www.luis-gilberto.com/studio" target="_blank" rel="noopener noreferrer">' +
+        esc(t(UI.learnMoreRetrato)) + '</a></p>';
+      return { title: t(faq.title), body: html };
+    }
+
+    if (kind === 'privacy') {
+      var privacy = INFO.privacy;
+      var pHtml = '';
+      t(privacy.body).forEach(function (p) {
+        pHtml += '<p>' + esc(p) + '</p>';
+      });
+      pHtml += '<p class="info-sheet__contact"><a href="mailto:' + esc(privacy.contact) + '">' +
+        esc(privacy.contact) + '</a></p>';
+      pHtml += '<p class="info-sheet__more"><a href="privacy.html">' + esc(t(UI.privacyFull)) + '</a></p>';
+      return { title: t(privacy.title), body: pHtml };
+    }
+
+    var about = INFO.about;
+    var aHtml = '';
+    t(about.body).forEach(function (p) {
+      aHtml += '<p>' + esc(p) + '</p>';
+    });
+    aHtml += '<p class="info-sheet__more"><a href="https://www.luis-gilberto.com/studio" target="_blank" rel="noopener noreferrer">' +
+      esc(t(UI.learnMoreRetrato)) + '</a></p>';
+    return { title: t(about.title), body: aHtml };
+  }
+
+  function openInfo(kind) {
+    if (!infoSheet || !infoTitle || !infoBody) return;
+    closeMenu();
+    infoKind = kind || 'about';
+    var view = renderInfoMarkup(infoKind);
+    infoTitle.textContent = view.title;
+    infoBody.innerHTML = view.body;
+    if (infoClose) {
+      infoClose.textContent = t(UI.infoClose);
+      infoClose.setAttribute('aria-label', t(UI.infoClose));
+    }
+    infoSheet.hidden = false;
+    body.classList.add('info-open');
+    if (infoClose) infoClose.focus();
+  }
+
+  if (menuAbout) menuAbout.addEventListener('click', closingMenuAct(function () { openInfo('about'); }));
+  if (menuFaq) menuFaq.addEventListener('click', closingMenuAct(function () { openInfo('faq'); }));
+  if (menuPrivacy) menuPrivacy.addEventListener('click', closingMenuAct(function () { openInfo('privacy'); }));
+  if (infoClose) infoClose.addEventListener('click', closeInfo);
+  if (infoSheet) {
+    infoSheet.addEventListener('click', function (event) {
+      if (event.target === infoSheet) closeInfo();
+    });
+  }
   if (menuSheet) {
     menuSheet.addEventListener('click', function (event) {
       var trigger = event.target.closest('[data-act]');
@@ -5936,18 +6983,38 @@ body.tone-light .chrome--bottom {
       var act = trigger.getAttribute('data-act');
       if (act === 'about' || act === 'faq' || act === 'privacy') {
         closeMenu();
-        infoSoonToast();
+        openInfo(act);
       }
     });
   }
   document.addEventListener('keydown', function (e) {
-    if (e.key === 'Escape' && isMenuOpen()) {
+    if (e.key === 'Escape' && isInfoOpen()) {
+      e.preventDefault();
+      closeInfo();
+      return;
+    }
+    if (!isMenuOpen()) return;
+    if (e.key === 'Escape') {
       e.preventDefault();
       closeMenu();
+      return;
+    }
+    if (e.key !== 'Tab') return;
+    var focusables = menuFocusables();
+    if (!focusables.length) return;
+    var first = focusables[0];
+    var last = focusables[focusables.length - 1];
+    if (e.shiftKey && document.activeElement === first) {
+      e.preventDefault();
+      last.focus();
+    } else if (!e.shiftKey && document.activeElement === last) {
+      e.preventDefault();
+      first.focus();
     }
   });
   window.addEventListener('resize', function () {
-    if (window.matchMedia('(min-width: 641px)').matches && isMenuOpen()) closeMenu();
+    if (window.matchMedia('(min-width: 1025px)').matches && isMenuOpen()) closeMenu();
+    syncMenuDuplicates();
   });
 
 
@@ -5997,7 +7064,7 @@ body.tone-light .chrome--bottom {
 
   render();
 
-  /* If she already finished in a prior session but the studio never received
+  /* If she already finished in a prior session but LG Studio never received
      the row (upgrade, failed POST, offline), try once on load.
      Jump helpers may set sessionStorage.closingHold = '1' to keep the
      error / pending letter visible for review. */

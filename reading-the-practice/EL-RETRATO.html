@@ -710,41 +710,40 @@
 
   /* Desktop · 3 fragments */
   .spec-app.desktop[data-count="3"] { }
-  /* Geometry B · locked Jul 30, 2026 */
   .spec-app.desktop[data-count="3"] .spec-frag[data-slot="1"] {
-    top: 26%; left: 16%; max-width: 24ch;
+    top: 18%; left: 9%; max-width: 24ch;
     font-size: 15px;
   }
   .spec-app.desktop[data-count="3"] .spec-frag[data-slot="2"] {
-    top: 40.5%; left: 33.5%; max-width: 30ch;
+    top: 42%; left: 36%; max-width: 30ch;
     font-size: 15px;
   }
   .spec-app.desktop[data-count="3"] .spec-frag[data-slot="3"] {
-    top: 57%; left: 16.5%; max-width: 26ch;
+    top: 61%; left: 14%; max-width: 26ch;
     font-size: 13.5px;
     color: rgba(31, 28, 24, 0.72);
   }
 
-  /* Desktop · 2 fragments · geometry B */
+  /* Desktop · 2 fragments */
   .spec-app.desktop[data-count="2"] .spec-frag[data-slot="1"] {
-    top: 34.5%; left: 17.5%; max-width: 26ch;
+    top: 28%; left: 12%; max-width: 26ch;
     font-size: 15px;
   }
   .spec-app.desktop[data-count="2"] .spec-frag[data-slot="2"] {
-    top: 49.5%; left: 31.5%; max-width: 30ch;
+    top: 52%; left: 34%; max-width: 30ch;
     font-size: 15px;
   }
 
-  /* Mobile · 3 fragments · compressed constellation · geometry B */
+  /* Mobile · 3 fragments · compressed constellation */
   .spec-app.mobile .spec-frag { font-size: 13px; }
   .spec-app.mobile[data-count="3"] .spec-frag[data-slot="1"] {
-    top: 20.5%; left: 11%; max-width: 78%;
+    top: 14%; left: 8%; max-width: 78%;
   }
   .spec-app.mobile[data-count="3"] .spec-frag[data-slot="2"] {
-    top: 37.5%; left: 17.5%; max-width: 78%;
+    top: 36%; left: 18%; max-width: 78%;
   }
   .spec-app.mobile[data-count="3"] .spec-frag[data-slot="3"] {
-    top: 55%; left: 12%; max-width: 82%;
+    top: 58%; left: 10%; max-width: 82%;
     font-size: 12px;
     color: rgba(31, 28, 24, 0.72);
   }
@@ -1115,7 +1114,7 @@
         </div>
         <div>
           <dt>Status</dt>
-          <dd>Living system · production freeze Jul 30, 2026</dd>
+          <dd>Living system document</dd>
         </div>
         <div>
           <dt>Canonical runtime</dt>
@@ -1161,13 +1160,6 @@
       <p class="definition">
         El Retrato is the custody system inside Reading the Practice: it <strong>holds</strong> eligible words the participant wrote, then <strong>returns</strong> them unchanged at defined stages — without improving, summarizing, interpreting, or exhibiting them as campaign copy.
       </p>
-
-      <div class="panel locked">
-        <div class="lbl gold">Production freeze · Jul 30, 2026</div>
-        <p><strong>No further Portrait design work.</strong> Archive Return Plate, Collection geometry B, Exhibition Gaze, opening letter (Una carta), and Closing Letter (Carta de cierre) are locked.</p>
-        <p style="margin-top: 10px;">Do not redesign, refine, restyle, or reopen these surfaces without a <strong>documented QA failure</strong> (broken layout, illegible type, wrong state logic, or accessibility defect with reproduction steps). Preference, taste, exploration, and “polish” are not QA failures.</p>
-        <p style="margin-top: 10px;">Arc (locked meaning): Archive = Return · Collection = Emergence · Exhibition = Regard.</p>
-      </div>
     </section>
 
     <!-- ============================================================
@@ -1191,13 +1183,19 @@
             </tr>
           </thead>
           <tbody>
-            <tr><td><strong>We hold what she wrote</strong></td><td>Exact text only; mechanical trim at most</td></tr>
+            <tr><td><strong>We hold eligible words exactly as she wrote them</strong></td><td>Exact text only; mechanical trim at most. Eligibility is mechanical, never editorial.</td></tr>
             <tr><td><strong>We do not improve it</strong></td><td>No paraphrase, ranking by "meaning," or editorial rewrite</td></tr>
             <tr><td><strong>Archive is return, not storage</strong></td><td>The emotional event is <em>your words came back unchanged</em></td></tr>
             <tr><td><strong>The words are the only artifact</strong></td><td>Interface, institution, and labels nearly disappear</td></tr>
             <tr><td><strong>Recognition, not display</strong></td><td>She should feel received — not processed or presented</td></tr>
           </tbody>
         </table>
+      </div>
+
+      <div class="panel locked">
+        <div class="lbl gold">On eligibility</div>
+        <p>Eligibility is decided by mechanism, not by judgement. A fragment is held when it comes from a <code style="color:inherit;background:none;">textarea</code>, is non-empty after trim, and falls within <code style="color:inherit;background:none;">portraitMaxChars</code>. Nothing is ever assessed for quality, relevance, insight, or meaning.</p>
+        <p style="margin-top: 12px;">A fragment that fails eligibility is <strong>not held</strong> and is never shown. A fragment that passes is returned <strong>unchanged</strong> at every stage that shows it. The system exercises judgement about <em>fit</em>, never about <em>worth</em>.</p>
       </div>
 
       <div class="panel">
@@ -1288,6 +1286,17 @@
         </table>
       </div>
 
+      <div class="panel locked">
+        <div class="lbl gold">Why the three selection rules differ</div>
+        <p>The three stages select deterministically, but not identically. The rules differ because the jobs differ. None of them evaluates meaning, ranks quality, or reads content.</p>
+        <ul style="font-family:'EB Garamond',Georgia,serif; font-size:16px; line-height:1.75; color:var(--ink-soft); padding-left:20px; margin: 12px 0 0 0;">
+          <li><strong>Archive</strong> takes the <strong>most recent</strong> eligible fragment, because its job is immediate return. The words she just finished writing come straight back to her.</li>
+          <li><strong>Collection</strong> preserves <strong>ascending writing order</strong>, because its job is accumulation and relationship. The sequence is the record of how the thinking arrived, and reordering it would be an editorial act.</li>
+          <li><strong>Exhibition</strong> takes the <strong>lowest <code style="color:inherit;background:none;">questionN</code></strong> in its section, because it needs exactly one fragment chosen by a rule that cannot be mistaken for a judgement about which sentence is best.</li>
+        </ul>
+        <p style="margin-top: 12px;"><em>Do not homogenise these into a single rule.</em> The differences are load-bearing, and each one is the shape of that stage's emotional job.</p>
+      </div>
+
       <p class="prose" style="margin-top: 26px;"><strong>Eligibility, all stages:</strong></p>
       <div class="prose">
         <ul style="font-family:'EB Garamond',Georgia,serif; font-size:17px; line-height:1.8; color:var(--ink-soft); padding-left:20px;">
@@ -1340,19 +1349,18 @@
             <tr><td>Origen</td><td>Origin</td><td class="mono">20</td></tr>
             <tr><td>Práctica</td><td>Practice</td><td class="mono">15</td></tr>
             <tr><td>Color y sensación</td><td>Color and Sensation</td><td class="mono">9</td></tr>
-            <tr><td>Lo físico</td><td>The Physical</td><td class="mono">5</td></tr>
-            <tr><td>Lo que ya existe</td><td>What Already Exists</td><td class="mono">2</td></tr>
+            <tr><td>Voz</td><td>Voice</td><td class="mono">5</td></tr>
+            <tr><td>Cierre</td><td>Closing</td><td class="mono">2</td></tr>
           </tbody>
         </table>
       </div>
-      <p class="prose" style="margin-top:12px;">Place names align with chapter identity so they do not collide with section III (“The Name and the Voice”) or the Closing Letter label (“Cierre”).</p>
 
       <h3 class="prose" style="font-size:22px; font-weight:400; margin: 32px 0 16px 0; font-style:italic;">4.2 Two elements</h3>
 
       <div class="prose">
         <ol style="font-family:'EB Garamond',Georgia,serif; font-size:17px; line-height:1.8; color:var(--ink); padding-left:20px;">
           <li><strong>Place</strong> — chapter name; where you are in the reading</li>
-          <li><strong>Time remaining</strong> — approximate minutes left (<code>~ N min restantes</code> / <code>~ N min left</code>)</li>
+          <li><strong>Time remaining</strong> — approximate minutes left (<code>~ N min restantes</code> · English equivalent)</li>
         </ol>
         <p>Time recalculates at chapter start from typing pace (<code>useTimeRemaining</code>), floored to whole minutes, capped by the room seed, never shows seconds. Below one minute → singular "1 min." At zero → nothing.</p>
       </div>
@@ -1362,26 +1370,17 @@
       <div class="prose">
         <p>Between rooms: full-viewport black field <code>#0D0D0D</code>, static stack:</p>
         <ul style="font-family:'EB Garamond',Georgia,serif; font-size:17px; line-height:1.8; color:var(--ink-soft); padding-left:20px;">
-          <li>Prefix: "Entrando a" / "Entering" (mono, gold <code>#C8A96A</code>)</li>
+          <li>Prefix: "Entrando a" (mono, gold <code>#C8A96A</code>)</li>
           <li>Room name: EB Garamond italic</li>
           <li>Time: mono, muted cream</li>
         </ul>
-        <p style="margin-top:14px;">Finale thresholds never announce Portrait stage names (Archive / Collection / Exhibition).</p>
         <p style="margin-top:14px;">Timing: <strong>400 ms</strong> fade in → <strong>800 ms</strong> hold → <strong>400 ms</strong> fade out (1600 ms total).</p>
         <p><code>prefers-reduced-motion: reduce</code> → 300 ms crossfade of place/time only, no black field. <code>aria-live</code> announces entry + minutes.</p>
       </div>
 
-      <div class="panel locked">
-        <div class="lbl gold">Chrome behavior on Archive · visually locked Jul 30, 2026</div>
+      <div class="panel">
+        <div class="lbl">Chrome behavior on Archive</div>
         <p>On <strong>Archive Return Plate</strong>, chrome shows brand + time only — no "Archivo" / stage title. <em>The leaf carries the revelation.</em></p>
-        <p style="margin-top: 12px;"><strong>Archive-only chrome intensity</strong> (do not apply globally to questions / Collection / Exhibition):</p>
-        <ul style="font-family:'EB Garamond',Georgia,serif; font-size:16px; line-height:1.75; color:var(--ink-soft); padding-left:20px; margin: 8px 0 0 0;">
-          <li>Transparent / quieter bars so the interface recedes into the room</li>
-          <li>Softer brand · softer time · softer progress hairline · softer nav</li>
-          <li>Controls remain usable; hover lift only (not loud)</li>
-          <li>Leaf, fragment typography, and Return Plate composition are untouched</li>
-        </ul>
-        <p style="margin-top: 12px;">Feeling: the leaf entered the room — not an app framing the leaf. No further Archive visual refinements unless QA fails.</p>
       </div>
     </section>
 
@@ -1664,6 +1663,8 @@
           <li>Never compressed — the mark and wordmark must breathe together, not fight for space</li>
           <li>Kept baseline-aligned with the place-info on the right of the chrome row</li>
           <li>Filter is <em>not applied</em> on film mode — the PNG ships cream and stays cream</li>
+          <li>On paper the same asset carries <code>filter: brightness(0)</code>. That is a tone correction for a light ground, not a recolour of the brand, and it is the only filter the mark ever takes</li>
+          <li>The size ladder is height driven first and width driven second, so a short window and a narrow window cannot contradict each other. <code>--chrome-h</code> steps with it: 92 / 86 / 80 / 82 / 74</li>
         </ul>
       </div>
 
@@ -1919,7 +1920,7 @@ eligible textarea answer
           <tbody>
             <tr><td><strong>Archive</strong></td><td class="mono">"I said this."</td><td>Return</td></tr>
             <tr class="anchor"><td><strong>Collection</strong></td><td class="mono">"I said all of this."</td><td><strong>Emergence</strong></td></tr>
-            <tr><td><strong>Exhibition</strong></td><td class="mono">"I stayed with this."</td><td>Attention remaining · <a href="#s16" style="color: var(--peach-deep); text-decoration: underline;">§16</a></td></tr>
+            <tr><td><strong>Exhibition</strong></td><td class="mono">"I stayed with this."</td><td>Attention remaining · <a href="#s15" style="color: var(--peach-deep); text-decoration: underline;">§15</a></td></tr>
           </tbody>
         </table>
       </div>
@@ -2040,24 +2041,17 @@ eligible textarea answer
 
       <div class="prose">
         <p>No plate shadow as a "card." Optional soft ambient shadow on the whole stage frame in specimens only; in-app, the field fills the stage between chrome like other light screens.</p>
-        <p><strong>Chrome:</strong> brand + time only — same silence pattern as Archive. <em>Never</em> "Colección" as a hero or field title.</p>
+        <p><strong>Chrome:</strong> brand + place/time per Orientation. Stage label may be a quiet room name — <em>never</em> "Colección" as a hero. Prefer no institutional Collection title on the field itself.</p>
       </div>
 
-      <h3 class="prose" style="font-size:22px; font-weight:400; margin: 40px 0 16px 0; font-style:italic;">9.6 Composition · slot templates · geometry B</h3>
-
-      <div class="panel locked">
-        <div class="lbl gold">Geometry B · locked Jul 30, 2026 · production freeze</div>
-        <p>Canonical constellation anchor. <strong>A</strong> was too detached. <strong>C</strong> began to feel composed. <strong>B</strong> is related without arranged.</p>
-        <p style="margin-top: 10px;">Do not reopen proximity study. Do not add labels, connectors, hierarchy, alignment systems, or visual grouping devices. Emergence from proximity alone.</p>
-        <p style="margin-top: 10px;">Module: <code>assets/collection-constellation/collection-inapp.css</code> · Spec: <code>COLLECTION.md</code></p>
-      </div>
+      <h3 class="prose" style="font-size:22px; font-weight:400; margin: 40px 0 16px 0; font-style:italic;">9.6 Composition · slot templates</h3>
 
       <div class="prose">
         <p><strong>Viewport intent</strong>: one composition, no vertical page scroll if possible. Fragments share one field between top and bottom chrome.</p>
         <p>Positions are <strong>templates</strong>, not free random art. Slight irregularity is baked into the template so it feels <em>landed</em>, not algorithmically scattered each load.</p>
       </div>
 
-      <p class="prose" style="margin-top: 22px;"><strong>Three-fragment template · geometry B</strong></p>
+      <p class="prose" style="margin-top: 22px;"><strong>Three-fragment template · default</strong></p>
 
       <div class="table-wrap">
         <table class="spec">
@@ -2071,14 +2065,14 @@ eligible textarea answer
             </tr>
           </thead>
           <tbody>
-            <tr><td>1 · earliest <code>questionN</code></td><td class="mono">26%</td><td class="mono">16%</td><td class="mono">~24ch</td><td class="mono">100% (base)</td></tr>
-            <tr><td>2</td><td class="mono">40.5%</td><td class="mono">33.5%</td><td class="mono">~30ch</td><td class="mono">100%</td></tr>
-            <tr><td>3 · latest</td><td class="mono">57%</td><td class="mono">16.5%</td><td class="mono">~26ch</td><td class="mono">~92% (length / rhythm)</td></tr>
+            <tr><td>1 · earliest <code>questionN</code></td><td class="mono">18%</td><td class="mono">9%</td><td class="mono">~24ch</td><td class="mono">100% (base)</td></tr>
+            <tr><td>2</td><td class="mono">42%</td><td class="mono">36%</td><td class="mono">~30ch</td><td class="mono">100%</td></tr>
+            <tr><td>3 · latest</td><td class="mono">61%</td><td class="mono">14%</td><td class="mono">~26ch</td><td class="mono">~92% (length / rhythm)</td></tr>
           </tbody>
         </table>
       </div>
 
-      <p class="prose" style="margin-top: 22px;"><strong>Two-fragment template · geometry B · production reference</strong></p>
+      <p class="prose" style="margin-top: 22px;"><strong>Two-fragment template</strong></p>
 
       <div class="table-wrap">
         <table class="spec">
@@ -2091,8 +2085,8 @@ eligible textarea answer
             </tr>
           </thead>
           <tbody>
-            <tr><td>1</td><td class="mono">34.5%</td><td class="mono">17.5%</td><td class="mono">~26ch</td></tr>
-            <tr><td>2</td><td class="mono">49.5%</td><td class="mono">31.5%</td><td class="mono">~30ch</td></tr>
+            <tr><td>1</td><td class="mono">28%</td><td class="mono">12%</td><td class="mono">~26ch</td></tr>
+            <tr><td>2</td><td class="mono">52%</td><td class="mono">34%</td><td class="mono">~30ch</td></tr>
           </tbody>
         </table>
       </div>
@@ -2106,7 +2100,6 @@ eligible textarea answer
           <li>Bounding-box overlap: avoid; keep ≥ ~4% field gap between boxes</li>
           <li>Empty space is intentional — especially upper-right and lower-right air</li>
           <li>Do not "fill the composition"</li>
-          <li>No labels · connectors · hierarchy · alignment systems · grouping devices</li>
         </ul>
       </div>
 
@@ -2241,7 +2234,8 @@ eligible textarea answer
           <li>Shrink that fragment's font in 1px steps to a floor of <strong>17px</strong></li>
           <li>If still overflowing, reduce <code style="color:inherit;background:none;">max-width</code> by 2ch steps to a floor of <strong>20ch</strong></li>
         </ol>
-        <p style="margin-top: 12px;"><em>Never ellipsis. Never clip.</em></p>
+        <p style="margin-top: 14px;"><strong>Terminal branch.</strong> If the fragment still exceeds the field bounds at both floors, remove that fragment from the current Collection composition and resolve the stage again using the remaining eligible fragments. If fewer than two eligible fragments remain, <strong>skip Collection</strong>.</p>
+        <p style="margin-top: 12px;"><em>Never clip, truncate, ellipsize, hyphenate, or partially render participant text.</em> Dropping a fragment whole is legal. Showing part of one is not.</p>
       </div>
 
       <h3 class="prose" style="font-size:22px; font-weight:400; margin: 40px 0 16px 0; font-style:italic;">9.9 Mobile · compressed constellation</h3>
@@ -2307,7 +2301,7 @@ eligible textarea answer
             <tr><td>Empty after trim</td><td>Not eligible</td></tr>
             <tr><td>&gt; 180 chars</td><td>Not eligible (upstream)</td></tr>
             <tr><td>Very long single token</td><td>Soften measure · no hyphenation · fit rules §9.8</td></tr>
-            <tr><td>Language switch EN ↔ ES</td><td>Re-render same slots · text swaps · placement unchanged</td></tr>
+            <tr><td>Language switch EN ↔ ES</td><td>Re-render the same slots. Interface chrome and system-authored copy change language. <strong>Participant fragments remain exactly as originally entered.</strong> Placement remains unchanged.</td></tr>
             <tr><td>Reduced motion</td><td>No entrance choreography required · if any fade, ≤ 300 ms opacity only · fragments do not fly into place</td></tr>
             <tr><td>Missing fragment mid-list</td><td>Compact to 2-slot template · do not leave a hole that looks like a missing card</td></tr>
           </tbody>
@@ -2359,7 +2353,8 @@ eligible textarea answer
           <li>Screen: <code>kind: 'portrait'</code>, <code>portrait.stage: 'collection'</code>, after section <code>voice</code></li>
           <li><code>selectPortraitFragments</code>: filter <code>sectionId === 'voice'</code>, sort by <code>questionN</code>, slice to <code>maxFragments</code> (3)</li>
           <li><code>minFragments: 2</code> → <code>shouldSkipPortrait</code></li>
-          <li>Render: replace legacy blockquote Collection panel with constellation field markup</li>
+          <li>Render: <code>renderPortrait</code> &#8594; <code>.portrait--collection</code> / <code>.collection-field</code>. Each fragment carries <code>data-slot</code> for CSS and <code>data-frag-id</code> for the terminal branch.</li>
+          <li>Fit + terminal branch: <code>fitCollectionFragments</code>, called from <code>render</code> after mount. Measurement is skipped while the field has no laid-out box, so a stylesheet that failed to load can never cause a fragment to be withheld.</li>
           <li>Specimen reference: <code>collection-v1-specimen.html</code></li>
           <li>Study (historical): <code>collection-emergence-specimen.html</code> · Constellation vs rejected Shared Baseline</li>
         </ul>
@@ -2494,9 +2489,23 @@ eligible textarea answer
             <tr><td>Archive render + fit</td><td class="mono">renderPortrait + mountArchiveReturnPlate</td></tr>
             <tr><td>Orientation</td><td class="mono">useTimeRemaining, runRoomThreshold, setChromePlace</td></tr>
             <tr><td>CSS presets</td><td class="mono">assets/archive-typography/archive-typography.css</td></tr>
-            <tr><td>Resolver (module)</td><td class="mono">assets/archive-typography/archive-typography.js</td></tr>
+            <tr><td>Resolver (standalone module)</td><td class="mono">assets/archive-typography/archive-typography.js &#183; not loaded by index.html; the runtime uses the inline mirror in mountArchiveReturnPlate</td></tr>
             <tr><td>Gen Spark handoff</td><td class="mono">../assets/archive_typography_system/</td></tr>
-            <tr><td>This document</td><td class="mono">reading-the-practice/EL-RETRATO.html</td></tr>
+            <tr><td>Collection render + field</td><td class="mono">renderPortrait &#8594; .portrait--collection / .collection-field (index.html)</td></tr>
+            <tr><td>Collection CSS module</td><td class="mono">assets/collection-constellation/collection-inapp.css</td></tr>
+            <tr><td>Collection fit + terminal branch</td><td class="mono">fitCollectionFragments (index.html)</td></tr>
+            <tr><td>Collection specimen</td><td class="mono">collection-v1-specimen.html</td></tr>
+            <tr><td>Exhibition render + field</td><td class="mono">renderPortrait &#8594; .portrait--exhibition / .exhibition-field (index.html)</td></tr>
+            <tr><td>Exhibition CSS module</td><td class="mono">assets/exhibition-gaze/exhibition-gaze.css</td></tr>
+            <tr><td>Exhibition fit</td><td class="mono">fitExhibitionSentence (index.html)</td></tr>
+            <tr><td>Exhibition specimen</td><td class="mono">exhibition-v1-specimen.html</td></tr>
+            <tr><td>Opening letter CSS module</td><td class="mono">assets/una-carta/una-carta-inapp.css</td></tr>
+            <tr><td>Closing letter &#183; both states</td><td class="mono">renderClosing (index.html) &#183; SUCCESS / ERROR &#183; PENDING</td></tr>
+            <tr><td>Closing colophon</td><td class="mono">closingColophonMarkup (index.html)</td></tr>
+            <tr><td>Persistence gate</td><td class="mono">closingSubmissionConfirmed &#8594; state.submissionStatus === 'ok'</td></tr>
+            <tr><td>Language switch</td><td class="mono">setLanguage (index.html)</td></tr>
+            <tr><td>Brand lockup</td><td class="mono">.brand / .brand__mark in chrome-top &#183; assets/images/sharnay-logomark.png</td></tr>
+            <tr><td>This document</td><td class="mono">reading-the-practice/EL-RETRATO.md</td></tr>
           </tbody>
         </table>
       </div>
@@ -2535,21 +2544,60 @@ eligible textarea answer
       </div>
 
       <div class="prose">
-        <ol style="font-family:'EB Garamond',Georgia,serif; font-size:17px; line-height:1.85; color:var(--ink); padding-left:20px;">
-          <li>Open preview server (<code>_preview-phase1.js</code> → <code>http://127.0.0.1:4191/</code>).</li>
-          <li><code>archive-reveal-specimen.html</code> — confirm presets + chrome.</li>
+        <p style="margin-bottom: 16px;">Open the preview server (<code>_preview-phase1.js</code> → <code>http://127.0.0.1:4191/</code>), then walk all five surfaces. Each stage also carries its own QA checklist: Collection § 9.14, Exhibition § 15.12, Closing letter § 16.8.</p>
+
+        <p class="prose" style="margin: 22px 0 10px 0;"><strong>1 · Archive</strong></p>
+        <ol style="font-family:'EB Garamond',Georgia,serif; font-size:16.5px; line-height:1.8; color:var(--ink); padding-left:20px;">
+          <li><code>archive-reveal-specimen.html</code> — confirm all five presets + chrome.</li>
           <li>Walk chapter I textareas ≤ 180 chars → Archive screen: dark room, pale leaf, no ARCHIVO, intact text.</li>
           <li>Force a &gt;180 answer → fragment not held; Archive skipped if none eligible.</li>
+        </ol>
+
+        <p class="prose" style="margin: 22px 0 10px 0;"><strong>2 · Collection</strong></p>
+        <ol style="font-family:'EB Garamond',Georgia,serif; font-size:16.5px; line-height:1.8; color:var(--ink); padding-left:20px;">
+          <li><code>collection-v1-specimen.html</code> — confirm both the two-slot and three-slot templates land without scroll on desktop.</li>
+          <li>Answer exactly two Voice textareas → two-slot template. Answer three or more → three-slot, first three by <code>questionN</code>.</li>
+          <li>Answer fewer than two → Collection skipped entirely.</li>
+          <li>At ≤ 720px, confirm unequal left offsets. A flush-left stack is a failed composition.</li>
+          <li>Force an overflowing fragment → confirm the § 9.8 terminal branch drops it whole and re-resolves, and never clips.</li>
+        </ol>
+
+        <p class="prose" style="margin: 22px 0 10px 0;"><strong>3 · Exhibition</strong></p>
+        <ol style="font-family:'EB Garamond',Georgia,serif; font-size:16.5px; line-height:1.8; color:var(--ink); padding-left:20px;">
+          <li><code>exhibition-v1-specimen.html</code> — confirm all three length bands hold the meeting line.</li>
+          <li>Confirm short text is not monumentalised and long text does not become a wall caption.</li>
+          <li>Confirm no stage label on chrome or field, and no leaf, frame, axis, or quote mark.</li>
+          <li>Answer nothing eligible in <code>exists</code> → Exhibition skipped.</li>
+        </ol>
+
+        <p class="prose" style="margin: 22px 0 10px 0;"><strong>4 · Closing letter · state SUCCESS</strong></p>
+        <ol style="font-family:'EB Garamond',Georgia,serif; font-size:16.5px; line-height:1.8; color:var(--ink); padding-left:20px;">
+          <li>Complete a submission with the backend reachable → confirm the letter renders <em>only</em> after explicit persistence confirmation.</li>
+          <li>Confirm signature and the &#8220;Tres frases…&#8221; promise are both present.</li>
+          <li>Confirm place-info reads <strong>Cierre</strong>, progress rail is 100%, and the bilateral colophon is intact.</li>
+        </ol>
+
+        <p class="prose" style="margin: 22px 0 10px 0;"><strong>5 · Closing letter · state ERROR / PENDING</strong></p>
+        <ol style="font-family:'EB Garamond',Georgia,serif; font-size:16.5px; line-height:1.8; color:var(--ink); padding-left:20px;">
+          <li>Block the backend and submit → confirm no letter, no signature, no promise.</li>
+          <li>Confirm <strong>Reintentar el envío</strong> is the primary action and recovery links are present.</li>
+          <li>Confirm no success language appears anywhere on the surface.</li>
+        </ol>
+
+        <p class="prose" style="margin: 22px 0 10px 0;"><strong>6 · Cross-cutting</strong></p>
+        <ol style="font-family:'EB Garamond',Georgia,serif; font-size:16.5px; line-height:1.8; color:var(--ink); padding-left:20px;">
+          <li>Switch EN ↔ ES on every portrait stage → chrome changes language, participant fragments do not change at all.</li>
+          <li>Confirm the official logomark is the only mark rendered anywhere. No improvised aperture.</li>
         </ol>
       </div>
     </section>
 
     <!-- ============================================================
-         § 16 · Exhibition · Gaze v1
+         § 15 · Exhibition · Gaze v1
          ============================================================ -->
-    <section id="s16" class="section">
+    <section id="s15" class="section">
       <div class="section-head">
-        <div class="num">16</div>
+        <div class="num">15</div>
         <div class="meta">
           <span class="kicker">La mirada</span>
           <h2>Exhibition <em>· attention remaining</em></h2>
@@ -2560,7 +2608,7 @@ eligible textarea answer
         Exhibition is the moment when <strong>one exact participant sentence holds attention without assistance</strong> — a <strong>condition of looking</strong> (regard), not a room, display, or museum metaphor.
       </p>
 
-      <h3 class="prose" style="font-size:22px; font-weight:400; margin: 40px 0 16px 0; font-style:italic;">16.1 Emotional job</h3>
+      <h3 class="prose" style="font-size:22px; font-weight:400; margin: 40px 0 16px 0; font-style:italic;">15.1 Emotional job</h3>
 
       <div class="table-wrap">
         <table class="spec">
@@ -2584,12 +2632,7 @@ eligible textarea answer
         <p>The system does not elevate, celebrate, or explain the sentence. The system <strong>removes everything that competes</strong> with the sentence.</p>
       </div>
 
-      <h3 class="prose" style="font-size:22px; font-weight:400; margin: 40px 0 16px 0; font-style:italic;">16.2 Direction lock · Gaze</h3>
-
-      <div class="panel locked">
-        <div class="lbl gold">Production freeze · Jul 30, 2026</div>
-        <p>Gaze is locked with Archive, Collection, opening letter, and Closing Letter. No Exhibition design changes without a documented QA failure.</p>
-      </div>
+      <h3 class="prose" style="font-size:22px; font-weight:400; margin: 40px 0 16px 0; font-style:italic;">15.2 Direction lock · Gaze</h3>
 
       <div class="prose">
         <p><strong>Primary direction: Gaze (C).</strong></p>
@@ -2631,7 +2674,7 @@ eligible textarea answer
         </div>
       </div>
 
-      <h3 class="prose" style="font-size:22px; font-weight:400; margin: 40px 0 16px 0; font-style:italic;">16.3 What Exhibition is · is not</h3>
+      <h3 class="prose" style="font-size:22px; font-weight:400; margin: 40px 0 16px 0; font-style:italic;">15.3 What Exhibition is · is not</h3>
 
       <div class="prose">
         <p><strong>Is:</strong></p>
@@ -2655,7 +2698,7 @@ eligible textarea answer
         </ul>
       </div>
 
-      <h3 class="prose" style="font-size:22px; font-weight:400; margin: 40px 0 16px 0; font-style:italic;">16.4 Content rules · non-negotiable</h3>
+      <h3 class="prose" style="font-size:22px; font-weight:400; margin: 40px 0 16px 0; font-style:italic;">15.4 Content rules · non-negotiable</h3>
 
       <div class="prose">
         <ol style="font-family:'EB Garamond',Georgia,serif; font-size:16.5px; line-height:1.85; color:var(--ink-soft); padding-left:22px;">
@@ -2672,7 +2715,7 @@ eligible textarea answer
         </ol>
       </div>
 
-      <h3 class="prose" style="font-size:22px; font-weight:400; margin: 40px 0 16px 0; font-style:italic;">16.5 The field · not a room metaphor</h3>
+      <h3 class="prose" style="font-size:22px; font-weight:400; margin: 40px 0 16px 0; font-style:italic;">15.5 The field · not a room metaphor</h3>
 
       <div class="prose">
         <p>Exhibition's field exists only to <strong>stop competing</strong>. It is atmosphere for attention, not a set piece.</p>
@@ -2701,7 +2744,7 @@ eligible textarea answer
         <p><strong>Chrome:</strong> brand + time only. <em>No</em> "Exposición" / Exhibition place label on the field or as hero. Same silence pattern as Archive's refusal of "ARCHIVO."</p>
       </div>
 
-      <h3 class="prose" style="font-size:22px; font-weight:400; margin: 40px 0 16px 0; font-style:italic;">16.6 Composition · the minimum for gaze</h3>
+      <h3 class="prose" style="font-size:22px; font-weight:400; margin: 40px 0 16px 0; font-style:italic;">15.6 Composition · the minimum for gaze</h3>
 
       <div class="panel locked">
         <div class="lbl gold">The question v1 answered</div>
@@ -2764,7 +2807,7 @@ eligible textarea answer
           <tbody>
             <tr><td>Grid</td><td class="mono">0.9fr auto 1.25fr</td></tr>
             <tr><td>Side padding</td><td class="mono">clamp(1.1rem, 5vw, 1.75rem)</td></tr>
-            <tr><td>Type</td><td>Slightly smaller clamp (see §16.8)</td></tr>
+            <tr><td>Type</td><td>Slightly smaller clamp (see §15.8)</td></tr>
             <tr><td>Measure</td><td class="mono">Same <code>ch</code> bands</td></tr>
           </tbody>
         </table>
@@ -2855,7 +2898,7 @@ eligible textarea answer
         </div>
       </div>
 
-      <h3 class="prose" style="font-size:22px; font-weight:400; margin: 40px 0 16px 0; font-style:italic;">16.7 Typography behavior</h3>
+      <h3 class="prose" style="font-size:22px; font-weight:400; margin: 40px 0 16px 0; font-style:italic;">15.7 Typography behavior</h3>
 
       <div class="table-wrap">
         <table class="spec">
@@ -2878,7 +2921,7 @@ eligible textarea answer
         </table>
       </div>
 
-      <h3 class="prose" style="font-size:22px; font-weight:400; margin: 40px 0 16px 0; font-style:italic;">16.8 Length bands · optical only, never meaning</h3>
+      <h3 class="prose" style="font-size:22px; font-weight:400; margin: 40px 0 16px 0; font-style:italic;">15.8 Length bands · optical only, never meaning</h3>
 
       <div class="prose">
         <p>Upstream caps at 180. Bands keep the <em>meeting</em> feel across lengths. Do <strong>not</strong> jump to display sizes for short text — that is Archive's job on the leaf.</p>
@@ -2918,7 +2961,7 @@ eligible textarea answer
         <p style="margin-top: 12px;"><em>Never truncate. Never ellipsis. If still illegal → reject before render.</em></p>
       </div>
 
-      <h3 class="prose" style="font-size:22px; font-weight:400; margin: 40px 0 16px 0; font-style:italic;">16.9 Attention behavior</h3>
+      <h3 class="prose" style="font-size:22px; font-weight:400; margin: 40px 0 16px 0; font-style:italic;">15.9 Attention behavior</h3>
 
       <div class="table-wrap">
         <table class="spec">
@@ -2943,7 +2986,7 @@ eligible textarea answer
         <p>Regard is produced by <strong>absence of competition</strong> + <strong>meeting posture</strong>, not by animation that demands attention.</p>
       </div>
 
-      <h3 class="prose" style="font-size:22px; font-weight:400; margin: 40px 0 16px 0; font-style:italic;">16.10 The three stages compared</h3>
+      <h3 class="prose" style="font-size:22px; font-weight:400; margin: 40px 0 16px 0; font-style:italic;">15.10 The three stages compared</h3>
 
       <div class="three-way-card">
         <div class="lbl">Archive · Collection · Exhibition · the implementer's contract</div>
@@ -2975,7 +3018,7 @@ eligible textarea answer
         <p style="margin-top: 12px;"><em>Each stage is a separate locked system. Cross-contamination is the fastest way to break the emotional arc.</em></p>
       </div>
 
-      <h3 class="prose" style="font-size:22px; font-weight:400; margin: 40px 0 16px 0; font-style:italic;">16.11 Production wiring</h3>
+      <h3 class="prose" style="font-size:22px; font-weight:400; margin: 40px 0 16px 0; font-style:italic;">15.11 Production wiring</h3>
 
       <div class="prose">
         <ul style="font-family:'EB Garamond',Georgia,serif; font-size:16.5px; line-height:1.85; color:var(--ink-soft); padding-left:20px;">
@@ -2986,6 +3029,7 @@ eligible textarea answer
           <li>Specimen: <code>exhibition-v1-specimen.html</code></li>
           <li>Study: <code>exhibition-regard-specimen.html</code> · A / B / C · C selected</li>
           <li>Module CSS: <code>assets/exhibition-gaze/exhibition-gaze.css</code></li>
+          <li>Fit: <code>fitExhibitionSentence</code>, called from <code>render</code> after mount. 1px steps to a 16px floor, then measure by band to a 20ch floor.</li>
         </ul>
       </div>
 
@@ -3000,7 +3044,7 @@ eligible textarea answer
 <span class="c">// data-ex-band is S | M | L for CSS only.</span>
 <span class="c">// No visible labels.</span></pre>
 
-      <h3 class="prose" style="font-size:22px; font-weight:400; margin: 40px 0 16px 0; font-style:italic;">16.12 QA checklist</h3>
+      <h3 class="prose" style="font-size:22px; font-weight:400; margin: 40px 0 16px 0; font-style:italic;">15.12 QA checklist</h3>
 
       <div class="panel">
         <div class="lbl">Before shipping · every point must clear</div>
@@ -3017,10 +3061,221 @@ eligible textarea answer
         </ul>
       </div>
 
-      <h3 class="prose" style="font-size:22px; font-weight:400; margin: 40px 0 16px 0; font-style:italic;">16.13 Versioning</h3>
+      <h3 class="prose" style="font-size:22px; font-weight:400; margin: 40px 0 16px 0; font-style:italic;">15.13 Versioning</h3>
 
       <div class="prose">
         <p>Changes to meeting-line ratios, type family, or field role → <strong>Exhibition v2</strong>. Optical band tweaks → minor. Always re-validate: <em>Does a sentence hold attention without assistance?</em></p>
+      </div>
+
+    </section>
+
+    <!-- ============================================================
+         § 16 · Closing letter · Carta de cierre
+         ============================================================ -->
+    <section id="s16" class="section">
+      <div class="section-head">
+        <div class="num">16</div>
+        <div class="meta">
+          <span class="kicker">Cierre</span>
+          <h2>Closing letter <em>· carta de cierre</em></h2>
+        </div>
+      </div>
+
+      <p class="definition">
+        The closing letter is the final surface of the intake. Luis takes the word personally, thanks the participant, and promises the next deliverable — <strong>his reading of her practice, in three sentences</strong>. It closes the arc opened by <em>Una carta</em>.
+      </p>
+
+      <h3 class="prose" style="font-size:22px; font-weight:400; margin: 40px 0 16px 0; font-style:italic;">16.1 Canonical taxonomy of intake surfaces</h3>
+
+      <div class="table-wrap">
+        <table class="spec">
+          <thead>
+            <tr>
+              <th style="width:36%">English</th>
+              <th>Español</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>Experience cover</td><td>Portada de la experiencia</td></tr>
+            <tr><td>Opening letter</td><td>Carta de apertura</td></tr>
+            <tr><td>Chapter opener</td><td>Apertura de capítulo</td></tr>
+            <tr><td>Question screen</td><td>Pantalla de pregunta</td></tr>
+            <tr><td>Portrait stage</td><td>Etapa de El Retrato</td></tr>
+            <tr class="anchor"><td><strong>Closing letter</strong></td><td><strong>Carta de cierre</strong></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="panel">
+        <div class="lbl">Naming discipline</div>
+        <p>Chrome place-info displays <strong>Cierre</strong>. Internal / spec references use <strong>Closing letter</strong>. Do not introduce new metaphors (<em>Coda</em>, <em>Final</em>, etc.) — the "Una carta / Carta de cierre" symmetry is the whole point.</p>
+      </div>
+
+      <h3 class="prose" style="font-size:22px; font-weight:400; margin: 40px 0 16px 0; font-style:italic;">16.2 Not a chapter opener</h3>
+
+      <div class="panel locked">
+        <div class="lbl gold">Do not inherit chapter opener rules</div>
+        <p>The chapter opener architecture (editorial intervention + eyebrow + title + dek, two-voice layering) applies only to chapter openers. The closing letter has <strong>one main voice: Luis</strong>. The system voice retreats — Luis takes the word personally.</p>
+        <p style="margin-top: 12px;">Do <em>not</em> add a system editorial intervention above the letter. Doing so introduces a third voice (system + Luis + UI) that flattens Luis's ownership of the deliverable.</p>
+      </div>
+
+      <h3 class="prose" style="font-size:22px; font-weight:400; margin: 40px 0 16px 0; font-style:italic;">16.3 Anatomy · state SUCCESS</h3>
+
+      <div class="prose">
+        <p>Only shown when the backend confirms the responses were persisted. Reaching the final screen is not sufficient — success requires explicit server confirmation.</p>
+      </div>
+
+      <div class="table-wrap">
+        <table class="spec">
+          <thead>
+            <tr>
+              <th style="width:24%">Element</th>
+              <th style="width:24%">Family · style</th>
+              <th>Content</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td><strong>Title</strong></td><td>Cormorant roman 300</td><td>"Ya tenemos lo que necesitamos."</td></tr>
+            <tr><td>Body</td><td>Cormorant roman 400</td><td>4 paragraphs · voice of Luis · thanks, promise of reading, definition of what the next deliverable is <em>not</em>, and what it <em>is</em>.</td></tr>
+            <tr><td><strong>Promise</strong></td><td>Cormorant <em>italic 400</em> · amber</td><td>"Tres frases. / Si se sienten verdaderas, empezamos a diseñar." — Luis's personal promise, not system voice.</td></tr>
+            <tr><td>Signature</td><td>Meddon script + IBM Plex Mono tag</td><td>Luis Gilberto · LG STUDIO</td></tr>
+            <tr><td>CTA principal</td><td>Mono outline uppercase</td><td>Revisar mis respuestas</td></tr>
+            <tr><td>Secondary actions</td><td>Mono uppercase · underlined links</td><td>Descargar una copia · Imprimir o guardar como PDF</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="panel">
+        <div class="lbl">On "Tres frases…" and italic</div>
+        <p>The italic reserved-for-editorial-voice rule applies specifically to the distinction between editorial intervention and dek within <em>chapter openers</em>. It is not a global italic prohibition.</p>
+        <p style="margin-top: 12px;">Within a signed letter, roman body + italic promise + script signature form a coherent voice register. "Tres frases…" stays in amber italic, visually tied to Luis's body copy and signature.</p>
+      </div>
+
+      <p class="prose" style="margin-top: 22px;"><strong>Approved copy · state SUCCESS</strong></p>
+
+<pre class="data-model" style="white-space: pre-wrap;">Ya tenemos lo que necesitamos.
+
+Gracias por tomarte el tiempo de dejarme ver la práctica desde tu lado.
+
+En los próximos días voy a leer tus respuestas con calma. Voy a buscar patrones, tensiones y las cosas que hacen que el trabajo sea inconfundiblemente tuyo.
+
+Lo siguiente que recibas no será un logo, un mood board ni un montón de conceptos.
+
+Será mi lectura de tu práctica.
+
+<span style="color: var(--gold); font-style: italic;">Tres frases.
+Si se sienten verdaderas, empezamos a diseñar.</span></pre>
+
+      <h3 class="prose" style="font-size:22px; font-weight:400; margin: 40px 0 16px 0; font-style:italic;">16.4 Anatomy · state ERROR / PENDING</h3>
+
+      <div class="panel locked">
+        <div class="lbl gold">Server confirmation is required for SUCCESS</div>
+        <p>Do not display the success letter or Luis's promise if the backend has not confirmed persistence. Do not resolve a failed submission by reordering links under a letter that claims success.</p>
+      </div>
+
+      <p class="prose" style="margin-top: 22px;"><strong>Approved copy · state ERROR / PENDING</strong></p>
+
+<pre class="data-model" style="white-space: pre-wrap;">Tus respuestas siguen aquí.
+
+No pude enviarlas a LG Studio todavía.
+No se perdió nada. Puedes intentarlo nuevamente
+o guardar una copia antes de salir.</pre>
+
+      <div class="table-wrap" style="margin-top: 22px;">
+        <table class="spec">
+          <thead>
+            <tr>
+              <th style="width:24%">Element</th>
+              <th>Behavior</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>Signature</td><td>Hidden. Luis has not received the responses yet — no signed promise.</td></tr>
+            <tr><td>"Tres frases…" promise</td><td>Hidden. The promise depends on the responses arriving.</td></tr>
+            <tr><td>CTA principal</td><td><strong>Reintentar el envío</strong> · outline · primary retry action</td></tr>
+            <tr><td>Secondary actions</td><td>Revisar mis respuestas · Descargar una copia · Imprimir o guardar como PDF</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3 class="prose" style="font-size:22px; font-weight:400; margin: 40px 0 16px 0; font-style:italic;">16.5 Chrome</h3>
+
+      <div class="prose">
+        <ul style="font-family:'EB Garamond',Georgia,serif; font-size:16.5px; line-height:1.85; color:var(--ink); padding-left:20px;">
+          <li>Place-info: <code>Cierre</code> — no time remaining.</li>
+          <li>Progress rail: <strong>100%</strong> (full amber fill).</li>
+          <li>Brand lockup at chapter-opener scale (56px desktop).</li>
+        </ul>
+      </div>
+
+      <h3 class="prose" style="font-size:22px; font-weight:400; margin: 40px 0 16px 0; font-style:italic;">16.6 Bilateral colophon (footer)</h3>
+
+      <div class="panel locked">
+        <div class="lbl gold">Two zones · two types of information</div>
+        <p>The closing letter uses a <strong>bilateral colophon</strong> — production note on the left, photographic classification + credit on the right. This is distinct from the chapter opener's single-column caption that shares the left edge with the title.</p>
+      </div>
+
+      <div class="table-wrap">
+        <table class="spec">
+          <thead>
+            <tr>
+              <th style="width:22%">Zone</th>
+              <th style="width:36%">Content</th>
+              <th>Rules</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Bottom-left</strong> · producción</td>
+              <td class="mono">Estudio, agua y luz dura</td>
+              <td>Mono uppercase · tracking 0.22em · natural sentence phrasing preserved</td>
+            </tr>
+            <tr>
+              <td><strong>Bottom-right</strong> · clasificación + crédito</td>
+              <td class="mono">Conceptual beauty · Water study<br><span style="font-family: 'EB Garamond', Georgia, serif; text-transform: none; letter-spacing: 0; font-size: 15px;">By Erika Sharnay</span></td>
+              <td>Mono uppercase for the classification with <code>·</code> divider (never <code>-</code>) · serif sentence case for byline · no <code>|</code> · gap 5–7px · right-aligned</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="panel">
+        <div class="lbl">What the bilateral colophon prevents</div>
+        <ul>
+          <li>Do not fuse production note and classification into one line.</li>
+          <li>Do not use <code>-</code> as internal divider. Only <code>·</code>.</li>
+          <li>Do not use <code>|</code> in the two-line classification variant.</li>
+          <li>Do not convert "By Erika Sharnay" to uppercase mono. It stays serif, sentence case, unbreakable.</li>
+        </ul>
+      </div>
+
+      <h3 class="prose" style="font-size:22px; font-weight:400; margin: 40px 0 16px 0; font-style:italic;">16.7 Photograph treatment</h3>
+
+      <div class="prose">
+        <p>Editorial photograph (conceptual beauty / water study) fills the right half. Localized scrims only — never uniform veil.</p>
+        <ul style="font-family:'EB Garamond',Georgia,serif; font-size:16.5px; line-height:1.85; color:var(--ink-soft); padding-left:20px;">
+          <li>Left-column scrim: protects the letter column from photographic highlights.</li>
+          <li>Bottom scrim: protects the colophon zone from bright lower-photograph areas.</li>
+          <li>Preserve: skin tone, water texture, hand gesture, depth separation, night register.</li>
+        </ul>
+      </div>
+
+      <h3 class="prose" style="font-size:22px; font-weight:400; margin: 40px 0 16px 0; font-style:italic;">16.8 QA checklist · locked</h3>
+
+      <div class="panel">
+        <div class="lbl">Before shipping</div>
+        <ul>
+          <li>Success letter renders <strong>only</strong> after backend confirmation of persistence.</li>
+          <li>Error/pending state has no letter, no signature, no promise — only recovery.</li>
+          <li>Retry is the primary action in error state; hidden in success state.</li>
+          <li>Chrome place-info reads <code>Cierre</code>, not <code>El Retrato</code>. Progress rail 100%.</li>
+          <li>Bilateral colophon: production left, classification + credit right.</li>
+          <li>"By Erika Sharnay" in serif sentence case, unbreakable.</li>
+          <li>No <code>|</code> divider in the two-line classification. Internal divider is <code>·</code> not <code>-</code>.</li>
+          <li>Signature Luis Gilberto in Meddon script + LG STUDIO in mono tag — present in success, hidden in error/pending.</li>
+          <li>"Tres frases…" stays italic amber, inside Luis's letter body — not moved to system-voice position.</li>
+          <li>No system editorial intervention above the letter title.</li>
+        </ul>
       </div>
 
     </section>
@@ -3035,7 +3290,7 @@ eligible textarea answer
   <div class="rule"></div>
   <div class="eyebrow">Colophon</div>
   <p>
-    Compiled from Orientation v1, unified chrome / mobile menu direction, full-bleed chapter film locks, and the three Portrait stages: Archive Return Plate + Typography System v1, Collection Constellation v1, and Exhibition Gaze v1.
+    Compiled from Orientation v1, unified chrome / mobile menu direction, full-bleed chapter openers, the three Portrait stages (Archive Return Plate + Typography System v1, Collection Constellation v1, Exhibition Gaze v1), and the Closing Letter with its two states.
   </p>
   <p style="font-family: 'EB Garamond', Georgia, serif; font-style: italic; font-size: 14px; margin-top: 18px; color: rgba(246,242,235,0.55);">
     Archive · I received this. &nbsp;&nbsp;·&nbsp;&nbsp; Collection · These belong together. &nbsp;&nbsp;·&nbsp;&nbsp; Exhibition · I stayed with this.

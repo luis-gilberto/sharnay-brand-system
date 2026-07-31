@@ -32,7 +32,9 @@ Alongside the six, kept only as long as they are live.
 
 **[Discovery](discovery.md)** — the questions that unlock Phase 2, written to be sent to the client. Retires when its answers are recorded in the project overview.
 
-**[El Retrato](../reading-the-practice/EL-RETRATO.html)** — custody / return system inside Reading the Practice: Orientation, chrome, Archive Return Plate, and Typography System v1.
+**[El Retrato · system specification](../reading-the-practice/EL-RETRATO.html)** — canonical custody / return specification (corrective package, Jul 2026).
+
+**[El Retrato · runtime patches](../reading-the-practice/EL-RETRATO-RUNTIME-PATCHES.md)** — record of corrective patches applied to `index.html`.
 
 **[Collection · Constellation](../reading-the-practice/COLLECTION.md)** — emergence stage (2–3 fragments); production spec for Gen Spark / implementers.
 

@@ -1,5 +1,6 @@
 -- Reading the Practice · Phase 1
 -- Run once in the Supabase SQL editor.
+-- Then run sql/20260731_retention_90_days.sql for submitted_at + 90-day purge cron.
 
 create table if not exists public.reading_practice_submissions (
   id uuid primary key,

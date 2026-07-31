@@ -14,9 +14,9 @@ Governing document: `PRODUCTION_AUDIT.md`.
 2. The API **INSERTs** one row in Supabase (`reading_practice_submissions`) using the session `intakeId` as the primary key.
 3. Resend is **disabled** in Phase 1 (abstraction kept in `lib/resend.ts`; not called).
 4. localStorage, JSON export, and print continue to work exactly as before.
-5. If the POST fails, answers stay local and the closing screen offers **Retry sending to the studio**.
+5. If the POST fails, answers stay local and the closing screen offers **Retry sending to LG Studio**.
 
-No uploads. No auth. No dashboard. No client-facing email. No studio email yet.
+No uploads. No auth. No dashboard. No client-facing email. No LG Studio email yet.
 
 ---
 
@@ -51,8 +51,12 @@ Copy `.env.example` to `.env.local` for local `vercel dev`, and set the same key
 4. Copy **Project URL** → `SUPABASE_URL`.
 5. Copy **service_role** key → `SUPABASE_SERVICE_ROLE_KEY`.
 6. Copy **anon** key → `SUPABASE_ANON_KEY` (optional for Phase 1).
+7. Run `sql/20260731_retention_90_days.sql` to add `submitted_at`, the hard-delete purge function, retention log, and daily `pg_cron` job.
+8. In Supabase → **Database → Cron Jobs**, confirm `purge-reading-practice-submissions-90d` is listed. Until that check succeeds, treat Cron activation as **PENDING**.
 
-RLS is enabled with no anon policies. The Vercel function uses the service role, which bypasses RLS.
+RLS is enabled with no anon policies. The Vercel function uses the service role, which bypasses RLS. The anonymous client must never receive SELECT, UPDATE, or DELETE on submitted participant records.
+
+**Retention:** Original response-bearing rows are hard-deleted 90 days after `submitted_at` (fallback: `created_at`). Strategic deliverables in StrategyIQ are outside this database and are not deleted by the purge.
 
 ---
 
