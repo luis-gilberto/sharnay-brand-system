@@ -56,7 +56,8 @@ The system never says that. The system never interprets, summarizes, categorizes
 ## 3. What Collection is / is not
 
 ### Is
-- 2–3 held textarea answers from the Voice section (`sectionId: 'voice'`), exact text after trim
+- 2–3 held **portrait-eligible** textarea answers from the Voice section (`sectionId: 'voice'`), exact text after trim
+- Boundary / metadata / operational Voice answers (e.g. brand naming, “never sound like”) are never Collection fragments
 - One field (the “room”) where fragments coexist
 - Emergence through spatial relationship
 - Continuous with the writing voice of the intake (Cormorant Garamond), **not** Archive’s EB Garamond Return Plate
@@ -238,6 +239,7 @@ On viewports ≤ 720px (or when the field is portrait-narrow):
 | Exactly 2 | Two-slot template |
 | Exactly 3 | Three-slot template |
 | >3 eligible | Show first 3 by `questionN` (maxFragments) |
+| `portraitEligible: false` (boundary / metadata / operational) | Not eligible — remains in answers/export/review only |
 | Empty after trim | Not eligible |
 | >180 chars | Not eligible (upstream) |
 | Very long single token | Soften measure; no hyphenation; fit rules §9 |

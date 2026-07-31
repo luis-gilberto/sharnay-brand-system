@@ -34,7 +34,7 @@ If Cursor is building the intake as React / Vue / Svelte components with a share
 
 ## Non-negotiables that survive both paths
 
-1. **No scrolling.** `html`, `body`, `.app`, `.stage` all have `overflow: hidden` and `min-height: 0` on the grid. This is a Portrait system rule, not an ergonomic preference.
+1. **No scrolling.** `html`, `body`, `.app`, `.stage` all have `overflow: hidden` and `min-height: 0` on the grid. This is a single-viewport rule (viewport integrity), not an ergonomic preference.
 2. **Meddon script for greeting + signature.** No fallback to Cormorant italic silently. If Meddon can't load, block render or use Homemade Apple.
 3. **EB Garamond regular 400 is not used here.** Cormorant Garamond 400 is the body serif. IBM Plex Mono is the mono. Meddon is the script. Three families, no more.
 4. **The two Cloudinary URLs must be used verbatim.** The Cloudinary transforms (`e_grayscale + e_tint:100:3d3327:f5f1e8`) are what give the photos their sepia — don't strip them or the album stops feeling like an album.

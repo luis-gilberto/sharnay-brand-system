@@ -55,7 +55,7 @@ The only variables that adapt per preset: **font-size, line-height, letter-spaci
 
 ---
 
-## The hard rule (non-negotiable)
+## The non-negotiable layout rule
 
 If any character is cut off, cropped, hyphenated, or otherwise unreadable in the target preset, the setting is **illegal for Archive**.
 

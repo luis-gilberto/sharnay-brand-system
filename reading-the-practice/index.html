@@ -10,7 +10,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content">
 <title>El Retrato · Sharnay Photography · LG Studio</title>
-<meta name="description" content="A conversation before design. An intake experience by LG Studio for Sharnay Photography.">
+<meta name="description" content="A conversation before the portrait. An experience by LG Studio for Sharnay Photography.">
 <meta name="color-scheme" content="light">
 <!-- The three Sharnay voices. The file still runs with no network: every
      stack below falls back to a system face of the same colour. -->
@@ -3175,13 +3175,13 @@ body.is-closing .backdrop__scrim {
 
   <div id="room-threshold" class="room-threshold" hidden aria-hidden="true">
     <div class="room-threshold__inner">
-      <p class="room-threshold__prefix" id="room-threshold-prefix">Entrando a</p>
+      <p class="room-threshold__prefix" id="room-threshold-prefix"></p>
       <p class="room-threshold__name" id="room-threshold-name"></p>
       <p class="room-threshold__time" id="room-threshold-time"></p>
     </div>
   </div>
 
-  <main id="stage" tabindex="-1" aria-label="Reading the Practice"></main>
+  <main id="stage" tabindex="-1" aria-label="El Retrato"></main>
 
   <footer class="chrome chrome--bottom" id="chrome-bottom">
     <div class="nav">
@@ -3247,7 +3247,13 @@ body.is-closing .backdrop__scrim {
     clientMarkRemote: 'https://res.cloudinary.com/dogtoagya/image/upload/v1785226885/logoMark_flbfm4.png',
     studio: 'LG Studio',
     author: 'Luis Gilberto',
-    salutation: 'Hola chamakis,',
+    salutation: { en: 'Hi,', es: 'Hola chamakis,' },
+    signatureClose: { en: 'Your brother,', es: 'Tu hermano,' },
+    signatureAlias: { en: '', es: '(El Chamako)' },
+    metaDescription: {
+      en: 'A conversation before the portrait. An experience by LG Studio for Sharnay Photography.',
+      es: 'Una conversación antes del retrato. Una experiencia de LG Studio para Sharnay Photography.'
+    },
     storageKey: 'lgs.reading-the-practice.sharnay.v1',
     experienceVersion: 'sharnay-1',
     /* The Portrait · Phase 1 data layer. Hold exact answers; no screens yet. */
@@ -3292,9 +3298,9 @@ body.is-closing .backdrop__scrim {
     question:    { en: 'Question', es: 'Pregunta' },
     lastChapter: { en: 'Last chapter', es: 'Último capítulo' },
     complete:    { en: 'Complete', es: 'Completo' },
-    review:      { en: 'Review', es: 'Revisión' },
+    review:      { en: 'Your answers', es: 'Tus respuestas' },
     answered:    { en: 'answered', es: 'contestadas' },
-    yourAnswer:  { en: 'Your answer', es: 'Tu respuesta' },
+    yourAnswer:  { en: 'What you wrote', es: 'Lo que escribiste' },
     writeHere:   { en: 'Write here', es: 'Escribe aquí' },
     optional:    { en: 'A note, if you want', es: 'Una nota, si quieres' },
     chooseOne:   { en: 'Choose one', es: 'Elige una' },
@@ -3307,8 +3313,8 @@ body.is-closing .backdrop__scrim {
     photograph:  { en: 'Photograph.', es: 'Fotografía.' },
     credit:      { en: 'Photograph · Erika Sharnay', es: 'Fotografía · Erika Sharnay' },
     chapterLabel:{ en: 'Chapter', es: 'Capítulo' },
-    editorialCredit: { en: 'Editorial portrait', es: 'Editorial portrait' },
-    editorialBy: { en: 'By Erika Sharnay', es: 'By Erika Sharnay' },
+    editorialCredit: { en: 'Editorial portrait', es: 'Retrato editorial' },
+    editorialBy: { en: 'By Erika Sharnay', es: 'Por Erika Sharnay' },
     menu:        { en: 'Menu', es: 'Menú' },
     menuClose:   { en: 'Close', es: 'Cerrar' },
     ordinalsF:   { en: ['One', 'Two', 'Three'], es: ['Una', 'Dos', 'Tres'] },
@@ -3317,7 +3323,7 @@ body.is-closing .backdrop__scrim {
     reviewMine:  { en: 'Review my answers', es: 'Revisar mis respuestas' },
     exportCopy:  { en: 'Download a copy', es: 'Descargar una copia' },
     printSave:   { en: 'Print or save as PDF', es: 'Imprimir o guardar como PDF' },
-    exportJSON:  { en: 'Export JSON', es: 'Exportar JSON' },
+    exportJSON:  { en: 'Download a copy', es: 'Descargar una copia' },
     print:       { en: 'Print', es: 'Imprimir' },
     returnClose: { en: 'Return to closing', es: 'Volver al cierre' },
     editResp:    { en: 'Edit response', es: 'Editar respuesta' },
@@ -3428,6 +3434,12 @@ body.is-closing .backdrop__scrim {
      caption  = production note (can be bilingual)
      taxonomy = { category, subtype, credit, shortCategory? }
      Rendered as: CATEGORY · SUBTYPE | credit */
+  function filmLoc(value) {
+    if (value == null || value === '') return '';
+    if (typeof value === 'string') return value;
+    return t(value);
+  }
+
   function film(file, caption, id, version, grade, focus, scrim, side, taxonomy) {
     taxonomy = taxonomy || {};
     return {
@@ -3435,7 +3447,7 @@ body.is-closing .backdrop__scrim {
       caption: caption,
       photoCategory: taxonomy.category || '',
       photoSubtype: taxonomy.subtype || '',
-      photoCredit: taxonomy.credit || 'By Erika Sharnay',
+      photoCredit: taxonomy.credit || UI.editorialBy,
       photoShortCategory: taxonomy.shortCategory || taxonomy.category || '',
       remote: CDN + '/' + grade + '/' + version + '/' + id + '.jpg',
       focus: focus || '50% 50%',
@@ -3446,11 +3458,12 @@ body.is-closing .backdrop__scrim {
 
   function filmTaxonomyLabel(frame, useShort) {
     if (!frame) return '';
-    var cat = useShort && frame.photoShortCategory
+    var catRaw = useShort && frame.photoShortCategory
       ? frame.photoShortCategory
       : (frame.photoCategory || '');
-    var sub = useShort ? '' : (frame.photoSubtype || '');
-    var credit = frame.photoCredit || t(UI.editorialBy);
+    var cat = filmLoc(catRaw);
+    var sub = useShort ? '' : filmLoc(frame.photoSubtype);
+    var credit = filmLoc(frame.photoCredit) || t(UI.editorialBy);
     if (!cat) return credit;
     return sub ? (cat + ' · ' + sub + ' | ' + credit) : (cat + ' | ' + credit);
   }
@@ -3511,10 +3524,10 @@ body.is-closing .backdrop__scrim {
         es: 'Gracias. Creo que empiezo a entender cómo trabajas.'
       },
       film: film('film-work',
-        { en: 'Reclining cropped figure', es: 'Reclining cropped figure' },
+        { en: 'Reclining cropped figure', es: 'Figura recortada reclinada' },
         'Sharnay_002_gdga5n', 'v1785216801',
         'e_upscale/c_thumb,g_auto,z_1.4,ar_16:9,w_2000/e_grayscale/e_brightness:-18/e_contrast:22/q_auto:good',
-        '50% 50%', 'medium', 'left', { category: 'FASHION DETAIL', subtype: 'CLOSE CROP', credit: 'By Erika Sharnay', shortCategory: 'FASHION DETAIL' })
+        '50% 50%', 'medium', 'left', { category: { en: 'FASHION DETAIL', es: 'DETALLE DE MODA' }, subtype: { en: 'CLOSE CROP', es: 'RECORTE CERCANO' }, credit: UI.editorialBy, shortCategory: { en: 'FASHION DETAIL', es: 'DETALLE DE MODA' } })
     },
     {
       id: 'people',
@@ -3528,21 +3541,21 @@ body.is-closing .backdrop__scrim {
       },
       line: {
         en: 'Now I want to understand the people who experience the work.',
-        es: 'Ahora quiero entender a las personas que viven el trabajo.'
+        es: 'Ahora quiero entender a las personas que viven ese trabajo.'
       },
       reflection: {
         en: 'Every answer adds context. The picture is becoming clearer.',
         es: 'Cada respuesta agrega contexto. La imagen se está aclarando.'
       },
       film: film('film-people',
-        { en: 'Black-and-white seated woman', es: 'Black-and-white seated woman' },
+        { en: 'Black-and-white seated woman', es: 'Mujer sentada en blanco y negro' },
         'Sharnay_006_ulr1ul', 'v1785217062',
         'e_upscale/c_fill,g_auto,ar_16:9,w_2400/e_grayscale/e_brightness:-34/e_contrast:26/q_auto:good',
-        '70% 45%', 'medium', 'left', { category: 'EDITORIAL PORTRAIT', subtype: 'STUDIO', credit: 'By Erika Sharnay', shortCategory: 'EDITORIAL PORTRAIT' })
+        '70% 45%', 'medium', 'left', { category: { en: 'EDITORIAL PORTRAIT', es: 'RETRATO EDITORIAL' }, subtype: { en: 'STUDIO', es: 'ESTUDIO' }, credit: UI.editorialBy, shortCategory: { en: 'EDITORIAL PORTRAIT', es: 'RETRATO EDITORIAL' } })
     },
     {
       id: 'voice',
-      room: { en: 'Practice', es: 'Práctica' },
+      room: { en: 'Voice', es: 'Voz' },
       seedMinutes: 15,
       numeral: 'III',
       title: { en: 'The Name and the Voice', es: 'El nombre y la voz' },
@@ -3551,32 +3564,32 @@ body.is-closing .backdrop__scrim {
         es: ['El nombre y', 'la voz']
       },
       line: {
-        en: 'How the practice sounds matters as much as how it looks.',
-        es: 'Cómo suena la práctica importa tanto como cómo se ve.'
+        en: 'How the work sounds matters as much as how it looks.',
+        es: 'Cómo suena el trabajo importa tanto como cómo se ve.'
       },
       reflection: {
-        en: 'I can hear the practice now, not only see it.',
-        es: 'Ahora puedo escuchar la práctica, no solo verla.'
+        en: 'I can hear the work now, not only see it.',
+        es: 'Ahora puedo escuchar el trabajo, no solo verlo.'
       },
       film: film('film-voice',
-        { en: 'Extreme facial close-up', es: 'Extreme facial close-up' },
+        { en: 'Extreme facial close-up', es: 'Primer plano extremo del rostro' },
         'Sharnay_001_vtln8k', 'v1785216801',
         'e_upscale/c_thumb,g_face,z_1.7,ar_16:9,w_2000/e_grayscale/e_brightness:-20/e_contrast:24/q_auto:good',
-        '62% 50%', 'medium', 'left', { category: 'EDITORIAL BEAUTY', subtype: 'EXTREME CLOSE-UP', credit: 'By Erika Sharnay', shortCategory: 'EDITORIAL BEAUTY' })
+        '62% 50%', 'medium', 'left', { category: { en: 'EDITORIAL BEAUTY', es: 'BELLEZA EDITORIAL' }, subtype: { en: 'EXTREME CLOSE-UP', es: 'PRIMER PLANO' }, credit: UI.editorialBy, shortCategory: { en: 'EDITORIAL BEAUTY', es: 'BELLEZA EDITORIAL' } })
     },
     {
       id: 'feel',
       room: { en: 'Color and Sensation', es: 'Color y sensación' },
       seedMinutes: 9,
       numeral: 'IV',
-      title: { en: 'Colour and Feel', es: 'Color y sensación' },
+      title: { en: 'Color and Feel', es: 'Color y sensación' },
       titleLines: {
-        en: ['Colour and', 'Feel'],
+        en: ['Color and', 'Feel'],
         es: ['Color y', 'sensación']
       },
       line: {
-        en: 'This is where I make a recommendation, and where I would like you to push back.',
-        es: 'Aquí es donde hago una recomendación, y donde quiero que me discutas.'
+        en: 'This is where I make a recommendation, and where I want you to tell me if you disagree.',
+        es: 'Aquí es donde hago una recomendación, y donde quiero que me digas si no estás de acuerdo.'
       },
       reflection: {
         en: 'That is the part I needed most.',
@@ -3587,10 +3600,10 @@ body.is-closing .backdrop__scrim {
          the sequence. She is asked to disagree, so the photograph does too.
          She holds the left of the frame, so the type takes the right. */
       film: film('film-feel',
-        { en: 'Woman in monochromatic red', es: 'Woman in monochromatic red' },
+        { en: 'Woman in monochromatic red', es: 'Mujer en rojo monocromático' },
         'Sharnay_007_z26fs4', 'v1785217785',
         'e_upscale/c_fill,g_auto,ar_16:9,w_2400/e_brightness:-14/e_contrast:14/q_auto:good',
-        '40% 40%', 'medium', 'right', { category: 'STUDIO FASHION PORTRAIT', subtype: 'COLOR STUDY', credit: 'By Erika Sharnay', shortCategory: 'STUDIO FASHION PORTRAIT' })
+        '40% 40%', 'medium', 'right', { category: { en: 'STUDIO FASHION PORTRAIT', es: 'RETRATO DE MODA EN ESTUDIO' }, subtype: { en: 'COLOR STUDY', es: 'ESTUDIO DE COLOR' }, credit: UI.editorialBy, shortCategory: { en: 'STUDIO FASHION PORTRAIT', es: 'RETRATO DE MODA EN ESTUDIO' } })
     },
     {
       id: 'physical',
@@ -3612,16 +3625,16 @@ body.is-closing .backdrop__scrim {
       },
       /* The one frame from a full camera file rather than a small export, so
          it carries real detail and needs no upscaling. It is also the only
-         frame of the practice at work: a light, a comb, a camera, hands. The
+         frame of the work being made: a light, a comb, a camera, hands. The
          chapter asks about what is physical, and this is what that looks
          like before anything gets printed. Measured rather than guessed, the
          type falls on the black of the softbox and the sleeve, so it takes
          the light scrim and the room stays visible. */
       film: film('film-physical',
-        { en: 'Woman being prepared and photographed', es: 'Woman being prepared and photographed' },
+        { en: 'Woman being prepared and photographed', es: 'Mujer preparándose y siendo fotografiada' },
         'jadena2ndlook-2_ivdynl', 'v1785223255',
         'c_thumb,g_west,z_1.35,ar_16:9,w_2400/e_grayscale/e_brightness:-16/e_contrast:24/q_auto:good',
-        '52% 45%', 'light', 'left', { category: 'ON-SET DOCUMENTARY', subtype: 'STUDIO PROCESS', credit: 'By Erika Sharnay', shortCategory: 'ON-SET DOCUMENTARY' })
+        '52% 45%', 'light', 'left', { category: { en: 'ON-SET DOCUMENTARY', es: 'DOCUMENTAL EN SET' }, subtype: { en: 'STUDIO PROCESS', es: 'PROCESO EN ESTUDIO' }, credit: UI.editorialBy, shortCategory: { en: 'ON-SET DOCUMENTARY', es: 'DOCUMENTAL EN SET' } })
     },
     {
       id: 'exists',
@@ -3642,10 +3655,10 @@ body.is-closing .backdrop__scrim {
         es: 'Eso es todo lo que quería preguntar.'
       },
       film: film('film-exists-030',
-        { en: 'Woman in gown at the fair', es: 'Woman in gown at the fair' },
+        { en: 'Woman in gown at the fair', es: 'Mujer de vestido en la feria' },
         'Sharnay_030_ifr6ny', 'v1785413117',
         'e_upscale/c_fill,g_auto,ar_16:9,w_2400/e_brightness:-8/e_contrast:10/q_auto:good',
-        '36% 48%', 'medium', 'right', { category: 'ENVIRONMENTAL FASHION PORTRAIT', subtype: 'NIGHT LOCATION', credit: 'By Erika Sharnay', shortCategory: 'ENVIRONMENTAL FASHION PORTRAIT' })
+        '36% 48%', 'medium', 'right', { category: { en: 'ENVIRONMENTAL FASHION PORTRAIT', es: 'RETRATO DE MODA EN ENTORNO' }, subtype: { en: 'NIGHT LOCATION', es: 'LOCACIÓN NOCTURNA' }, credit: UI.editorialBy, shortCategory: { en: 'ENVIRONMENTAL FASHION PORTRAIT', es: 'RETRATO DE MODA EN ENTORNO' } })
     }
   ];
 
@@ -3656,6 +3669,9 @@ body.is-closing .backdrop__scrim {
   var QUESTIONS = [
     {
       n: 1, section: 'work', type: 'textarea',
+      portraitRole: 'portrait',
+      portraitEligible: true,
+      portraitStages: ['archive', 'collection', 'exhibition'],
       prompt: {
         en: 'What kind of photography leads?',
         es: '¿Qué tipo de fotografía va al frente?'
@@ -3665,13 +3681,16 @@ body.is-closing .backdrop__scrim {
         es: 'Si alguien encontrara tu trabajo por una sola imagen, ¿qué tipo de imagen querrías que fuera? Retrato, editorial, boda, comercial, documental, algo más.'
       },
       why: {
-        en: 'This shapes tone more than any other single answer. A documentary practice and a wedding practice want different levels of formality from everything, down to the weight of a line.',
-        es: 'Esto define el tono más que cualquier otra respuesta. Una práctica documental y una práctica de bodas piden niveles de formalidad distintos en todo, hasta en el grosor de una línea.'
+        en: 'This shapes tone more than any other single answer. Documentary work and wedding work want different levels of formality from everything, down to the weight of a line.',
+        es: 'Esto define el tono más que cualquier otra respuesta. Un trabajo documental y un trabajo de bodas piden niveles de formalidad distintos en todo, hasta en el grosor de una línea.'
       },
       micro: { en: 'A sentence is enough.', es: 'Una frase basta.' }
     },
     {
       n: 2, section: 'work', type: 'textarea',
+      portraitRole: 'portrait',
+      portraitEligible: true,
+      portraitStages: ['archive', 'collection', 'exhibition'],
       prompt: {
         en: 'What kind of work do you want more of?',
         es: '¿De qué tipo de trabajo quieres más?'
@@ -3681,19 +3700,22 @@ body.is-closing .backdrop__scrim {
         es: 'No lo que paga ahora. Lo que tomarías si el calendario fuera tuyo.'
       },
       why: {
-        en: 'I design for where the practice is going, not for where it has been.',
-        es: 'Diseño para donde va la práctica, no para donde ha estado.'
+        en: 'I design for where the work is going, not for where it has been.',
+        es: 'Diseño para donde va el trabajo, no para donde ha estado.'
       }
     },
     {
       n: 3, section: 'work', type: 'textarea', heavy: true,
+      portraitRole: 'portrait',
+      portraitEligible: true,
+      portraitStages: ['archive', 'collection', 'exhibition'],
       prompt: {
         en: 'What do you do that another good photographer in your city does not?',
         es: '¿Qué haces tú que no hace otra buena fotógrafa de tu ciudad?'
       },
       sub: {
         en: 'Take a paragraph on this one if you have it in you.',
-        es: 'Escribe un párrafo en esta si lo traes dentro.'
+        es: 'Si te sale, escribe un párrafo.'
       },
       why: {
         en: 'This is the closest thing to the brief. Everything premium about an identity comes from having a genuine position, and positions come from real differences.',
@@ -3706,9 +3728,12 @@ body.is-closing .backdrop__scrim {
     },
     {
       n: 4, section: 'work', type: 'textarea',
+      portraitRole: 'operational',
+      portraitEligible: false,
+      portraitStages: [],
       prompt: {
-        en: 'Is there a photograph of yours you would be happy to be judged on for the next five years?',
-        es: '¿Hay una foto tuya por la que estarías feliz de ser juzgada los próximos cinco años?'
+        en: 'Is there a photograph of yours you would stand by for the next five years?',
+        es: '¿Hay una foto tuya por la que responderías los próximos cinco años?'
       },
       sub: {
         en: 'Tell me which one. It does not have to be the most popular one. You can send the file later.',
@@ -3718,6 +3743,9 @@ body.is-closing .backdrop__scrim {
 
     {
       n: 5, section: 'people', type: 'textarea',
+      portraitRole: 'operational',
+      portraitEligible: false,
+      portraitStages: [],
       prompt: {
         en: 'Who is actually hiring you?',
         es: '¿Quién te está contratando en realidad?'
@@ -3729,6 +3757,9 @@ body.is-closing .backdrop__scrim {
     },
     {
       n: 6, section: 'people', type: 'textarea',
+      portraitRole: 'operational',
+      portraitEligible: false,
+      portraitStages: [],
       prompt: {
         en: 'What do they believe about photographers before they meet you?',
         es: '¿Qué creen sobre las fotógrafas antes de conocerte?'
@@ -3744,6 +3775,9 @@ body.is-closing .backdrop__scrim {
     },
     {
       n: 7, section: 'people', type: 'multi',
+      portraitRole: 'operational',
+      portraitEligible: false,
+      portraitStages: [],
       prompt: {
         en: 'Where do people find you now?',
         es: '¿Dónde te encuentra la gente ahora?'
@@ -3753,12 +3787,12 @@ body.is-closing .backdrop__scrim {
         es: 'Marca las que apliquen y dime más o menos en qué orden.'
       },
       why: {
-        en: 'This decides how much weight the social system carries relative to the website, and therefore which one I make harder working.',
-        es: 'Esto decide cuánto peso carga el sistema social frente al sitio web, y por lo tanto a cuál hago trabajar más duro.'
+        en: 'This decides how much weight the social system carries relative to the website, and which one has to work harder.',
+        es: 'Esto decide cuánto peso carga el sistema social frente al sitio web, y cuál de los dos tiene que trabajar más.'
       },
       options: {
         en: ['Instagram', 'Referral from a past client', 'Referral from a venue or vendor', 'Search', 'An agency', 'Somewhere else'],
-        es: ['Instagram', 'Recomendación de una clienta', 'Recomendación de un venue o proveedor', 'Búsqueda', 'Una agencia', 'Otro lugar']
+        es: ['Instagram', 'Recomendación de una clienta', 'Recomendación de un salón o proveedor', 'Búsqueda', 'Una agencia', 'Otro lugar']
       },
       noteLabel: {
         en: 'Roughly in order, and anything worth adding',
@@ -3767,6 +3801,9 @@ body.is-closing .backdrop__scrim {
     },
     {
       n: 8, section: 'people', type: 'textarea',
+      portraitRole: 'portrait',
+      portraitEligible: true,
+      portraitStages: ['archive', 'collection', 'exhibition'],
       prompt: {
         en: 'What makes someone choose you over someone cheaper?',
         es: '¿Por qué te eligen a ti en lugar de alguien más barato?'
@@ -3779,6 +3816,9 @@ body.is-closing .backdrop__scrim {
 
     {
       n: 9, section: 'voice', type: 'textarea',
+      portraitRole: 'metadata',
+      portraitEligible: false,
+      portraitStages: [],
       prompt: {
         en: 'Is the brand Sharnay, or Sharnay Photography?',
         es: '¿La marca es Sharnay o Sharnay Photography?'
@@ -3794,6 +3834,9 @@ body.is-closing .backdrop__scrim {
     },
     {
       n: 10, section: 'voice', type: 'text',
+      portraitRole: 'metadata',
+      portraitEligible: false,
+      portraitStages: [],
       prompt: {
         en: 'How is it said aloud?',
         es: '¿Cómo se dice en voz alta?'
@@ -3805,6 +3848,9 @@ body.is-closing .backdrop__scrim {
     },
     {
       n: 11, section: 'voice', type: 'choice',
+      portraitRole: 'metadata',
+      portraitEligible: false,
+      portraitStages: [],
       prompt: {
         en: 'Do you write as yourself, or does the studio speak?',
         es: '¿Escribes como tú misma, o habla el estudio?'
@@ -3820,18 +3866,39 @@ body.is-closing .backdrop__scrim {
       noteLabel: UI.addAnything
     },
     {
-      n: 12, section: 'voice', type: 'list3',
+      n: 12, section: 'voice', type: 'textarea',
+      portraitRole: 'portrait',
+      portraitEligible: true,
+      portraitStages: ['archive', 'collection', 'exhibition'],
       prompt: {
-        en: 'Three words you would want a client to use about the experience of working with you.',
-        es: 'Tres palabras que querrías que una clienta usara sobre cómo se siente trabajar contigo.'
+        en: 'What do you want people to feel when they work with you?',
+        es: '¿Qué quieres que sienta la gente al trabajar contigo?'
       },
       sub: {
-        en: 'Not about the pictures. About you.',
-        es: 'No sobre las fotos. Sobre ti.'
+        en: 'A sentence is enough. Not about the pictures — about you.',
+        es: 'Una frase basta. No sobre las fotos: sobre ti.'
+      },
+      micro: { en: 'A sentence is enough.', es: 'Una frase basta.' }
+    },
+    {
+      n: 24, section: 'voice', type: 'textarea',
+      portraitRole: 'portrait',
+      portraitEligible: true,
+      portraitStages: ['archive', 'collection', 'exhibition'],
+      prompt: {
+        en: 'How should your work sound?',
+        es: '¿Cómo debería sonar tu trabajo?'
+      },
+      sub: {
+        en: 'Warm, quiet, direct, precise — use your words.',
+        es: 'Cálido, quieto, directo, preciso — con tus palabras.'
       }
     },
     {
       n: 13, section: 'voice', type: 'textarea',
+      portraitRole: 'boundary',
+      portraitEligible: false,
+      portraitStages: [],
       prompt: {
         en: 'Is there anything you would never want the brand to sound like?',
         es: '¿Hay algo a lo que nunca querrías que sonara la marca?'
@@ -3844,21 +3911,24 @@ body.is-closing .backdrop__scrim {
 
     {
       n: 14, section: 'feel', type: 'choice', heavy: true,
+      portraitRole: 'operational',
+      portraitEligible: false,
+      portraitStages: [],
       prompt: {
-        en: 'How much colour does this brand get?',
+        en: 'How much color does this brand get?',
         es: '¿Cuánto color le toca a esta marca?'
       },
       body: {
-        en: 'My recommendation is very little. Near black, paper, and one restrained accent, letting your photographs carry all the colour in the system. Tell me if that sounds right, or if it sounds too austere for how you see the practice.',
-        es: 'Mi recomendación es muy poco. Casi negro, papel, y un acento discreto, dejando que tus fotografías carguen todo el color del sistema. Dime si eso te suena bien, o si te suena demasiado austero para cómo ves la práctica.'
+        en: 'My recommendation is very little. Near black, paper, and one restrained accent, letting your photographs carry all the color in the system. Tell me if that sounds right, or if it sounds too austere for how you see the work.',
+        es: 'Mi recomendación es muy poco. Casi negro, papel, y un acento discreto, dejando que tus fotografías carguen todo el color del sistema. Dime si eso te suena bien, o si te suena demasiado austero para cómo ves el trabajo.'
       },
       why: {
         en: 'This is the one recommendation I would defend hardest, so I would rather have the disagreement now than at the presentation.',
         es: 'Esta es la recomendación que defendería con más fuerza, así que prefiero tener el desacuerdo ahora que en la presentación.'
       },
       options: {
-        en: ['That sounds right', 'Mostly right, but I want room to argue', 'Too austere for how I see the practice', 'I don\u2019t know yet'],
-        es: ['Me suena bien', 'Casi bien, pero quiero espacio para discutir', 'Demasiado austero para cómo veo la práctica', 'Todavía no sé']
+        en: ['That sounds right', 'Mostly right, but I want room to argue', 'Too austere for how I see the work', 'I don\u2019t know yet'],
+        es: ['Me suena bien', 'Casi bien, pero quiero espacio para decirte que no', 'Demasiado austero para cómo veo el trabajo', 'Todavía no sé']
       },
       noteLabel: { en: 'Tell me why', es: 'Dime por qué' },
       micro: {
@@ -3868,6 +3938,9 @@ body.is-closing .backdrop__scrim {
     },
     {
       n: 15, section: 'feel', type: 'textarea',
+      portraitRole: 'portrait',
+      portraitEligible: true,
+      portraitStages: ['archive', 'collection', 'exhibition'],
       prompt: {
         en: 'Is your work warm or cool?',
         es: '¿Tu trabajo es cálido o frío?'
@@ -3879,24 +3952,30 @@ body.is-closing .backdrop__scrim {
     },
     {
       n: 16, section: 'feel', type: 'pairs3',
+      portraitRole: 'portrait',
+      portraitEligible: false,
+      portraitStages: [],
       prompt: {
         en: 'Three brands, any industry, that feel right to you.',
         es: 'Tres marcas, de cualquier industria, que se sientan bien para ti.'
       },
       sub: {
-        en: 'And more usefully, one line each on why. "Because it is clean" tells me nothing. "Because they trust you to work it out yourself" tells me a great deal.',
-        es: 'Y más útil todavía, una línea de por qué en cada una. "Porque es limpia" no me dice nada. "Porque confían en que tú lo entiendas sola" me dice muchísimo.'
+        en: 'And one line each on why. A vague reason tells me little. A specific one tells me a great deal.',
+        es: 'Y una línea de por qué en cada una. Una razón vaga me dice poco. Una específica me dice muchísimo.'
       }
     },
     {
       n: 17, section: 'feel', type: 'textarea', heavy: true,
+      portraitRole: 'boundary',
+      portraitEligible: false,
+      portraitStages: [],
       prompt: {
         en: 'What are you tired of seeing in photography branding?',
         es: '¿De qué estás harta en el branding de fotografía?'
       },
       sub: {
-        en: 'Be specific and be unkind. This is one of the more valuable answers on the page.',
-        es: 'Sé específica y sé cruel. Esta es una de las respuestas más valiosas de la página.'
+        en: 'Be specific and direct. This is one of the more valuable answers on the page.',
+        es: 'Sé directa, sin suavizar. Esta es una de las respuestas más valiosas de la página.'
       },
       why: {
         en: 'Knowing what to avoid is usually more precise than knowing what to aim for, and most people need permission to say it plainly.',
@@ -3910,17 +3989,23 @@ body.is-closing .backdrop__scrim {
 
     {
       n: 18, section: 'physical', type: 'textarea',
+      portraitRole: 'operational',
+      portraitEligible: false,
+      portraitStages: [],
       prompt: {
         en: 'What do clients actually receive from you?',
         es: '¿Qué reciben tus clientas en realidad?'
       },
       sub: {
         en: 'Files, prints, an album, a USB, a box, an email link. Describe the current moment of delivery honestly, including the parts that feel unfinished.',
-        es: 'Archivos, impresiones, un álbum, una USB, una caja, un link por correo. Describe el momento de entrega tal como es hoy, incluyendo las partes que se sienten sin terminar.'
+        es: 'Archivos, impresiones, un álbum, una USB, una caja, un enlace por correo. Describe el momento de entrega tal como es hoy, incluyendo las partes que se sienten sin terminar.'
       }
     },
     {
       n: 19, section: 'physical', type: 'textarea',
+      portraitRole: 'portrait',
+      portraitEligible: true,
+      portraitStages: ['archive', 'collection', 'exhibition'],
       prompt: {
         en: 'What could that moment be?',
         es: '¿Qué podría ser ese momento?'
@@ -3932,6 +4017,9 @@ body.is-closing .backdrop__scrim {
     },
     {
       n: 20, section: 'physical', type: 'choice',
+      portraitRole: 'operational',
+      portraitEligible: false,
+      portraitStages: [],
       prompt: {
         en: 'What is a realistic budget for printed pieces?',
         es: '¿Cuál es un presupuesto realista para piezas impresas?'
@@ -3952,9 +4040,26 @@ body.is-closing .backdrop__scrim {
     },
 
     {
-      n: 21, section: 'exists', type: 'textarea',
+      n: 25, section: 'exists', type: 'textarea',
+      portraitRole: 'portrait',
+      portraitEligible: true,
+      portraitStages: ['archive', 'collection', 'exhibition'],
       prompt: {
-        en: 'Is there a current logo, colour, or typeface with any recognition worth keeping?',
+        en: 'What already feels true about your work, even if everything around it is unfinished?',
+        es: '¿Qué ya se siente verdadero en tu trabajo, aunque todo alrededor esté sin terminar?'
+      },
+      sub: {
+        en: 'Not the logo or the site. The work itself.',
+        es: 'No el logo ni el sitio. El trabajo mismo.'
+      }
+    },
+    {
+      n: 21, section: 'exists', type: 'textarea',
+      portraitRole: 'operational',
+      portraitEligible: false,
+      portraitStages: [],
+      prompt: {
+        en: 'Is there a current logo, color, or typeface with any recognition worth keeping?',
         es: '¿Hay un logo, un color o una tipografía actual con algo de reconocimiento que valga la pena conservar?'
       },
       sub: {
@@ -3964,17 +4069,23 @@ body.is-closing .backdrop__scrim {
     },
     {
       n: 22, section: 'exists', type: 'textarea',
+      portraitRole: 'operational',
+      portraitEligible: false,
+      portraitStages: [],
       prompt: {
         en: 'What is currently live?',
         es: '¿Qué está activo ahora?'
       },
       sub: {
         en: 'Site, Instagram, printed pieces, anything with your name on it. Links or photographs.',
-        es: 'Sitio, Instagram, piezas impresas, cualquier cosa con tu nombre. Links o fotos.'
+        es: 'Sitio, Instagram, piezas impresas, cualquier cosa con tu nombre. Enlaces o fotos.'
       }
     },
     {
       n: 23, section: 'exists', type: 'textarea',
+      portraitRole: 'operational',
+      portraitEligible: false,
+      portraitStages: [],
       prompt: {
         en: 'Is anything locked?',
         es: '¿Hay algo que ya no se pueda mover?'
@@ -3995,8 +4106,8 @@ body.is-closing .backdrop__scrim {
       key: 'selection',
       title: { en: 'A representative selection', es: 'Una selección representativa' },
       body: {
-        en: 'Thirty to fifty photographs that show where the practice is going. Not your greatest hits. Include the everyday client work, because that is what the system has to hold.',
-        es: 'Treinta a cincuenta fotografías que muestren hacia dónde va la práctica. No tus favoritas. Incluye el trabajo de todos los días, porque eso es lo que el sistema tiene que sostener.'
+        en: 'Thirty to fifty photographs that show where the work is going. Not your greatest hits. Include the everyday client work, because that is what the system has to hold.',
+        es: 'Treinta a cincuenta fotografías que muestren hacia dónde va el trabajo. No tus favoritas. Incluye el trabajo de todos los días, porque eso es lo que el sistema tiene que sostener.'
       },
       label: { en: 'Choose photographs', es: 'Elegir fotografías' }
     },
@@ -4027,8 +4138,8 @@ body.is-closing .backdrop__scrim {
   var COPY = {
     openingTitle: { en: 'El Retrato', es: 'El Retrato' },
     openingStatement: {
-      en: 'Every practice has a way of seeing the world. Before I design yours, I would like to understand it.',
-      es: 'Cada práctica tiene su manera de ver el mundo. Antes de diseñar la tuya, quiero entenderla.'
+      en: 'Every body of work has a way of seeing the world. Before I design yours, I would like to understand it.',
+      es: 'Todo trabajo tiene su manera de ver el mundo. Antes de diseñar el tuyo, quiero entenderlo.'
     },
     letter: {
       en: [
@@ -4064,16 +4175,16 @@ body.is-closing .backdrop__scrim {
     closingLede: { en: 'We have what we need.', es: 'Ya tenemos lo que necesitamos.' },
     closing: {
       en: [
-        'Thank you for taking the time to let me see the practice from your side.',
+        'Thank you for taking the time to let me see the work from your side.',
         'Over the next several days I will read your answers slowly and look for what makes the work unmistakably yours.',
-        'What follows will not be a logo or a mood board.',
-        'It will be my reading of your practice.'
+        'What follows will not be a logo or a reference board.',
+        'It will be my reading of your work.'
       ],
       es: [
-        'Gracias por tomarte el tiempo de dejarme ver la práctica desde tu lado.',
+        'Gracias por tomarte el tiempo de dejarme ver el trabajo desde tu lado.',
         'En los próximos días voy a leer tus respuestas con calma y buscar lo que hace que el trabajo sea inconfundiblemente tuyo.',
-        'Lo siguiente no será un logo ni un mood board.',
-        'Será mi lectura de tu práctica.'
+        'Lo siguiente no será un logo ni un panel de referencias.',
+        'Será mi lectura de tu trabajo.'
       ]
     },
     closingThree: {
@@ -4110,14 +4221,14 @@ body.is-closing .backdrop__scrim {
       title: { en: 'About El Retrato', es: 'Sobre El Retrato' },
       body: {
         en: [
-          'El Retrato is an editorial system for discovering, reading, and framing a creative practice or engagement.',
+          'El Retrato is an editorial system for discovering, reading, and framing a creative work or engagement.',
           'It can be used to see one’s own work more clearly or to open a more personal, thoughtful, and specific process with a client.',
-          'Responses remain exactly as written. When submitted, they are sent privately to LG Studio to support the preparation of a brief, reading, workspace, or strategic plan created for that practice, brand, or engagement.'
+          'Responses remain exactly as written. When submitted, they are sent privately to LG Studio to support the preparation of a brief, reading, workspace, or strategic plan created for that work, brand, or engagement.'
         ],
         es: [
-          'El Retrato es un sistema editorial para descubrir, leer y encuadrar una práctica o un encargo creativo.',
+          'El Retrato es un sistema editorial para descubrir, leer y encuadrar un trabajo creativo o un encargo.',
           'Puede utilizarse para mirar con mayor claridad el trabajo propio o para abrir un proceso más personal, profundo y específico con un cliente.',
-          'Las respuestas permanecen tal como fueron escritas. Al enviarlas, pasan de forma privada a LG Studio para apoyar la preparación de un brief, una lectura, un workspace o un plan estratégico propio para esa práctica, marca o encargo.'
+          'Las respuestas permanecen tal como fueron escritas. Al enviarlas, pasan de forma privada a LG Studio para apoyar la preparación de un brief, una lectura, un workspace o un plan estratégico propio para ese trabajo, marca o encargo.'
         ]
       }
     },
@@ -4126,7 +4237,7 @@ body.is-closing .backdrop__scrim {
       body: {
         en: [
           'The responses you share in El Retrato are private.',
-          'LG Studio uses them only to understand and analyze your practice, brand, or creative engagement and to prepare a brief, reading, workspace, or strategic plan created for you.',
+          'LG Studio uses them only to understand and analyze your work, brand, or creative engagement and to prepare a brief, reading, workspace, or strategic plan created for you.',
           'LG Studio does not sell your responses, does not publish them, and does not share them with other clients, audiences, or advertisers.',
           'Original responses are stored temporarily in Supabase for a maximum of 90 days from submission and are then deleted automatically.',
           'LG Studio may use AI-assisted tools internally to organize or analyze the information, always under human review and only to prepare the requested work.',
@@ -4136,7 +4247,7 @@ body.is-closing .backdrop__scrim {
         ],
         es: [
           'Las respuestas que compartes en El Retrato son privadas.',
-          'LG Studio las utiliza únicamente para comprender y analizar tu práctica, tu marca o tu encargo creativo y preparar un brief, una lectura, un workspace o un plan estratégico propio para ti.',
+          'LG Studio las utiliza únicamente para comprender y analizar tu trabajo, tu marca o tu encargo creativo y preparar un brief, una lectura, un workspace o un plan estratégico propio para ti.',
           'LG Studio no vende tus respuestas, no las publica y no las comparte con otros clientes, audiencias ni anunciantes.',
           'Las respuestas originales se almacenan temporalmente en Supabase durante un máximo de 90 días desde su envío y después se eliminan automáticamente.',
           'LG Studio puede utilizar herramientas asistidas por inteligencia artificial como apoyo interno para organizar o analizar la información, siempre bajo revisión humana y únicamente para preparar el trabajo solicitado.',
@@ -4157,11 +4268,11 @@ body.is-closing .backdrop__scrim {
           },
           a: {
             en: [
-              'El Retrato is an editorial system created by LG Studio for discovering, reading, and framing a creative practice or engagement.',
+              'El Retrato is an editorial system created by LG Studio for discovering, reading, and framing a creative work or engagement.',
               'It can be used to see one’s own work more clearly or to open a more personal and specific process with a client.'
             ],
             es: [
-              'El Retrato es un sistema editorial creado por LG Studio para descubrir, leer y encuadrar una práctica o un encargo creativo.',
+              'El Retrato es un sistema editorial creado por LG Studio para descubrir, leer y encuadrar un trabajo creativo o un encargo.',
               'Puede utilizarse para mirar con mayor claridad el trabajo propio o para abrir un proceso más personal y específico con un cliente.'
             ]
           }
@@ -4174,11 +4285,11 @@ body.is-closing .backdrop__scrim {
           a: {
             en: [
               'No. You can answer only what makes sense for you.',
-              'Still, the more complete the journey, the more context LG Studio will have to understand your practice, brand, or creative engagement.'
+              'Still, the more complete the journey, the more context LG Studio will have to understand your work, brand, or creative engagement.'
             ],
             es: [
               'No. Puedes responder únicamente aquello que tenga sentido para ti.',
-              'Sin embargo, cuanto más completo sea el recorrido, más contexto tendrá LG Studio para comprender tu práctica, tu marca o tu encargo creativo.'
+              'Sin embargo, cuanto más completo sea el recorrido, más contexto tendrá LG Studio para comprender tu trabajo, tu marca o tu encargo creativo.'
             ]
           }
         },
@@ -4220,11 +4331,11 @@ body.is-closing .backdrop__scrim {
           a: {
             en: [
               'Your responses are sent privately to LG Studio and stored temporarily in Supabase.',
-              'LG Studio uses them to understand your practice, brand, or creative engagement and to prepare a brief, reading, workspace, or strategic plan created for you.'
+              'LG Studio uses them to understand your work, brand, or creative engagement and to prepare a brief, reading, workspace, or strategic plan created for you.'
             ],
             es: [
               'Tus respuestas se envían de forma privada a LG Studio y se almacenan temporalmente en Supabase.',
-              'LG Studio las utiliza para comprender tu práctica, tu marca o tu encargo creativo y preparar un brief, una lectura, un workspace o un plan estratégico propio para ti.'
+              'LG Studio las utiliza para comprender tu trabajo, tu marca o tu encargo creativo y preparar un brief, una lectura, un workspace o un plan estratégico propio para ti.'
             ]
           }
         },
@@ -4376,22 +4487,22 @@ body.is-closing .backdrop__scrim {
      chapters carry in between runs in monochrome. */
 
   var FILM_OPENING = film('film-opening',
-    { en: 'Desert gown', es: 'Desert gown' },
+    { en: 'Desert gown', es: 'Vestido en el desierto' },
     'Sharnay_005_hi2ijc', 'v1785217062',
     'e_upscale/c_fill,g_auto,ar_16:9,w_2400/e_brightness:-10/e_contrast:12/q_auto:good',
-    '52% 45%', 'light', 'left', { category: 'FASHION EDITORIAL', subtype: 'ON LOCATION', credit: 'By Erika Sharnay', shortCategory: 'FASHION EDITORIAL' });
+    '52% 45%', 'light', 'left', { category: { en: 'FASHION EDITORIAL', es: 'EDITORIAL DE MODA' }, subtype: { en: 'ON LOCATION', es: 'EN EXTERIOR' }, credit: UI.editorialBy, shortCategory: { en: 'FASHION EDITORIAL', es: 'EDITORIAL DE MODA' } });
 
   var FILM_SEND = film('film-send',
-    { en: 'Woman obscured by feathers', es: 'Woman obscured by feathers' },
+    { en: 'Woman obscured by feathers', es: 'Mujer cubierta por plumas' },
     'Sharnay_004_hbehan', 'v1785216801',
     'e_upscale/c_thumb,g_auto,z_1.7,ar_16:9,w_2000/e_grayscale/e_brightness:-28/e_contrast:16/q_auto:good',
-    '50% 45%', 'medium', 'left', { category: 'CONCEPTUAL PORTRAIT', subtype: 'SOFT-FOCUS STUDY', credit: 'By Erika Sharnay', shortCategory: 'CONCEPTUAL PORTRAIT' });
+    '50% 45%', 'medium', 'left', { category: { en: 'CONCEPTUAL PORTRAIT', es: 'RETRATO CONCEPTUAL' }, subtype: { en: 'SOFT-FOCUS STUDY', es: 'ESTUDIO DE FOCO SUAVE' }, credit: UI.editorialBy, shortCategory: { en: 'CONCEPTUAL PORTRAIT', es: 'RETRATO CONCEPTUAL' } });
 
   var FILM_CLOSING = film('film-closing',
     { en: 'Studio, water and hard light', es: 'Estudio, agua y luz dura' },
     'Sharnay_021_limqia', 'v1785281874',
     'e_upscale/c_fill,g_east,ar_16:9,w_2400/e_brightness:-6/e_contrast:8/q_auto:good',
-    '72% 42%', 'medium', 'left', { category: 'CONCEPTUAL BEAUTY', subtype: 'WATER STUDY', credit: 'By Erika Sharnay', shortCategory: 'CONCEPTUAL BEAUTY' });
+    '72% 42%', 'medium', 'left', { category: { en: 'CONCEPTUAL BEAUTY', es: 'BELLEZA CONCEPTUAL' }, subtype: { en: 'WATER STUDY', es: 'ESTUDIO DE AGUA' }, credit: UI.editorialBy, shortCategory: { en: 'CONCEPTUAL BEAUTY', es: 'BELLEZA CONCEPTUAL' } });
 
   var SCREENS = [];
 
@@ -4519,6 +4630,13 @@ body.is-closing .backdrop__scrim {
     return { version: 1, fragments: [] };
   }
 
+  function questionByN(n) {
+    for (var i = 0; i < QUESTIONS.length; i++) {
+      if (QUESTIONS[i].n === n) return QUESTIONS[i];
+    }
+    return null;
+  }
+
   function normalizePortrait(portrait) {
     if (!portrait || typeof portrait !== 'object' || Array.isArray(portrait)) {
       return emptyPortrait();
@@ -4533,6 +4651,10 @@ body.is-closing .backdrop__scrim {
       var text = f.text.trim();
       if (!text) continue;
       if (typeof f.sectionId !== 'string' || !f.sectionId) continue;
+      /* Sanitize: drop fragments whose question is no longer portrait-eligible
+         (boundary / metadata / operational / never). Answers remain in state.answers. */
+      var q = questionByN(f.questionN);
+      if (!isPortraitEligible(q, text)) continue;
       out.fragments.push({
         id: typeof f.id === 'string' && f.id ? f.id : ('q:' + f.questionN),
         questionN: f.questionN,
@@ -4556,10 +4678,17 @@ body.is-closing .backdrop__scrim {
   function isPortraitEligible(q, answer) {
     if (!ENGAGEMENT.portraitEnabled) return false;
     if (!q || q.type !== 'textarea') return false;
+    if (q.portraitEligible !== true) return false;
     var text = extractHeldText(answer);
     if (!text) return false;
     if (text.length > ENGAGEMENT.portraitMaxChars) return false;
     return true;
+  }
+
+  function isPortraitStageAllowed(q, stage) {
+    if (!q || q.portraitEligible !== true) return false;
+    if (!Array.isArray(q.portraitStages) || !q.portraitStages.length) return false;
+    return q.portraitStages.indexOf(stage) !== -1;
   }
 
   function upsertPortraitFragment(q) {
@@ -4597,7 +4726,8 @@ body.is-closing .backdrop__scrim {
     if (!screen || screen.kind !== 'portrait' || !screen.portrait) return [];
     var cfg = screen.portrait;
     var list = state.portrait.fragments.filter(function (f) {
-      return f.sectionId === cfg.sectionId;
+      if (f.sectionId !== cfg.sectionId) return false;
+      return isPortraitStageAllowed(questionByN(f.questionN), cfg.stage);
     });
     if (cfg.stage === 'archive') {
       if (!list.length) return [];
@@ -5256,12 +5386,14 @@ body.is-closing .backdrop__scrim {
       '<div class="letter-layout">' +
         '<section class="letter">' +
           '<p class="letter__eyebrow">' + esc(t(UI.letter)) + '</p>' +
-          '<h1 class="letter__greeting">' + esc(ENGAGEMENT.salutation) + '</h1>' +
+          '<h1 class="letter__greeting">' + esc(t(ENGAGEMENT.salutation)) + '</h1>' +
           '<div class="letter__body">' + bodyParas + '</div>' +
           '<div class="letter__signature">' +
-            '<p class="letter__signature-close">Tu hermano,</p>' +
+            '<p class="letter__signature-close">' + esc(t(ENGAGEMENT.signatureClose)) + '</p>' +
             '<p class="letter__signature-name">' + esc(ENGAGEMENT.author) + '</p>' +
-            '<p class="letter__signature-alias">(El Chamako)</p>' +
+            (t(ENGAGEMENT.signatureAlias)
+              ? '<p class="letter__signature-alias">' + esc(t(ENGAGEMENT.signatureAlias)) + '</p>'
+              : '') +
             '<span class="letter__signature-tag">' + esc(ENGAGEMENT.studio) + '</span>' +
           '</div>' +
         '</section>' +
@@ -5392,10 +5524,12 @@ body.is-closing .backdrop__scrim {
   }
 
   function closingColophonMarkup(frame) {
-    var note = frame && frame.caption ? t(frame.caption) : 'Estudio, agua y luz dura';
+    var note = frame && frame.caption
+      ? t(frame.caption)
+      : t({ en: 'Studio, water, and hard light', es: 'Estudio, agua y luz dura' });
     var label = filmTaxonomyLabel(frame, false);
     var parts = label.split(' | ');
-    var taxonomy = parts[0] || 'CONCEPTUAL BEAUTY · WATER STUDY';
+    var taxonomy = parts[0] || t({ en: 'CONCEPTUAL BEAUTY · WATER STUDY', es: 'BELLEZA CONCEPTUAL · ESTUDIO DE AGUA' });
     var credit = parts[1] || t(UI.editorialBy);
     return '' +
       '<div class="closing-colophon">' +
@@ -6204,6 +6338,11 @@ body.is-closing .backdrop__scrim {
   function updateChrome(screen) {
     document.documentElement.setAttribute('lang', lang);
     document.title = t(ENGAGEMENT.title) + ' · ' + ENGAGEMENT.client + ' · ' + ENGAGEMENT.studio;
+    if (stage) stage.setAttribute('aria-label', t(ENGAGEMENT.title));
+    var metaDesc = document.querySelector('meta[name="description"]');
+    if (metaDesc && ENGAGEMENT.metaDescription) {
+      metaDesc.setAttribute('content', t(ENGAGEMENT.metaDescription));
+    }
     if (skipLink) skipLink.textContent = t(UI.skip);
     if (langGroup) langGroup.setAttribute('aria-label', t(UI.language));
     Array.prototype.forEach.call(langGroup.querySelectorAll('.lang__btn'), function (el) {

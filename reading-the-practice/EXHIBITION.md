@@ -57,11 +57,12 @@ The system **removes everything that competes** with the sentence.
 ## 3. What Exhibition is / is not
 
 ### Is
-- **1** held textarea answer from section `exists` (deterministic: lowest `questionN`)
+- **1** held **portrait-eligible** textarea answer from section `exists` (deterministic: lowest `questionN`)
 - Exact text after mechanical trim
 - A quiet field where attention can remain
 - Continuous with intake voice: **Cormorant Garamond 400**
 - Feeling: *I stayed with this*
+- Boundary / metadata / operational answers never become Exhibition fragments
 
 ### Is not
 - A room that must be “designed” as architecture

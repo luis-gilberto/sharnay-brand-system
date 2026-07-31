@@ -42,5 +42,7 @@ reading-the-practice/_preview*.js
 reading-the-practice/_validate*.mjs
 reading-the-practice/_shot*.mjs
 reading-the-practice/_prod_check.mjs
+reading-the-practice/_patch_*.mjs
+reading-the-practice/_qa_*.mjs
 reading-the-practice/corrective-package/previews/
 

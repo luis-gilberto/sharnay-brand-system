@@ -27,7 +27,7 @@ If any file is missing, stop and ask.
 
 **No scrolling. Anywhere. Ever.**
 
-This is not an ergonomic preference. It is a system contract. Every screen in the Portrait experience must fit in a single viewport at every supported viewport size, from 320×568 (small phone) to 2560×1440 (large desktop).
+This is not an ergonomic preference. It is a **single-viewport rule** (non-negotiable layout rule / viewport integrity rule). Every screen in the Portrait experience must fit in a single viewport at every supported viewport size, from 320×568 (small phone) to 2560×1440 (large desktop).
 
 Implementation:
 ```css
@@ -42,7 +42,7 @@ html, body { height: 100%; overflow: hidden; }
 
 ---
 
-## The DOM contract (non-negotiable)
+## The DOM structure (non-negotiable layout rule)
 
 ```html
 <div class="app">

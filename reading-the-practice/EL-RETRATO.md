@@ -98,12 +98,46 @@ Three custody stages, inserted after specific sections:
 
 - Portrait enabled (`ENGAGEMENT.portraitEnabled`)
 - Field type is `textarea`
+- Question declares `portraitEligible: true` (question intent — not every textarea)
 - Non-empty after trim
 - Length ≤ `portraitMaxChars` (**180**)
+- Stage is listed on that question’s `portraitStages`
 
-**Hard content rule:** empty / too long / not textarea → never held. If a stage has fewer than `minFragments`, the portrait screen is **skipped**.
+**Question intent (`portraitRole`):**
 
-**Skip / select logic** lives in `isPortraitEligible`, `upsertPortraitFragment`, `selectPortraitFragments`, `shouldSkipPortrait`.
+| Role | Meaning | Portrait surfaces |
+|------|---------|-------------------|
+| `portrait` | Reflective identity material (beliefs, values, philosophy, aspirations) | Archive / Collection / Exhibition when `portraitEligible` |
+| `boundary` | What the brand must **not** be / anti-values | Never — strategy + export/review only |
+| `metadata` | Names, identifiers, pronunciation, naming choices | Never |
+| `operational` | Logistics, assets, links, delivery, budget, locks | Never |
+
+**Hard content rule:** empty / too long / not textarea / not `portraitEligible` → never held. `normalizePortrait` drops any stored fragment whose question is no longer eligible. Answers remain in `state.answers`, review, and export. If a stage has fewer than `minFragments`, the portrait screen is **skipped**.
+
+**Skip / select logic** lives in `isPortraitEligible`, `isPortraitStageAllowed`, `upsertPortraitFragment`, `selectPortraitFragments`, `shouldSkipPortrait`.
+
+**Question audit (canonical intake):**
+
+| # | Role | Portrait surfaces |
+|---|------|-------------------|
+| 1–3 | portrait | Archive (Work) |
+| 4–7 | operational | Export / review only |
+| 8 | portrait | Held; section-gated (People) |
+| 9–11 | metadata | Export / review only |
+| 12 | portrait | Collection (Voice) |
+| 24 | portrait | Collection (Voice) — “How should your work sound?” |
+| 13 | boundary | Export / review only — never Portrait |
+| 14 | operational | Export / review only |
+| 15 | portrait | Held; section-gated (Feel) |
+| 16 | pairs3 | Export / review only |
+| 17 | boundary | Export / review only |
+| 18 | operational | Export / review only |
+| 19 | portrait | Held; section-gated (Physical) |
+| 20 | operational | Export / review only |
+| 25 | portrait | Exhibition (Exists) — “What already feels true…” |
+| 21–23 | operational | Export / review only |
+
+**Stage coverage:** Archive ← Work Q1–Q3 · Collection ← Voice Q12 + Q24 (`minFragments: 2`) · Exhibition ← Exists Q25. Boundary/metadata/operational never enter Portrait surfaces.
 
 ---
 
@@ -119,12 +153,12 @@ Mapped to section `room` + `seedMinutes`:
 |-----------|-----------|--------------|
 | Introducción | Introduction | 24 |
 | Origen | Origin | 20 |
-| Práctica | Practice | 15 |
+| Voz | Voice | 15 |
 | Color y sensación | Color and Sensation | 9 |
 | Lo físico | The Physical | 5 |
 | Lo que ya existe | What Already Exists | 2 |
 
-Place names align with chapter identity so they do not collide with section III (“The Name and the Voice”) or the Closing Letter label (“Cierre”).
+Place names use short chrome labels (Voice / Voz for section III). Capítulo remains film/chapter-opener language only. Closing place label remains “Cierre”.
 
 ### 4.2 Two elements
 
