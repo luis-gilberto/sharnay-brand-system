@@ -1,0 +1,20 @@
+# Incoming review bundles and local packaging — never ship to production
+corrective-package/
+corrective-package-2/
+*.zip
+
+# Local validators / probes / reconciliation helpers
+_*.cjs
+_*.mjs
+_*.ps1
+_*.txt
+_*.json
+_recovery-backups/
+_preview*.js
+jump-*.html
+
+# Dependencies already handled by install; keep uploads lean when using CLI
+node_modules/
+.env
+.env.*
+!.env.example
