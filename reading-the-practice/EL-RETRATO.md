@@ -189,6 +189,23 @@ On **Archive Return Plate**: chrome shows **brand + time only** — no “Archiv
 
 ---
 
+## 4.5 Editorial voice typography + portrait face clearance
+
+Locked voice roles on film screens:
+
+| Role | Treatment |
+|------|-----------|
+| Editorial intervention (system editorial voice) — chapter opener reflection **and** pause line | **Serif italic** |
+| Dek, descriptive support, functional explanation | **Serif roman** |
+
+- Italic is **reserved** for editorial intervention.
+- Editorial intervention and dek must **never** both be italic on the same screen.
+- Pause screens carry only the intervention (no dek); they still use italic.
+
+**Portrait composition rule:** text must never cover or visually cross a subject’s face in portrait photography. Protected area includes forehead, eyes, nose, mouth, jawline, and the primary hair silhouette around the face. Place copy in available negative space. Placement must respond to the **actual photograph** (per-frame `side` / `copyBand`), not only a generic optical-center grid. On narrow viewports, pause lines default to a lower face-safe band above chrome unless a frame opts into `copyBand: mid`.
+
+---
+
 ## 5. Unified top chrome
 
 **Composition:**

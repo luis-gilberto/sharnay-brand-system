@@ -5,13 +5,31 @@
   Open this file in any browser. No server required.
   Source: reading-the-practice/ in the Sharnay brand-system repo.
 -->
-<html lang="en">
+<html lang="es">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content">
 <title>El Retrato · Sharnay Photography · LG Studio</title>
-<meta name="description" content="A conversation before the portrait. An experience by LG Studio for Sharnay Photography.">
+<meta name="description" content="Una experiencia editorial para descubrir, leer y encuadrar la práctica de Sharnay Photography antes de construir su sistema visual.">
 <meta name="color-scheme" content="light">
+<link rel="canonical" href="https://elretrato.sharnayphotography.com/">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="es_ES">
+<meta property="og:locale:alternate" content="en_US">
+<meta property="og:site_name" content="El Retrato">
+<meta property="og:url" content="https://elretrato.sharnayphotography.com">
+<meta property="og:title" content="El Retrato · Sharnay Photography">
+<meta property="og:description" content="Una experiencia editorial para descubrir, leer y encuadrar la práctica de Sharnay Photography antes de construir su sistema visual.">
+<meta property="og:image" content="https://elretrato.sharnayphotography.com/assets/og/el-retrato.jpg">
+<meta property="og:image:type" content="image/jpeg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="El Retrato · Sharnay Photography">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="El Retrato · Sharnay Photography">
+<meta name="twitter:description" content="Una experiencia editorial para descubrir, leer y encuadrar la práctica de Sharnay Photography antes de construir su sistema visual.">
+<meta name="twitter:image" content="https://elretrato.sharnayphotography.com/assets/og/el-retrato.jpg">
+<meta name="twitter:image:alt" content="El Retrato · Sharnay Photography">
 <!-- The three Sharnay voices. The file still runs with no network: every
      stack below falls back to a system face of the same colour. -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -1449,7 +1467,41 @@ body.is-title .chrome-top__row {
   margin-top: clamp(30px, 4.4vh, 52px);
   padding-top: 18px;
   border-top: 1px solid var(--line-faint);
-  max-width: 60ch;
+  max-width: 44ch;
+  min-width: 0;
+  box-sizing: border-box;
+  overflow-wrap: break-word;
+}
+
+/* Send is the densest paper screen. The shared .panel grid uses
+   align-content:center + min-height:0 on children; when this screen’s
+   tracks don’t fit, the auto rows shrink below the requests block and
+   the helper note paints over “A representative selection”. Keep the
+   paper language — only stop the collapse here by stacking without
+   shrink, so fitScreen can scale or scroll honestly. */
+.panel.send {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: stretch;
+  align-content: stretch;
+}
+.panel.send > * {
+  flex: 0 0 auto;
+  min-height: auto;
+  min-width: 0;
+  max-width: 100%;
+}
+.panel.send .send__note {
+  max-width: 44ch; /* keep the aside measure; don’t let the flex reset widen it */
+}
+.panel.send .requests,
+.panel.send .request,
+.panel.send .drop {
+  min-width: 0;
+}
+.panel.send .request__body {
+  overflow-wrap: break-word;
 }
 
 /* --------------------------------------------------------------------------
@@ -2236,23 +2288,51 @@ body.info-open { overflow: hidden; touch-action: none; }
 .send__consent-links {
   display: flex;
   flex-wrap: wrap;
-  gap: 8px 22px;
-  margin: 14px 0 0 34px;
+  align-items: baseline;
+  column-gap: 1.35rem;
+  row-gap: 0.35rem;
+  margin: 12px 0 0 34px;
+  max-width: 100%;
+  min-width: 0;
 }
 .send__consent-links button,
 .send__consent-links a {
   font-family: var(--mono);
   font-size: 10px;
+  line-height: 1.35;
   letter-spacing: 0.16em;
   text-transform: uppercase;
   color: var(--fg-soft);
   background: none;
   border: 0;
-  padding: 10px 0;
-  min-height: 44px;
+  padding: 0;
+  margin: 0;
+  min-height: 0;
+  height: auto;
+  display: inline;
   cursor: pointer;
   text-decoration: underline;
-  text-underline-offset: 0.18em;
+  text-underline-offset: 0.22em;
+  text-decoration-thickness: from-font;
+}
+@media (max-width: 480px) {
+  .send__consent-links {
+    margin-left: 0;
+    column-gap: 1.1rem;
+  }
+}
+@media (pointer: coarse) {
+  .send__consent-links {
+    align-items: center;
+    row-gap: 0.15rem;
+  }
+  .send__consent-links button,
+  .send__consent-links a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    padding: 8px 0;
+  }
 }
 
 /* --------------------------------------------------------------------------
@@ -3279,17 +3359,29 @@ body.is-closing .backdrop__scrim {
   .film--pause[data-side="left"]  .film__column { margin-right: auto; margin-left: 0; }
 }
 
+/* Pause has a single child. Override .film's multi-row template so the
+   column owns the full panel height (needed for face-safe flex-end). */
+.film--pause.panel {
+  grid-template-rows: 1fr;
+  row-gap: 0;
+  align-content: stretch;
+}
 .film--pause .film__column {
+  grid-row: 1;
   width: min(100%, clamp(460px, 46vw, 760px));
   flex: 1 1 auto;
   display: flex;
   flex-direction: column;
   justify-content: center;
   min-height: 0;
+  height: 100%;
+  align-self: stretch;
 }
 
 .pause__line {
   font-family: var(--serif);
+  /* Editorial intervention — italic reserved for system editorial voice. */
+  font-style: italic;
   font-size: calc(clamp(1.7rem, 3.4vw, 3.1rem) * var(--fit, 1));
   line-height: 1.28;
   letter-spacing: -0.012em;
@@ -3298,6 +3390,48 @@ body.is-closing .backdrop__scrim {
   max-width: 24ch;
   margin: 0;
   text-wrap: balance;
+}
+
+/* Mobile / narrow: never optically center a pause line over a portrait face.
+   The #no-scroll .panel grid centers a content-sized column — so the column
+   must fill the panel height before justify-content:flex-end can reach the
+   garment / torso band. Per-frame data-copy-band refines the band. */
+@media (max-width: 899px) {
+  .film--pause.panel {
+    align-content: stretch;
+    align-items: stretch;
+  }
+  .film--pause .film__column {
+    justify-content: flex-end;
+    align-self: stretch;
+    width: 100%;
+    height: 100%;
+    min-height: 100%;
+    flex: 1 1 auto;
+    padding-top: clamp(20px, 5vh, 40px);
+    /* #app already insets the stage above chrome — do not add chrome height again. */
+    padding-bottom: clamp(12px, 2.5vh, 28px);
+    box-sizing: border-box;
+  }
+  .film--pause[data-copy-band="lower"] .film__column {
+    /* Face-heavy / upper-subject frames: garment / torso band, clear of nav. */
+    padding-bottom: clamp(16px, 3vh, 32px);
+  }
+  .film--pause[data-copy-band="mid"] .film__column {
+    justify-content: center;
+    padding-bottom: clamp(24px, 6vh, 48px);
+  }
+  .film--pause .pause__line {
+    max-width: min(22ch, 92%);
+  }
+}
+
+/* Short phones: sit even closer to the stage foot so copy clears the face. */
+@media (max-width: 899px) and (max-height: 700px) {
+  .film--pause .film__column,
+  .film--pause[data-copy-band="lower"] .film__column {
+    padding-bottom: clamp(8px, 2vh, 18px);
+  }
 }
 
 /* Entra despacio: la pausa se anuncia sola, sin gesto ni indicador. */
@@ -3473,15 +3607,64 @@ html, body { height: 100%; overflow: hidden; overscroll-behavior: none; }
 .choice                  { padding: calc(12px * var(--fit)) 12px; }
 .pair, .request, .triple { margin-top: calc(18px * var(--fit)); }
 .drop                    { padding: calc(18px * var(--fit)); }
-/* La excepción: desborda dentro de su caja, no en el documento, así las
-   barras fijas no se mueven. */
+/* Response Record is the one intentional scroll document.
+   Do NOT keep it inside the single-screen canvas (height:100% +
+   .panel > * { min-height:0 }): that collapses grid tracks and stacks
+   every answer on the same vertical band. Document flow scrolls instead. */
 .panel.review {
-  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: stretch;
+  align-content: stretch;
+  height: auto;
+  min-height: 0;
+  overflow: visible;
+  transform: none;
+  animation: none;
+  font-size: 1rem;
+  padding-top: clamp(18px, 4vh, 72px);
+  padding-bottom: clamp(48px, 8vh, 96px);
+}
+.panel.review > * {
+  flex: 0 0 auto;
+  min-height: auto;
+  position: static;
+}
+@media (min-width: 1024px) {
+  /* Keep chapter index sticky once document scroll is restored. */
+  .panel.review .review__section-head {
+    position: sticky;
+    top: calc(var(--chrome-h) + 16px);
+  }
+}
+
+/* Page-level scroll exception while the Response Record is open.
+   Fixed chrome stays; #app / #stage / .panel.review grow with content. */
+html.is-review,
+html.is-review body {
+  height: auto;
+  min-height: 100%;
+  overflow-x: hidden;
   overflow-y: auto;
-  overscroll-behavior: contain;
-  -webkit-overflow-scrolling: touch;
-  align-content: start;
-  scrollbar-width: thin;
+  overscroll-behavior: auto;
+}
+html.is-review #app {
+  height: auto;
+  min-height: 100vh;
+  min-height: 100svh;
+  overflow: visible;
+}
+html.is-review #stage {
+  --fit: 1;
+  height: auto;
+  min-height: 0;
+  overflow: visible;
+  flex: 1 0 auto;
+}
+html.is-review .panel.review,
+html.is-review .panel.review > * {
+  transform: none;
 }
 </style>
 </head>
@@ -3594,10 +3777,10 @@ html, body { height: 100%; overflow: hidden; overscroll-behavior: none; }
   <footer class="chrome chrome--bottom" id="chrome-bottom">
     <div class="nav">
       <div class="nav__utility">
-        <div class="lang" role="group" id="lang" aria-label="Language">
-          <button type="button" class="lang__btn" data-lang="en" aria-pressed="true" lang="en">EN</button>
+        <div class="lang" role="group" id="lang" aria-label="Idioma">
+          <button type="button" class="lang__btn" data-lang="en" aria-pressed="false" lang="en">EN</button>
           <span class="lang__sep" aria-hidden="true">/</span>
-          <button type="button" class="lang__btn" data-lang="es" aria-pressed="false" lang="es">ES</button>
+          <button type="button" class="lang__btn" data-lang="es" aria-pressed="true" lang="es">ES</button>
         </div>
         <button type="button" class="link" id="save-later">Save and continue later</button>
         <button type="button" class="link" id="to-beginning">Return to the beginning</button>
@@ -3857,6 +4040,9 @@ html, body { height: 100%; overflow: hidden; overscroll-behavior: none; }
       photoSubtype: taxonomy.subtype || '',
       photoCredit: taxonomy.credit || UI.editorialBy,
       photoShortCategory: taxonomy.shortCategory || taxonomy.category || '',
+      /* Mobile pause / intervention vertical band relative to the subject.
+         lower | mid | (default: face-safe lower on narrow screens). */
+      copyBand: taxonomy.copyBand || '',
       remote: CDN + '/' + grade + '/' + version + '/' + id + '.jpg',
       focus: focus || '50% 50%',
       scrim: scrim || 'medium',
@@ -3983,7 +4169,13 @@ html, body { height: 100%; overflow: hidden; overscroll-behavior: none; }
         { en: 'Extreme facial close-up', es: 'Primer plano extremo del rostro' },
         'Sharnay_001_vtln8k', 'v1785216801',
         'e_upscale/c_thumb,g_face,z_1.7,ar_16:9,w_2000/e_grayscale/e_brightness:-20/e_contrast:24/q_auto:good',
-        '62% 50%', 'medium', 'left', { category: { en: 'EDITORIAL BEAUTY', es: 'BELLEZA EDITORIAL' }, subtype: { en: 'EXTREME CLOSE-UP', es: 'PRIMER PLANO' }, credit: UI.editorialBy, shortCategory: { en: 'EDITORIAL BEAUTY', es: 'BELLEZA EDITORIAL' } })
+        '62% 50%', 'medium', 'left', {
+          category: { en: 'EDITORIAL BEAUTY', es: 'BELLEZA EDITORIAL' },
+          subtype: { en: 'EXTREME CLOSE-UP', es: 'PRIMER PLANO' },
+          credit: UI.editorialBy,
+          shortCategory: { en: 'EDITORIAL BEAUTY', es: 'BELLEZA EDITORIAL' },
+          copyBand: 'lower'
+        })
     },
     {
       id: 'feel',
@@ -4011,7 +4203,14 @@ html, body { height: 100%; overflow: hidden; overscroll-behavior: none; }
         { en: 'Woman in monochromatic red', es: 'Mujer en rojo monocromático' },
         'Sharnay_007_z26fs4', 'v1785217785',
         'e_upscale/c_fill,g_auto,ar_16:9,w_2400/e_brightness:-14/e_contrast:14/q_auto:good',
-        '40% 40%', 'medium', 'right', { category: { en: 'STUDIO FASHION PORTRAIT', es: 'RETRATO DE MODA EN ESTUDIO' }, subtype: { en: 'COLOR STUDY', es: 'ESTUDIO DE COLOR' }, credit: UI.editorialBy, shortCategory: { en: 'STUDIO FASHION PORTRAIT', es: 'RETRATO DE MODA EN ESTUDIO' } })
+        '40% 40%', 'medium', 'right', {
+          category: { en: 'STUDIO FASHION PORTRAIT', es: 'RETRATO DE MODA EN ESTUDIO' },
+          subtype: { en: 'COLOR STUDY', es: 'ESTUDIO DE COLOR' },
+          credit: UI.editorialBy,
+          shortCategory: { en: 'STUDIO FASHION PORTRAIT', es: 'RETRATO DE MODA EN ESTUDIO' },
+          /* Face occupies the upper field; pause intervention uses the garment band. */
+          copyBand: 'lower'
+        })
     },
     {
       id: 'physical',
@@ -5035,8 +5234,9 @@ html, body { height: 100%; overflow: hidden; overscroll-behavior: none; }
   }
 
   function preferredLanguage() {
-    var nav = (window.navigator && (window.navigator.language || window.navigator.userLanguage)) || 'en';
-    return String(nav).toLowerCase().indexOf('es') === 0 ? 'es' : 'en';
+    // Always open in Spanish. EN remains available from the language toggle;
+    // a saved choice still wins once she has picked one.
+    return 'es';
   }
 
   /* ----------------------------------------------------------------------
@@ -5393,7 +5593,11 @@ html, body { height: 100%; overflow: hidden; overscroll-behavior: none; }
   }
 
   function filmSide(frame) {
-    return ' data-side="' + esc(frame && frame.side ? frame.side : 'left') + '"';
+    var side = frame && frame.side ? frame.side : 'left';
+    var attrs = ' data-side="' + esc(side) + '"';
+    if (frame && frame.file) attrs += ' data-film="' + esc(frame.file) + '"';
+    if (frame && frame.copyBand) attrs += ' data-copy-band="' + esc(frame.copyBand) + '"';
+    return attrs;
   }
 
   /* No improvised mark exists in this runtime. El Retrato SS 05 and SS 11:
@@ -6020,8 +6224,9 @@ html, body { height: 100%; overflow: hidden; overscroll-behavior: none; }
         '<p class="closing-letter__sign-name">' + esc(ENGAGEMENT.author) + '</p>' +
         '<span class="closing-letter__sign-studio">' + esc(ENGAGEMENT.studio) + '</span>' +
       '</div>';
-      html += '<button type="button" class="closing-letter__cta" data-act="review">' +
-        esc(t(UI.reviewMine)) + '</button>';
+      /* Success: no “Review my answers” CTA — it competed with the colophon
+         and was redundant once the reading is already closed. Review remains
+         available from the menu, and as a secondary link on failure. */
       html += '<div class="closing-letter__secondaries">' +
         '<button type="button" class="link" data-act="export">' + esc(t(UI.downloadCopy || UI.exportCopy)) + '</button>' +
         '<button type="button" class="link" data-act="print">' + esc(t(UI.printSave)) + '</button>' +
@@ -6960,6 +7165,11 @@ html, body { height: 100%; overflow: hidden; overscroll-behavior: none; }
     var screen = SCREENS[state.index];
     var html;
 
+    /* Response Record is the sole document-scroll screen. Toggle before
+       paint so #no-scroll / fitScreen never treat it as a single viewport. */
+    body.classList.toggle('is-review', !!reviewMode);
+    document.documentElement.classList.toggle('is-review', !!reviewMode);
+
     if (reviewMode) {
       html = renderReview();
       body.classList.remove('tone-dark');
@@ -7761,9 +7971,16 @@ html, body { height: 100%; overflow: hidden; overscroll-behavior: none; }
   function fitScreen() {
     stage = stage || document.getElementById("stage");
     if (!stage) return;
-    var el = root();
     stage.style.setProperty("--fit", "1");
     syncBars();
+    /* Never scale or clamp the Response Record / review page — it is the
+       intentional scrolling document. Prefer the runtime flag (html/body
+       .is-review) over a visual selector. */
+    if (document.documentElement.classList.contains("is-review") ||
+        document.body.classList.contains("is-review")) {
+      return;
+    }
+    var el = root();
     if (!el) return;
     if (el.classList.contains("review")) return;
     if (!overflows(el)) return;
