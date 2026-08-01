@@ -182,7 +182,7 @@
      several points darker and cooler, which is a different colour, not a
      texture. The broad cloud runs at reduced amplitude under the fine tooth.
      -------------------------------------------------------------------- */
-  --paper-grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='800' height='800'%3E%3Cfilter id='c'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.006' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0.2,0.2,0.2,0,0.2,0.2,0.2,0.2,0,0.2,0.2,0.2,0.2,0,0.2,0,0,0,0,1'/%3E%3C/filter%3E%3Cfilter id='t'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0.33,0.33,0.33,0,0,0.33,0.33,0.33,0,0,0.33,0.33,0.33,0,0,0,0,0,0,1'/%3E%3C/filter%3E%3Crect width='800' height='800' filter='url(%23c)'/%3E%3Crect width='800' height='800' filter='url(%23t)' opacity='0.5'/%3E%3C/svg%3E");
+  --paper-grain: url("data:image/svg+xml,<svg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20200%20200'><g%20fill='none'%20stroke='#0d0d0d'%20stroke-opacity='0.05'%20stroke-width='2.1'%20stroke-linecap='round'%20stroke-linejoin='round'><circle%20cx='100'%20cy='100'%20r='88'/><polygon%20points='116.7%2C134.2%2078.7%2C131.6%2062.0%2C97.3%2083.3%2C65.8%20121.3%2C68.4%20138.0%2C102.7'/><path%20d='M116.7%20134.2%20L81.7%20186.1'/><path%20d='M78.7%20131.6%20L16.3%20127.2'/><path%20d='M62.0%2097.3%20L34.6%2041.1'/><path%20d='M83.3%2065.8%20L118.3%2013.9'/><path%20d='M121.3%2068.4%20L183.7%2072.8'/><path%20d='M138.0%20102.7%20L165.4%20158.9'/></g></svg>");
 
   --gutter:   clamp(22px, 5.6vw, 108px);
   --chrome-h: 58px;
@@ -1049,15 +1049,6 @@ body.is-title .action:hover {
 .chrome-top__row {
   align-items: center;
 }
-body.is-film .brand__type,
-body.tone-dark .brand__type,
-body.is-title .brand__type {
-  font-size: 15px;
-  font-weight: 400;
-  letter-spacing: -0.01em;
-  white-space: nowrap;
-  color: rgba(244, 241, 236, 0.94);
-}
 body.is-title .chrome--top {
   /* Match letter chrome vertical rhythm so mark sits at the same height */
   padding-top: 18px;
@@ -1885,8 +1876,7 @@ body:not(.is-closing) .menu-sheet__chapter {
     transform: translateX(-50%);
   }
   body.is-closing .chrome-top__row { position: relative; }
-  body.is-closing .brand__type { display: none; }
-  .film--closing.closing-letter {
+    .film--closing.closing-letter {
     min-height: calc(100svh - var(--chrome-h));
     padding-bottom: clamp(16px, 3vh, 28px);
   }
@@ -2521,16 +2511,6 @@ body.tone-dark .toast { background: var(--paper); color: var(--ink); }
   min-width: 0;
   margin: 0;
 }
-.brand__type {
-  font-family: var(--serif);
-  font-size: 15px;
-  font-weight: 400;
-  letter-spacing: -0.01em;
-  color: var(--fg);
-  white-space: nowrap;
-}
-body.is-film .brand__type,
-body.tone-dark .brand__type { color: rgba(244, 241, 236, 0.94); }
 /* Title page keeps the chrome brand — mockup frames the photograph with it. */
 
 .menu-btn {
@@ -2889,7 +2869,7 @@ body.tone-dark .menu-btn span { background: rgba(244, 241, 236, 0.55); }
 
 body.tone-light {
   background-image:
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Cg fill='none' stroke='%230d0d0d' stroke-opacity='0.05' stroke-width='2.1' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='100' cy='100' r='88'/%3E%3Cpath d='M100 12 L144 39 L144 100'/%3E%3Cpath d='M100 12 L56 39 L56 100'/%3E%3Cpath d='M12 100 L56 127 L56 39'/%3E%3Cpath d='M188 100 L144 127 L144 39'/%3E%3Cpath d='M100 188 L144 161 L144 100'/%3E%3Cpath d='M100 188 L56 161 L56 100'/%3E%3C/g%3E%3C/svg%3E"),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Cg fill='none' stroke='%230d0d0d' stroke-opacity='0.05' stroke-width='2.1' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='100' cy='100' r='88'/%3E%3Cpolygon points='116.7,134.2 78.7,131.6 62.0,97.3 83.3,65.8 121.3,68.4 138.0,102.7'/%3E%3Cpath d='M116.7 134.2 L81.7 186.1'/%3E%3Cpath d='M78.7 131.6 L16.3 127.2'/%3E%3Cpath d='M62.0 97.3 L34.6 41.1'/%3E%3Cpath d='M83.3 65.8 L118.3 13.9'/%3E%3Cpath d='M121.3 68.4 L183.7 72.8'/%3E%3Cpath d='M138.0 102.7 L165.4 158.9'/%3E%3C/g%3E%3C/svg%3E"),
     linear-gradient(116deg,
       rgba(255, 254, 249, 0.72) 0%,
       rgba(255, 254, 249, 0.22) 26%,
@@ -3064,10 +3044,10 @@ body.tone-light .chrome--bottom {
 .film--closing .actions-row    { margin-top: clamp(20px, 3vh, 34px); }
 /* --------------------------------------------------------------------------
    21 · Sharnay logomark in product chrome · El Retrato SS 6.7
-   The official logomark is the anchor of the chrome — never a lockup rebuilt
-   from mark plus separately composed words. Appearance authority: VLS 01·07,
-   01·10, 01·11. The size ladder is height driven first, because a short window
-   is what actually crowds the head, and width driven second for tablet and phone.
+   The lockup is the anchor of the chrome: the official logomark and the
+   wordmark breathing together on one baseline, never compressed. The size
+   ladder is height driven first, because a short window is what actually
+   crowds the head, and width driven second for tablet and phone.
    -------------------------------------------------------------------------- */
 
 .brand { align-items: baseline; gap: 12px; }
@@ -3127,7 +3107,7 @@ body:not(.is-film):not(.tone-dark):not(.is-title) .brand__mark {
   body.is-title .brand__mark { height: 40px; }
 }
 
-/* The head has to clear the logomark at every step of the ladder. */
+/* The head has to clear the lockup at every step of the ladder. */
 :root { --chrome-h: 92px; }
 @media (max-height: 800px) { :root { --chrome-h: 86px; } }
 @media (max-height: 680px) { :root { --chrome-h: 80px; } }
@@ -3144,7 +3124,6 @@ body:not(.is-film):not(.tone-dark):not(.is-title) .brand__mark {
 
 @media (max-width: 1024px) {
   .menu-btn { display: inline-flex; }
-  .brand__type { display: none; }
   .meta__left { min-width: 0; flex: 0 1 auto; }
   .chrome-top__place { flex: 1 1 auto; justify-content: flex-end; }
   /* Language + volver live in the hamburger on tablet/phone. */
@@ -3189,6 +3168,321 @@ body.is-closing .backdrop__scrim {
   }
 }
 
+</style>
+<style id="threshold-reveal">
+/* ==========================================================================
+   LA REVELACIÓN · El Retrato
+   La pausa y el capítulo son un solo momento, no dos pantallas. Para que se
+   lea así, el título tiene que quedarse quieto mientras el fondo cambia
+   debajo: aparece en el negro exactamente donde va a quedar sobre la
+   fotografía. Si se mueve, se ven dos pantallas. Si no se mueve, se ve una
+   revelación.
+   ========================================================================== */
+
+/* El umbral deja de centrar y adopta la caja del capítulo. */
+.room-threshold { align-items: stretch; justify-content: flex-start; }
+
+.room-threshold__inner {
+  width: 100%;
+  max-width: 1560px;
+  margin: 0 auto;
+  padding: 0 var(--gutter);
+  align-items: flex-start;
+  justify-content: flex-end;
+  text-align: left;
+  gap: 0;
+  /* El título del capítulo no está al pie de su columna: debajo lleva la
+     entradilla y el crédito. El umbral reserva ese mismo espacio. El resto
+     del desfase viene de que un título de dos líneas baja su primera línea,
+     así que el anclaje es la última línea: es la que el ojo sigue. */
+  padding-bottom: calc(var(--bar-bottom, var(--chrome-h)) + clamp(48px, 8vh, 104px)
+                       + clamp(40px, 7vh, 82px) + clamp(26px, 4.4vh, 44px));
+}
+
+.room-threshold__prefix {
+  margin-bottom: 14px;
+  color: rgba(244, 241, 236, 0.5);
+}
+
+/* Misma familia, mismo cuerpo y misma redonda que en la pantalla siguiente.
+   Sin itálica: la regla del sistema es que la itálica se reserva a citas y
+   voz editorial, y el título de un capítulo no es ninguna de las dos. */
+.room-threshold__name {
+  font-style: normal;
+  font-size: clamp(2.6rem, 5.8vw, 5.2rem);
+  line-height: 1.02;
+  letter-spacing: -0.02em;
+  max-width: 14ch;
+  text-align: left;
+}
+
+/* El tiempo restante se ancla debajo sin empujar al título, que es el
+   elemento que tiene que quedarse quieto durante la revelación. */
+.room-threshold__inner { position: relative; }
+.room-threshold__time {
+  position: absolute;
+  left: 0; right: 0; bottom: -34px;
+  margin: 0;
+  color: rgba(244, 241, 236, 0.45);
+}
+
+/* El fondo se disuelve y el título permanece: es lo que hace que se lea como
+   una revelación en vez de un corte. */
+.room-threshold { transition: opacity 900ms cubic-bezier(0.16, 1, 0.3, 1); }
+.room-threshold__inner { transition: opacity 520ms cubic-bezier(0.16, 1, 0.3, 1); }
+.room-threshold:not(.is-visible) .room-threshold__inner { opacity: 0; }
+
+@media (max-width: 900px) {
+  .room-threshold__name { font-size: clamp(2.2rem, 11vw, 3.4rem); max-width: 12ch; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .room-threshold, .room-threshold__inner { transition: none; }
+}
+/* El umbral se alinea al lado que tendrá el título sobre la fotografía. */
+@media (min-width: 900px) {
+  /* La columna del capítulo no empieza exactamente en la mitad: mide
+     min(100%, clamp(420px,32vw,540px)) y se alinea al borde. Se replica esa
+     caja en vez de aproximar con un 50%. */
+  .room-threshold[data-side="right"] .room-threshold__inner { align-items: flex-end; }
+  .room-threshold[data-side="right"] .room-threshold__prefix,
+  .room-threshold[data-side="right"] .room-threshold__name,
+  .room-threshold[data-side="right"] .room-threshold__time {
+    /* La caja manda sobre la medida: 14ch recortaba el bloque antes que la
+       columna y desplazaba su borde izquierdo. */
+    width: min(100%, clamp(420px, 32vw, 540px));
+    max-width: none;
+    text-align: left;
+  }
+  .room-threshold[data-side="left"] .room-threshold__prefix,
+  .room-threshold[data-side="left"] .room-threshold__name,
+  .room-threshold[data-side="left"] .room-threshold__time {
+    width: min(100%, clamp(420px, 32vw, 540px));
+    max-width: none;
+  }
+}
+
+/* Las líneas del título se reparten igual que en el capítulo. */
+.room-threshold__row { display: block; }
+</style>
+<style id="pause-screen">
+/* ==========================================================================
+   LA PAUSA · El Retrato
+   Una frase sobre una fotografía. Nada más en la pantalla.
+   Se compone al centro óptico y con una medida más ancha que la reflexión
+   que compartía pantalla, porque ahora no compite con nada.
+   ========================================================================== */
+
+@media (min-width: 900px) {
+  /* Mismo comportamiento que la transición de capítulo: la columna se va al
+     lado contrario al sujeto, para no taparlo nunca. */
+  .film--pause[data-side="right"] .film__column { margin-left: auto; margin-right: 0; }
+  .film--pause[data-side="left"]  .film__column { margin-right: auto; margin-left: 0; }
+}
+
+.film--pause .film__column {
+  width: min(100%, clamp(460px, 46vw, 760px));
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 0;
+}
+
+.pause__line {
+  font-family: var(--serif);
+  font-size: calc(clamp(1.7rem, 3.4vw, 3.1rem) * var(--fit, 1));
+  line-height: 1.28;
+  letter-spacing: -0.012em;
+  font-weight: 400;
+  color: rgba(244, 241, 236, 0.96);
+  max-width: 24ch;
+  margin: 0;
+  text-wrap: balance;
+}
+
+/* Entra despacio: la pausa se anuncia sola, sin gesto ni indicador. */
+.film--pause .pause__line {
+  opacity: 0;
+  transform: translateY(10px);
+  animation: pause-in 1400ms cubic-bezier(0.16, 1, 0.3, 1) 260ms forwards;
+}
+@keyframes pause-in { to { opacity: 1; transform: none; } }
+
+/* Un gesto durante la entrada la asienta de inmediato. */
+.film--pause.is-settled .pause__line { animation: none; opacity: 1; transform: none; }
+
+/* Al descartarla, la frase se va y la fotografía se queda sola un momento. */
+.film--pause.is-dismissed .pause__line {
+  animation: none;
+  opacity: 0;
+  transform: translateY(-6px);
+  transition: opacity 900ms cubic-bezier(0.16, 1, 0.3, 1),
+              transform 900ms cubic-bezier(0.16, 1, 0.3, 1);
+  pointer-events: none;
+}
+
+/* Nada indica dónde tocar: la pantalla entera responde. */
+.film--pause { cursor: pointer; }
+
+@media (prefers-reduced-motion: reduce) {
+  .film--pause .pause__line { animation: none; opacity: 1; transform: none; }
+  .film--pause.is-dismissed .pause__line { transition: none; }
+}
+</style>
+<style id="two-column-question">
+/* ==========================================================================
+   PREGUNTA EN DOS COLUMNAS  · El Retrato
+   Medido antes de escribir esto: a 1440 la columna disponible es de 1017px y
+   el enunciado usa 456. El 55% del ancho estaba vacío mientras la pantalla se
+   encogía verticalmente hasta el 66% para caber.
+
+   La medida de lectura no se toca: 20ch en el enunciado, 50 a 62 en el resto.
+   Estirar las líneas empeoraría la lectura. Lo que cambia es que el ancho
+   sobrante pasa a sostener una segunda columna: a la izquierda lo que se lee,
+   a la derecha lo que se responde. Cada bloque conserva su medida y la
+   pantalla deja de pedir altura.
+   ========================================================================== */
+
+@media (min-width: 1100px) {
+  .question__body {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    column-gap: clamp(40px, 4.5vw, 88px);
+    align-items: start;
+    align-content: center;
+  }
+
+  /* Izquierda: la pregunta y su contexto. */
+  .question__prompt,
+  .question__sub,
+  .question__body-note,
+  .question .why { grid-column: 1; }
+
+  /* Derecha: el campo y su microcopia, alineados con el enunciado. */
+  .question__field-wrap { grid-column: 2; grid-row: 1 / span 4; margin-top: 0; align-self: start; }
+  .question .microcopy  { grid-column: 2; margin-top: 12px; }
+
+  /* El enunciado ya no compite con el campo por el ancho, así que puede
+     ocupar el suyo entero sin pasarse de medida. */
+  .question__prompt { max-width: 100%; }
+  .question--heavy .question__prompt { max-width: 100%; }
+  .question__sub, .question__body-note { max-width: 100%; }
+  .question__field-wrap { max-width: 100%; }
+  .write { max-width: 100%; }
+  .choices, .triple, .pairs { max-width: 100%; }
+}
+
+/* Muy ancho: el numeral tiene sitio, la rejilla no necesita más. */
+@media (min-width: 1500px) {
+  .question__body { column-gap: clamp(64px, 5vw, 112px); }
+}
+
+/* Las respuestas en serie (tres pares, tres campos) son las únicas que
+   siguen pidiendo altura: llevan tres bloques apilados en la columna
+   derecha. Se les da la fila entera y se reparten en horizontal. */
+@media (min-width: 1100px) {
+  .question__field-wrap:has(.pairs),
+  .question__field-wrap:has(.triple) { grid-column: 1 / -1; grid-row: auto; margin-top: clamp(20px, 3vh, 40px); }
+  .question__body:has(.pairs) .question__prompt,
+  .question__body:has(.pairs) .question__sub,
+  .question__body:has(.triple) .question__prompt,
+  .question__body:has(.triple) .question__sub { grid-column: 1 / -1; max-width: 46ch; }
+  .pairs { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(24px, 2.6vw, 44px); align-items: start; }
+  .triple { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(24px, 2.6vw, 44px); align-items: start; }
+}
+
+/* La pantalla de envío apila tres solicitudes idénticas en una columna, y la
+   carta reparte texto y álbum. Las dos tenían el mismo problema que las
+   preguntas: altura de sobra pedida, ancho de sobra sin usar. */
+@media (min-width: 1100px) {
+  .requests {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: clamp(28px, 3vw, 52px);
+    align-items: start;
+  }
+  .send__intro { max-width: 62ch; }
+}
+@media (min-width: 700px) and (max-width: 1099px) {
+  .requests { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(24px, 3vw, 40px); align-items: start; }
+}
+</style>
+<style id="no-scroll">
+/* ==========================================================================
+   SIN DESPLAZAMIENTO  ·  El Retrato
+   Una pantalla es una vista, no una página. El documento nunca se desplaza.
+   La única excepción es la revisión, donde recorrer las respuestas es la
+   tarea misma.
+
+   Aquí solo se prepara la caja. La medida real la hace fitScreen() en JS,
+   porque el CSS no puede saber si un texto cabe: hay que medirlo. Fijar
+   tamaños a ojo con clamp() quita el scroll pero corta contenido, que es
+   peor que desplazarse.
+   ========================================================================== */
+
+html, body { height: 100%; overflow: hidden; overscroll-behavior: none; }
+
+/* Las barras usan min-height, así que su altura real puede superar
+   --chrome-h. #app reservaba solo --chrome-h y el panel quedaba unos 14px
+   por debajo de la barra inferior en TODAS las pantallas. La medida real la
+   escribe fitScreen() en --bar-top y --bar-bottom. */
+#app {
+  height: 100vh;
+  height: 100svh;
+  min-height: 0;
+  overflow: hidden;
+  padding-top: var(--bar-top, var(--chrome-h));
+  padding-bottom: var(--bar-bottom, var(--chrome-bottom-h));
+}
+#stage { min-height: 0; overflow: hidden; }
+
+/* --fit lo escribe fitScreen(): 1 cuando todo cabe, menos cuando hay que
+   ceder. Nunca baja de 0.62. */
+#stage { --fit: 1; }
+
+.panel, .letter-layout {
+  min-height: 0;
+  height: 100%;
+  overflow: hidden;
+  align-content: center;
+  padding-top: calc(clamp(18px, 4vh, 72px) * var(--fit));
+  padding-bottom: calc(clamp(20px, 4.5vh, 80px) * var(--fit));
+}
+
+/* Cesión proporcional.
+   En vez de enumerar clases, que siempre se queda corto, la pantalla entera
+   cede a la vez: el tipo se escala desde la raíz de la pantalla y el aire
+   con él. Así cualquier bloque futuro hereda la regla sin tener que
+   añadirlo aquí. */
+.panel, .letter-layout { font-size: calc(1rem * var(--fit)); }
+.panel > *, .letter-layout > * { min-height: 0; }
+
+/* Los tamaños fijados en rem o px no responden a la raíz, así que se
+   reescalan explícitamente. */
+.question__prompt        { font-size: calc(clamp(1.45rem, 3.4vw, 2.85rem) * var(--fit)); }
+.question__numeral       { font-size: calc(7.4rem * var(--fit)); }
+.question__field-wrap    { margin-top: calc(clamp(14px, 3vh, 44px) * var(--fit));
+                           padding: calc(clamp(24px, 3.2vh, 34px) * var(--fit)) calc(clamp(24px, 2.9vw, 40px) * var(--fit)); }
+.write                   { min-height: calc(clamp(70px, 14vh, 150px) * var(--fit)); }
+.letter__greeting        { font-size: calc(clamp(2rem, 4vw, 3rem) * var(--fit)); margin-bottom: calc(28px * var(--fit)); }
+.letter__body p          { font-size: calc(1.05rem * var(--fit)); margin-bottom: calc(1.05em * var(--fit)); }
+.letter__signature       { margin-top: calc(clamp(28px, 4vh, 44px) * var(--fit)); }
+.letter__signature-name  { font-size: calc(clamp(1.5rem, 2.6vw, 2rem) * var(--fit)); }
+.album__hex              { width: calc(min(100%, 340px) * var(--fit)); margin-bottom: calc(22px * var(--fit)); }
+.album__photos           { gap: calc(14px * var(--fit)); }
+.letter-layout           { gap: calc(clamp(40px, 6vh, 72px) * var(--fit)); }
+.choice                  { padding: calc(12px * var(--fit)) 12px; }
+.pair, .request, .triple { margin-top: calc(18px * var(--fit)); }
+.drop                    { padding: calc(18px * var(--fit)); }
+/* La excepción: desborda dentro de su caja, no en el documento, así las
+   barras fijas no se mueven. */
+.panel.review {
+  height: 100%;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+  align-content: start;
+  scrollbar-width: thin;
+}
 </style>
 </head>
 <body class="tone-light">
@@ -3621,7 +3915,7 @@ body.is-closing .backdrop__scrim {
   var SECTIONS = [
     {
       id: 'work',
-      room: { en: 'Introduction', es: 'Introducción' },
+      room: { en: 'The Work', es: 'El trabajo' },
       seedMinutes: 24,
       numeral: 'I',
       title: { en: 'The Work', es: 'El trabajo' },
@@ -3648,10 +3942,10 @@ body.is-closing .backdrop__scrim {
       room: { en: 'Origin', es: 'Origen' },
       seedMinutes: 20,
       numeral: 'II',
-      title: { en: 'The People You Work For', es: 'Las personas para quienes trabajas' },
+      title: { en: 'Origin', es: 'Origen' },
       titleLines: {
-        en: ['The People', 'You Work For'],
-        es: ['Las personas', 'para quienes trabajas']
+        en: ['Origin'],
+        es: ['Origen']
       },
       line: {
         en: 'Now I want to understand the people who experience the work.',
@@ -3672,10 +3966,10 @@ body.is-closing .backdrop__scrim {
       room: { en: 'Voice', es: 'Voz' },
       seedMinutes: 15,
       numeral: 'III',
-      title: { en: 'The Name and the Voice', es: 'El nombre y la voz' },
+      title: { en: 'Voice', es: 'Voz' },
       titleLines: {
-        en: ['The Name and', 'the Voice'],
-        es: ['El nombre y', 'la voz']
+        en: ['Voice'],
+        es: ['Voz']
       },
       line: {
         en: 'How the work sounds matters as much as how it looks.',
@@ -3696,9 +3990,9 @@ body.is-closing .backdrop__scrim {
       room: { en: 'Color and Sensation', es: 'Color y sensación' },
       seedMinutes: 9,
       numeral: 'IV',
-      title: { en: 'Color and Feel', es: 'Color y sensación' },
+      title: { en: 'Color and Sensation', es: 'Color y sensación' },
       titleLines: {
-        en: ['Color and', 'Feel'],
+        en: ['Color and', 'Sensation'],
         es: ['Color y', 'sensación']
       },
       line: {
@@ -3787,16 +4081,16 @@ body.is-closing .backdrop__scrim {
       portraitEligible: true,
       portraitStages: ['archive', 'collection', 'exhibition'],
       prompt: {
-        en: 'What kind of photography leads?',
-        es: '¿Qué tipo de fotografía va al frente?'
+        en: 'When someone sees your work for the first time, what kind of photograph would you want them to find?',
+        es: 'Cuando alguien ve tu trabajo por primera vez, ¿qué tipo de fotografía te gustaría que encontrara?'
       },
       sub: {
-        en: 'If someone found your work through one image, which kind of image would you want it to be. Portrait, editorial, wedding, commercial, documentary, something else.',
-        es: 'Si alguien encontrara tu trabajo por una sola imagen, ¿qué tipo de imagen querrías que fuera? Retrato, editorial, boda, comercial, documental, algo más.'
+        en: 'Portrait, editorial, wedding, commercial, documentary, or something else.',
+        es: 'Retrato, editorial, boda, comercial, documental o algo distinto.'
       },
       why: {
-        en: 'This shapes tone more than any other single answer. Documentary work and wedding work want different levels of formality from everything, down to the weight of a line.',
-        es: 'Esto define el tono más que cualquier otra respuesta. Un trabajo documental y un trabajo de bodas piden niveles de formalidad distintos en todo, hasta en el grosor de una línea.'
+        en: 'Because the photograph that introduces people to your work is not always the one you make most often. Sometimes it is the one that best represents how you want to be remembered.',
+        es: 'Porque la fotografía que presenta tu trabajo al mundo no siempre es la que más haces. A veces es la que mejor representa cómo quieres que te recuerden.'
       },
       micro: { en: 'A sentence is enough.', es: 'Una frase basta.' }
     },
@@ -3806,16 +4100,16 @@ body.is-closing .backdrop__scrim {
       portraitEligible: true,
       portraitStages: ['archive', 'collection', 'exhibition'],
       prompt: {
-        en: 'What kind of work do you want more of?',
-        es: '¿De qué tipo de trabajo quieres más?'
+        en: 'If you could choose, what kind of work would you want filling your calendar?',
+        es: 'Si pudieras elegir, ¿con qué tipo de trabajo te gustaría llenar tu calendario?'
       },
       sub: {
-        en: 'Not what pays now. What you would take if the calendar were yours to fill.',
-        es: 'No lo que paga ahora. Lo que tomarías si el calendario fuera tuyo.'
+        en: 'Not the work you do most often today. The work you would say yes to again and again.',
+        es: 'No el que más haces hoy. El que aceptarías una y otra vez.'
       },
       why: {
-        en: 'I design for where the work is going, not for where it has been.',
-        es: 'Diseño para donde va el trabajo, no para donde ha estado.'
+        en: 'Because I want to understand where you want to take the work, not just where it is today.',
+        es: 'Porque quiero entender hacia dónde quieres llevar el trabajo, no sólo dónde está hoy.'
       }
     },
     {
@@ -3824,16 +4118,16 @@ body.is-closing .backdrop__scrim {
       portraitEligible: true,
       portraitStages: ['archive', 'collection', 'exhibition'],
       prompt: {
-        en: 'What do you do that another good photographer in your city does not?',
-        es: '¿Qué haces tú que no hace otra buena fotógrafa de tu ciudad?'
+        en: 'What part of how you work do you take care of even when nobody notices?',
+        es: '¿Qué parte de tu forma de trabajar cuidas aunque nadie la note?'
       },
       sub: {
-        en: 'Take a paragraph on this one if you have it in you.',
-        es: 'Si te sale, escribe un párrafo.'
+        en: 'It can be something small. Write a paragraph if it comes to you.',
+        es: 'Puede ser algo pequeño. Si te sale, escribe un párrafo.'
       },
       why: {
-        en: 'This is the closest thing to the brief. Everything premium about an identity comes from having a genuine position, and positions come from real differences.',
-        es: 'Esto es lo más cercano al brief. Todo lo premium en una identidad viene de tener una posición real, y las posiciones vienen de diferencias reales.'
+        en: 'Because what someone takes care of without being asked is usually what really sets the work apart.',
+        es: 'Porque lo que uno cuida sin que se lo pidan suele ser lo que de verdad distingue el trabajo.'
       },
       micro: {
         en: 'Take your time here. There is no length I am hoping for.',
@@ -3861,12 +4155,12 @@ body.is-closing .backdrop__scrim {
       portraitEligible: false,
       portraitStages: [],
       prompt: {
-        en: 'Who is actually hiring you?',
-        es: '¿Quién te está contratando en realidad?'
+        en: 'Who are the people who hire you?',
+        es: '¿Quiénes son las personas que te contratan?'
       },
       sub: {
-        en: 'Age, work, taste, budget, whatever you know. Describe a real client if that is easier than describing a type.',
-        es: 'Edad, trabajo, gusto, presupuesto, lo que sepas. Describe a una clienta real si es más fácil que describir un tipo.'
+        en: 'If it is easier, tell me about one particular client instead of describing a general type.',
+        es: 'Si es más fácil, cuéntame de una clienta concreta en vez de describir un tipo general.'
       }
     },
     {
@@ -3875,16 +4169,16 @@ body.is-closing .backdrop__scrim {
       portraitEligible: false,
       portraitStages: [],
       prompt: {
-        en: 'What do they believe about photographers before they meet you?',
-        es: '¿Qué creen sobre las fotógrafas antes de conocerte?'
+        en: 'When someone comes across your work for the first time, what do they usually expect from a photographer?',
+        es: 'Cuando alguien llega a tu trabajo por primera vez, ¿qué suele esperar de un fotógrafo?'
       },
       sub: {
-        en: 'Expectations, fears, past disappointments.',
-        es: 'Expectativas, miedos, decepciones pasadas.'
+        en: 'Expectations, fears, or past experiences.',
+        es: 'Expectativas, miedos o experiencias pasadas.'
       },
       why: {
-        en: 'An identity is partly there to correct an assumption. Knowing which one lets me aim.',
-        es: 'Una identidad existe en parte para corregir una suposición. Saber cuál me deja apuntar.'
+        en: 'Because the idea people have before they meet you is part of the conversation too.',
+        es: 'Porque la imagen que existe antes de conocerte también forma parte de la conversación.'
       }
     },
     {
@@ -3919,12 +4213,12 @@ body.is-closing .backdrop__scrim {
       portraitEligible: true,
       portraitStages: ['archive', 'collection', 'exhibition'],
       prompt: {
-        en: 'What makes someone choose you over someone cheaper?',
-        es: '¿Por qué te eligen a ti en lugar de alguien más barato?'
+        en: 'When someone chooses you over a less expensive option, why do you think they do it?',
+        es: 'Cuando alguien te elige a ti en lugar de una opción más barata, ¿por qué crees que lo hace?'
       },
       sub: {
-        en: 'Their words if you have heard them say it.',
-        es: 'Con sus palabras, si se lo has escuchado decir.'
+        en: 'If someone has ever told you directly, tell me in their words.',
+        es: 'Si alguna vez te lo han dicho, cuéntamelo con sus palabras.'
       }
     },
 
@@ -3934,12 +4228,16 @@ body.is-closing .backdrop__scrim {
       portraitEligible: false,
       portraitStages: [],
       prompt: {
-        en: 'Is the brand Sharnay, or Sharnay Photography?',
-        es: '¿La marca es Sharnay o Sharnay Photography?'
+        en: 'Do you remember how someone has introduced you when recommending you?',
+        es: '¿Recuerdas cómo te ha presentado alguien al recomendarte?'
       },
       sub: {
-        en: 'Or both, depending on where it appears. Say what feels right, even if you cannot justify it.',
-        es: 'O las dos, según dónde aparezca. Di lo que se sienta bien, aunque no lo puedas justificar.'
+        en: 'If you remember the exact words, even better.',
+        es: 'Si te acuerdas de las palabras exactas, mejor.'
+      },
+      why: {
+        en: 'Because the way people refer to you often says a lot about how they remember you.',
+        es: 'Porque la forma en que la gente te nombra suele decir mucho sobre cómo te recuerda.'
       },
       micro: {
         en: '\u201CI don\u2019t know\u201D is a real answer.',
@@ -3947,17 +4245,17 @@ body.is-closing .backdrop__scrim {
       }
     },
     {
-      n: 10, section: 'voice', type: 'text',
+      n: 10, section: 'voice', type: 'textarea',
       portraitRole: 'metadata',
       portraitEligible: false,
       portraitStages: [],
       prompt: {
-        en: 'How is it said aloud?',
-        es: '¿Cómo se dice en voz alta?'
+        en: 'What does the name Sharnay mean to you?',
+        es: '¿Qué significa el nombre Sharnay para ti?'
       },
-      sub: {
-        en: 'Include pronunciation if it has ever been mistaken.',
-        es: 'Incluye la pronunciación si alguna vez se la han equivocado.'
+      why: {
+        en: 'Names carry stories. I am interested in understanding the one behind this one.',
+        es: 'Porque los nombres cargan historias. Me interesa entender la que vive detrás de éste.'
       }
     },
     {
@@ -3966,16 +4264,20 @@ body.is-closing .backdrop__scrim {
       portraitEligible: false,
       portraitStages: [],
       prompt: {
-        en: 'Do you write as yourself, or does the studio speak?',
-        es: '¿Escribes como tú misma, o habla el estudio?'
+        en: 'When you talk about your work, what feels more natural?',
+        es: 'Cuando hablas de tu trabajo, ¿qué te sale más natural?'
       },
       body: {
-        en: '"I photographed this in Marrakech" or "Sharnay Photography documented this in Marrakech." One is not better than the other, but the brand can only pick one.',
-        es: '"Fotografié esto en Marrakech" o "Sharnay Photography documentó esto en Marrakech." Ninguna es mejor que la otra, pero la marca solo puede elegir una.'
+        en: '"I photographed this in Marrakech" or "Sharnay Photography documented this in Marrakech."',
+        es: '"Fotografié esto en Marrakech" o "Sharnay Photography documentó esto en Marrakech."'
+      },
+      why: {
+        en: 'Because the way we write is part of our voice too.',
+        es: 'Porque la forma en que escribimos también forma parte de nuestra voz.'
       },
       options: {
-        en: ['I write as myself', 'The studio speaks', 'It depends on where it appears', 'I don\u2019t know yet'],
-        es: ['Escribo como yo misma', 'Habla el estudio', 'Depende de dónde aparezca', 'Todavía no sé']
+        en: ['I speak as myself', 'The studio speaks', 'It depends where it appears', 'I don\u2019t know yet'],
+        es: ['Hablo como yo misma', 'Habla el estudio', 'Depende de dónde aparezca', 'Todavía no lo sé']
       },
       noteLabel: UI.addAnything
     },
@@ -4014,12 +4316,12 @@ body.is-closing .backdrop__scrim {
       portraitEligible: false,
       portraitStages: [],
       prompt: {
-        en: 'Is there anything you would never want the brand to sound like?',
-        es: '¿Hay algo a lo que nunca querrías que sonara la marca?'
+        en: 'Is there anything you would never want to hear someone say about your work?',
+        es: '¿Hay algo que nunca te gustaría escuchar cuando alguien habla de tu trabajo?'
       },
-      sub: {
-        en: 'Sometimes easier to answer than the question before it, and just as useful.',
-        es: 'A veces más fácil de contestar que la pregunta anterior, y igual de útil.'
+      why: {
+        en: 'Sometimes it is easier to recognize what we are not than to explain what we are.',
+        es: 'A veces es más fácil reconocer lo que no somos que explicar lo que sí somos.'
       }
     },
 
@@ -4029,16 +4331,16 @@ body.is-closing .backdrop__scrim {
       portraitEligible: false,
       portraitStages: [],
       prompt: {
-        en: 'How much color does this brand get?',
-        es: '¿Cuánto color le toca a esta marca?'
+        en: 'I want to propose something about colour and hear what you think.',
+        es: 'Quiero proponerte algo sobre el color y saber qué te parece.'
       },
       body: {
-        en: 'My recommendation is very little. Near black, paper, and one restrained accent, letting your photographs carry all the color in the system. Tell me if that sounds right, or if it sounds too austere for how you see the work.',
-        es: 'Mi recomendación es muy poco. Casi negro, papel, y un acento discreto, dejando que tus fotografías carguen todo el color del sistema. Dime si eso te suena bien, o si te suena demasiado austero para cómo ves el trabajo.'
+        en: 'That everything around your photographs stays close to neutral: black, paper, and one quiet accent, so the colour comes only from the images. Tell me if that sounds right or if it feels like too much.',
+        es: 'Que todo lo que rodee a tus fotos sea casi neutro: negro, papel y un acento discreto, para que el color venga solo de las imágenes. Dime si te suena bien o si te parece demasiado.'
       },
       why: {
-        en: 'This is the one recommendation I would defend hardest, so I would rather have the disagreement now than at the presentation.',
-        es: 'Esta es la recomendación que defendería con más fuerza, así que prefiero tener el desacuerdo ahora que en la presentación.'
+        en: 'I would rather you tell me no now, while it is still easy to change.',
+        es: 'Prefiero que me digas que no ahora, cuando todavía es fácil cambiarlo.'
       },
       options: {
         en: ['That sounds right', 'Mostly right, but I want room to argue', 'Too austere for how I see the work', 'I don\u2019t know yet'],
@@ -4046,8 +4348,8 @@ body.is-closing .backdrop__scrim {
       },
       noteLabel: { en: 'Tell me why', es: 'Dime por qué' },
       micro: {
-        en: 'Disagreeing here is genuinely useful. It is easier to change now than later.',
-        es: 'Que no estés de acuerdo aquí sirve de verdad. Es más fácil cambiarlo ahora que después.'
+        en: 'Disagreeing here is genuinely useful.',
+        es: 'Estar en desacuerdo aquí es útil de verdad.'
       }
     },
     {
@@ -4056,12 +4358,12 @@ body.is-closing .backdrop__scrim {
       portraitEligible: true,
       portraitStages: ['archive', 'collection', 'exhibition'],
       prompt: {
-        en: 'Is your work warm or cool?',
-        es: '¿Tu trabajo es cálido o frío?'
+        en: 'If someone saw twenty of your photographs together, what would they say they have in common?',
+        es: 'Si alguien viera veinte fotos tuyas juntas, ¿qué diría que tienen en común?'
       },
       sub: {
-        en: 'Look at thirty of your images together before answering. Most photographers are surprised.',
-        es: 'Mira treinta de tus imágenes juntas antes de contestar. A la mayoría de las fotógrafas les sorprende.'
+        en: 'Sometimes you surprise yourself with what repeats.',
+        es: 'A veces uno mismo se sorprende con lo que se repite.'
       }
     },
     {
@@ -4070,12 +4372,12 @@ body.is-closing .backdrop__scrim {
       portraitEligible: false,
       portraitStages: [],
       prompt: {
-        en: 'Three brands, any industry, that feel right to you.',
-        es: 'Tres marcas, de cualquier industria, que se sientan bien para ti.'
+        en: 'Are there three brands whose style you like, from any industry?',
+        es: '¿Hay tres marcas cuyo estilo te guste, de cualquier industria?'
       },
       sub: {
-        en: 'And one line each on why. A vague reason tells me little. A specific one tells me a great deal.',
-        es: 'Y una línea de por qué en cada una. Una razón vaga me dice poco. Una específica me dice muchísimo.'
+        en: 'Just telling me what you like about each one is enough.',
+        es: 'Con que me digas qué te gusta de cada una, basta.'
       }
     },
     {
@@ -4084,16 +4386,12 @@ body.is-closing .backdrop__scrim {
       portraitEligible: false,
       portraitStages: [],
       prompt: {
-        en: 'What are you tired of seeing in photography branding?',
-        es: '¿De qué estás harta en el branding de fotografía?'
-      },
-      sub: {
-        en: 'Be specific and direct. This is one of the more valuable answers on the page.',
-        es: 'Sé directa, sin suavizar. Esta es una de las respuestas más valiosas de la página.'
+        en: 'What do you see again and again in photography that you can no longer stand?',
+        es: '¿Qué ves una y otra vez en fotografía y ya no soportas?'
       },
       why: {
-        en: 'Knowing what to avoid is usually more precise than knowing what to aim for, and most people need permission to say it plainly.',
-        es: 'Saber qué evitar suele ser más preciso que saber a qué apuntar, y casi todos necesitan permiso para decirlo claro.'
+        en: 'Sometimes our frustrations say as much about us as our references do.',
+        es: 'A veces nuestras frustraciones dicen tanto de nosotros como nuestras referencias.'
       },
       micro: {
         en: 'Nothing you write here will be repeated to anyone.',
@@ -4107,12 +4405,12 @@ body.is-closing .backdrop__scrim {
       portraitEligible: false,
       portraitStages: [],
       prompt: {
-        en: 'What do clients actually receive from you?',
-        es: '¿Qué reciben tus clientas en realidad?'
+        en: 'What does a client take away when she finishes working with you?',
+        es: '¿Qué se lleva una clienta cuando termina de trabajar contigo?'
       },
       sub: {
-        en: 'Files, prints, an album, a USB, a box, an email link. Describe the current moment of delivery honestly, including the parts that feel unfinished.',
-        es: 'Archivos, impresiones, un álbum, una USB, una caja, un enlace por correo. Describe el momento de entrega tal como es hoy, incluyendo las partes que se sienten sin terminar.'
+        en: 'Files, prints, an album, a box, a link. Tell me what the handover is like today.',
+        es: 'Archivos, impresiones, un álbum, una caja, un enlace. Cuéntame cómo es la entrega hoy.'
       }
     },
     {
@@ -4135,16 +4433,16 @@ body.is-closing .backdrop__scrim {
       portraitEligible: false,
       portraitStages: [],
       prompt: {
-        en: 'What is a realistic budget for printed pieces?',
-        es: '¿Cuál es un presupuesto realista para piezas impresas?'
+        en: 'When you print something, how much do you let yourself spend?',
+        es: 'Cuando imprimes algo, ¿qué tanto te permites gastar?'
       },
       sub: {
-        en: 'A range is fine. This decides whether the print system is designed around good paper alone, or around foil, embossing, and specialist finishes.',
-        es: 'Un rango está bien. Esto decide si el sistema impreso se diseña alrededor de buen papel solamente, o alrededor de foil, relieve y acabados especiales.'
+        en: 'A range is enough. I ask so I do not propose something you will never print again.',
+        es: 'Un rango basta. Te lo pregunto para no proponerte algo que no vayas a volver a imprimir.'
       },
       why: {
-        en: 'I would rather design something modest and beautiful that you reorder for years than something expensive you print once.',
-        es: 'Prefiero diseñar algo modesto y bonito que vas a volver a pedir por años, que algo caro que imprimes una sola vez.'
+        en: 'I would rather make something modest and beautiful that you reorder for years than something expensive you print once.',
+        es: 'Prefiero algo modesto y bonito que vuelvas a pedir por años, antes que algo caro que imprimes una sola vez.'
       },
       options: {
         en: ['Under $500 to start', '$500 to $1,500', '$1,500 to $3,000', '$3,000 and above', 'I don\u2019t know yet'],
@@ -4173,12 +4471,16 @@ body.is-closing .backdrop__scrim {
       portraitEligible: false,
       portraitStages: [],
       prompt: {
-        en: 'Is there a current logo, color, or typeface with any recognition worth keeping?',
-        es: '¿Hay un logo, un color o una tipografía actual con algo de reconocimiento que valga la pena conservar?'
+        en: 'Is there anything you use today that people already recognise as yours?',
+        es: '¿Hay algo de lo que usas hoy que la gente ya reconoce como tuyo?'
       },
       sub: {
-        en: 'Even if you dislike it. If clients recognize it, that is an asset worth considering before discarding.',
-        es: 'Aunque no te guste. Si las clientas lo reconocen, es un activo que vale considerar antes de descartarlo.'
+        en: 'Even if you are tired of it by now. If your clients recognise it, that is worth knowing.',
+        es: 'Aunque tú ya te hayas cansado de eso. Si tus clientas lo reconocen, vale la pena saberlo.'
+      },
+      why: {
+        en: 'Because sometimes what you want to change is exactly what people already associate with you.',
+        es: 'Porque a veces lo que uno quiere cambiar es justo lo que la gente ya asocia contigo.'
       }
     },
     {
@@ -4624,10 +4926,21 @@ body.is-closing .backdrop__scrim {
   SCREENS.push({ kind: 'letter', tone: 'light' });
 
   SECTIONS.forEach(function (section, i) {
+    /* La reflexión toma su propia pantalla antes del capítulo. Sólo existe
+       cuando hay algo que devolver: la primera transición no la tiene,
+       porque todavía no ha aprendido nada. */
+    if (i > 0 && SECTIONS[i - 1].reflection) {
+      SCREENS.push({
+        kind: 'pause',
+        tone: 'dark',
+        reflection: SECTIONS[i - 1].reflection,
+        film: section.film
+      });
+    }
     SCREENS.push({
       kind: 'interlude',
       tone: 'dark',
-      reflection: i === 0 ? null : SECTIONS[i - 1].reflection,
+      reflection: null,
       next: { title: section.title, titleLines: section.titleLines, line: section.line },
       film: section.film,
       sectionIndex: i
@@ -4680,9 +4993,15 @@ body.is-closing .backdrop__scrim {
   });
 
   SCREENS.push({
-    kind: 'interlude',
+    kind: 'pause',
     tone: 'dark',
     reflection: SECTIONS[SECTIONS.length - 1].reflection,
+    film: FILM_SEND
+  });
+  SCREENS.push({
+    kind: 'interlude',
+    tone: 'dark',
+    reflection: null,
     next: { title: COPY.finalReflectionNext, line: COPY.sendNext },
     film: FILM_SEND,
     sectionIndex: null
@@ -5527,6 +5846,21 @@ body.is-closing .backdrop__scrim {
       '</div>';
   }
 
+  /* Una frase, una fotografía, nada más. Sin rótulo de capítulo, sin
+     entradilla, sin crédito: cualquier otra cosa en la pantalla convierte la
+     pausa en el preámbulo de otra cosa, que es justo lo que se está
+     deshaciendo. */
+  function renderPause(screen) {
+    /* El lado lo decide la fotografía, no la pantalla. Cada frame declara
+       dónde está su sujeto y el scrim se voltea con él; forzar un lado fijo
+       ponía la frase encima de la cara en los frames de sujeto derecho. */
+    return '<section class="panel film film--pause"' + filmSide(screen.film) + '>' +
+      '<div class="film__column">' +
+        '<p class="pause__line">' + esc(t(screen.reflection)) + '</p>' +
+      '</div>' +
+    '</section>';
+  }
+
   function renderInterlude(screen) {
     var label = screen.sectionIndex === null
       ? t(UI.lastChapter)
@@ -6306,7 +6640,30 @@ body.is-closing .backdrop__scrim {
 
     if (!roomThresholdEl) { onCompose(); onDone(); return; }
     roomThresholdPrefix.textContent = t(UI.enteringPrefix);
-    roomThresholdName.textContent = room.name;
+    /* El título tiene que aparecer exactamente como quedará sobre la
+       fotografía: mismo lado y, sobre todo, el mismo reparto de líneas. El
+       corte está escrito a mano en titleLines porque un título largo no cabe
+       en la columna; si el umbral usa el título entero, sale en una línea y
+       salta al revelarse. */
+    (function () {
+      var target = SCREENS[state.index];
+      var side = (target && target.film && target.film.side) ? target.film.side : 'left';
+      roomThresholdEl.setAttribute('data-side', side);
+
+      var lines = null;
+      if (target && target.next) lines = chapterTitleLines(target.next);
+      if (lines && lines.length > 1) {
+        roomThresholdName.textContent = '';
+        lines.forEach(function (line) {
+          var row = document.createElement('span');
+          row.className = 'room-threshold__row';
+          row.textContent = line;
+          roomThresholdName.appendChild(row);
+        });
+      } else {
+        roomThresholdName.textContent = (lines && lines[0]) || room.name;
+      }
+    })();
     roomThresholdTime.textContent = timeLabel;
     roomThresholdEl.hidden = false;
     roomThresholdEl.setAttribute('aria-hidden', 'false');
@@ -6612,6 +6969,7 @@ body.is-closing .backdrop__scrim {
       switch (screen.kind) {
         case 'opening':   html = renderOpening(screen); break;
         case 'letter':    html = renderLetter(); break;
+        case 'pause':     html = renderPause(screen); break;
         case 'interlude': html = renderInterlude(screen); break;
         case 'question':  html = renderQuestion(screen); break;
         case 'send':      html = renderSend(); break;
@@ -6763,6 +7121,9 @@ body.is-closing .backdrop__scrim {
 
     commitNavigation(options);
   }
+
+  /* La pausa necesita avanzar sin depender de un botón visible en la barra. */
+  window.__lgNext = function () { next(); };
 
   function next() {
     if (reviewMode) return;
@@ -7331,6 +7692,184 @@ body.is-closing .backdrop__scrim {
 
 })();
 
+</script>
+<script id="fit-screen">
+(function () {
+  /* Ninguna pantalla se desplaza. Cuando el contenido no cabe, el CSS no
+     puede saberlo: hay que medirlo. fitScreen() reduce --fit por bisección
+     hasta que la pantalla entra en su caja, y lo deja en 1 cuando ya cabía.
+     La revisión se salta: allí desplazarse es la tarea. */
+  var MIN = 0.48, stage;
+
+  function root() {
+    return document.querySelector("#stage section, #stage > div");
+  }
+  /* No basta con que la raíz no desborde su caja: las barras fija superior e
+     inferior flotan por encima, así que un bloque puede caber en el panel y
+     quedar igualmente tapado. Se mide contra la banda realmente visible. */
+  function band() {
+    var top = document.querySelector(".chrome--top");
+    var bot = document.querySelector(".chrome--bottom");
+    return {
+      top: top ? top.getBoundingClientRect().bottom : 0,
+      bottom: bot ? bot.getBoundingClientRect().top : window.innerHeight
+    };
+  }
+
+  /* El panel tiene height:100%, así que su caja no crece con el contenido:
+     medirla no dice nada. Lo que sí crece es lo que hay dentro. Se compara
+     el alto real del contenido con la banda visible entre las dos barras. */
+  function contentHeight(el) {
+    var kids = el.children, top = Infinity, bottom = -Infinity, n = 0;
+    for (var i = 0; i < kids.length; i++) {
+      var k = kids[i], cs = getComputedStyle(k);
+      if (cs.position === "fixed" || cs.position === "absolute") continue;
+      if (cs.display === "none" || !k.getClientRects().length) continue;
+      var r = k.getBoundingClientRect();
+      if (r.height === 0) continue;
+      var m = parseFloat(cs.marginTop) || 0, mb = parseFloat(cs.marginBottom) || 0;
+      top = Math.min(top, r.top - m);
+      bottom = Math.max(bottom, r.bottom + mb);
+      n += 1;
+    }
+    return n ? { top: top, bottom: bottom, height: bottom - top } : null;
+  }
+
+  function overflows(el) {
+    if (el.scrollHeight > el.clientHeight + 1) return true;
+    var c = contentHeight(el);
+    if (!c) return false;
+    var b = band();
+    var pad = getComputedStyle(el);
+    var room = (b.bottom - b.top)
+             - (parseFloat(pad.paddingTop) || 0)
+             - (parseFloat(pad.paddingBottom) || 0);
+    return c.height > room + 1;
+  }
+
+  /* Reserva el alto real de las barras antes de medir nada. */
+  function syncBars() {
+    var b = band();
+    var top = document.querySelector(".chrome--top");
+    var bot = document.querySelector(".chrome--bottom");
+    var r = document.documentElement;
+    if (top) r.style.setProperty("--bar-top", Math.ceil(top.getBoundingClientRect().height) + "px");
+    if (bot) r.style.setProperty("--bar-bottom", Math.ceil(bot.getBoundingClientRect().height) + "px");
+    return b;
+  }
+
+  function fitScreen() {
+    stage = stage || document.getElementById("stage");
+    if (!stage) return;
+    var el = root();
+    stage.style.setProperty("--fit", "1");
+    syncBars();
+    if (!el) return;
+    if (el.classList.contains("review")) return;
+    if (!overflows(el)) return;
+
+    var lo = MIN, hi = 1, mid, guard = 0;
+    while (hi - lo > 0.01 && guard < 14) {
+      mid = (lo + hi) / 2;
+      stage.style.setProperty("--fit", String(mid));
+      if (overflows(el)) hi = mid; else lo = mid;
+      guard += 1;
+    }
+    stage.style.setProperty("--fit", String(lo));
+
+    /* Si ni al mínimo cabe, esta pantalla se desplaza dentro de su caja
+       antes que ocultar una palabra. Recortar nunca es una opción. */
+    if (overflows(el)) {
+      el.style.overflowY = "auto";
+      el.style.overscrollBehavior = "contain";
+    } else {
+      el.style.overflowY = "";
+    }
+  }
+
+  window.__fitScreen = fitScreen;
+
+  var raf;
+  function schedule() {
+    if (raf) cancelAnimationFrame(raf);
+    raf = requestAnimationFrame(function () { raf = 0; fitScreen(); });
+  }
+
+  document.addEventListener("DOMContentLoaded", schedule);
+  window.addEventListener("load", schedule);
+  window.addEventListener("resize", schedule);
+  window.addEventListener("orientationchange", schedule);
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(schedule);
+
+  /* El contenido de #stage se reemplaza en cada pantalla. */
+  document.addEventListener("DOMContentLoaded", function () {
+    var st = document.getElementById("stage");
+    if (!st) return;
+    new MutationObserver(schedule).observe(st, { childList: true, subtree: true });
+  });
+})();
+</script>
+<script id="pause-advance">
+(function () {
+  /* La pausa no avanza sola. Un gesto retira la frase, la fotografía queda
+     un instante sola, y el siguiente gesto continúa. Son dos tiempos porque
+     leer y seguir son dos decisiones distintas. */
+  var FADE = 900;
+
+  function pausePanel() { return document.querySelector(".film--pause"); }
+
+  /* La frase entra con una animación de 1.4s. Un gesto durante ese tramo la
+     asienta de golpe en vez de gastarse: nadie debería tener que tocar dos
+     veces para lo mismo. */
+  function dismiss(el) {
+    if (el.classList.contains("is-dismissed")) return false;
+    var line = el.querySelector(".pause__line");
+    if (line && !el.classList.contains("is-settled")) {
+      var st = window.getComputedStyle(line);
+      if (parseFloat(st.opacity) < 0.98) {
+        el.classList.add("is-settled");
+        return true;
+      }
+    }
+    el.classList.add("is-dismissed");
+    return true;
+  }
+
+  function advance() {
+    /* En la pausa la barra puede no ofrecer botón visible, así que se usa la
+       navegación directa y el botón queda como respaldo. */
+    if (typeof window.__lgNext === "function") { window.__lgNext(); return; }
+    var btn = document.getElementById("go-next") ||
+              document.querySelector('button[data-act="next"]');
+    if (btn && !btn.disabled) { btn.click(); return; }
+    document.dispatchEvent(new KeyboardEvent("keydown", { key: "ArrowRight", bubbles: true }));
+  }
+
+  function onGesture(e) {
+    var el = pausePanel();
+    if (!el) return;
+    /* La barra inferior sigue siendo suya: ahí no interceptamos nada. */
+    if (e.target && e.target.closest && e.target.closest(".chrome")) return;
+    e.preventDefault();
+    e.stopPropagation();
+    /* Dos tiempos: el primero retira la frase, el segundo continúa. El
+       avance se difiere para que este mismo clic no lo dispare dos veces. */
+    if (dismiss(el)) return;
+    /* Ya descartada: continuar. Se marca la pantalla para que un segundo
+       gesto durante la transición no dispare dos avances. */
+    if (el.classList.contains("is-leaving")) return;
+    el.classList.add("is-leaving");
+    window.setTimeout(advance, 0);
+  }
+
+  document.addEventListener("click", onGesture, true);
+  document.addEventListener("keydown", function (e) {
+    if (e.key !== "Enter" && e.key !== " " && e.key !== "ArrowRight") return;
+    var el = pausePanel();
+    if (!el) return;
+    if (dismiss(el)) e.preventDefault(); else advance();
+  }, true);
+})();
 </script>
 </body>
 </html>
