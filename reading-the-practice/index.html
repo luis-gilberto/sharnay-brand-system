@@ -19,6 +19,99 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=EB+Garamond:wght@400&family=IBM+Plex+Mono:wght@300;400;500&family=Inter:wght@300;400;500;600&display=swap">
 <link rel="preload" href="https://fonts.googleapis.com/css2?family=Meddon&family=Homemade+Apple&display=block" as="style">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Meddon&family=Homemade+Apple&display=block">
+<style id="module-fallback">
+/* ==========================================================================
+   RESPALDO DE MÓDULOS  ·  El Retrato
+   Este bloque precede a los <link> de assets/*, de modo que cualquier hoja de
+   módulo que sí cargue lo sobreescribe por completo. Solo actúa cuando una de
+   ellas falta. No reproduce el diseño: da medida, familia y contención para
+   que la pantalla se lea sobria en vez de romperse.
+   ========================================================================== */
+
+/* -- una-carta ----------------------------------------------------------- */
+/* renderLetter() no envuelve en .panel, así que esta pantalla no hereda el
+   canal horizontal que tienen todas las demás y queda pegada al borde. Aquí
+   se le da el mismo inset que .panel: var(--gutter), el mismo que usan la
+   cabecera y los paneles de film. Nunca a ras. */
+.letter-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: clamp(40px, 6vh, 72px);
+  align-items: start;
+  width: 100%;
+  max-width: 1560px;
+  margin: 0 auto;
+  padding: clamp(40px, 7vh, 96px) var(--gutter) clamp(48px, 8vh, 104px);
+}
+@media (min-width: 1000px) {
+  .letter-layout { grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr); gap: clamp(48px, 6vw, 96px); }
+}
+.letter { min-width: 0; }
+.letter__eyebrow {
+  font-family: var(--mono); font-size: 10px; letter-spacing: 0.2em;
+  text-transform: uppercase; color: var(--fg-soft); margin: 0 0 18px;
+}
+.letter__greeting {
+  font-family: var(--hand); font-weight: var(--hand-weight);
+  font-size: clamp(2rem, 4vw, 3rem); line-height: 1.3; margin: 0 0 28px;
+  font-synthesis: none;
+}
+.letter__body { max-width: 62ch; }
+.letter__body p {
+  font-family: var(--serif); font-size: 1.05rem; line-height: 1.75;
+  margin: 0 0 1.05em; color: var(--fg);
+}
+.letter__signature { margin-top: clamp(28px, 4vh, 44px); }
+.letter__signature p { margin: 0; }
+.letter__signature-close {
+  font-family: var(--serif); font-size: 1.05rem; line-height: 1.75; margin-bottom: 6px;
+}
+.letter__signature-name {
+  font-family: var(--hand); font-weight: var(--hand-weight);
+  font-size: clamp(1.5rem, 2.6vw, 2rem); line-height: 1.3; font-synthesis: none;
+}
+.letter__signature-alias {
+  font-family: var(--serif); font-size: 0.95rem; color: var(--fg-soft); margin-top: 2px;
+}
+.letter__signature-tag {
+  display: block; margin-top: 10px; font-family: var(--mono); font-size: 10px;
+  letter-spacing: 0.2em; text-transform: uppercase; color: var(--fg-soft);
+}
+
+/* El hexágono es un marco decorativo. Sin hoja no tiene medida y se dibuja a
+   pantalla completa, que es la mancha grande del fallo. */
+.album { min-width: 0; position: relative; }
+.album__hex {
+  display: block; width: min(100%, 340px); height: auto;
+  margin: 0 auto 22px; opacity: 0.5;
+}
+.album__photos {
+  display: grid; grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px; align-items: start;
+}
+.album__photos img, .album img { display: block; width: 100%; height: auto; }
+.album__photos figcaption, .album figcaption {
+  font-family: var(--mono); font-size: 9.5px; letter-spacing: 0.16em;
+  text-transform: uppercase; color: var(--fg-soft); margin-top: 8px;
+}
+.album__note { margin-top: 18px; max-width: 46ch; }
+.album__note p {
+  font-family: var(--serif); font-size: 0.95rem; line-height: 1.7; color: var(--fg-soft); margin: 0;
+}
+@media (max-width: 640px) { .album__photos { grid-template-columns: minmax(0, 1fr); } }
+
+/* -- archive · collection · exhibition ----------------------------------- */
+/* Solo contención. Sin sus hojas estas etapas no deben intentar componerse,
+   pero tampoco pueden desbordar ni recortar lo que la participante escribió. */
+.archive-stage, .collection-field, .exhibition-field {
+  position: relative; min-width: 0; max-width: 100%;
+}
+.archive-fragment, .collection-frag, .exhibition-sentence {
+  font-family: var(--serif); line-height: 1.6; max-width: 46ch;
+  overflow-wrap: break-word; hyphens: none;
+}
+.collection-field { display: grid; gap: clamp(18px, 3vh, 34px); }
+</style>
 <link rel="stylesheet" href="assets/archive-typography/archive-typography.css">
 <link rel="stylesheet" href="assets/collection-constellation/collection-inapp.css">
 <link rel="stylesheet" href="assets/exhibition-gaze/exhibition-gaze.css">
@@ -951,7 +1044,7 @@ body.is-title .action:hover {
   color: #0D0D0D;
 }
 
-/* Brand lockup size/filter: see §21 (El Retrato SS 6.7). Do not reintroduce
+/* Sharnay logomark size/filter: see §21 (El Retrato SS 6.7). Do not reintroduce
    a 22px mark or brightness(0) invert(1) here — those contradict the ladder. */
 .chrome-top__row {
   align-items: center;
@@ -986,6 +1079,28 @@ body.is-title .chrome-top__row {
   }
 }
 
+/* Narrow phones only: opening credit used width:max-content + nowrap flex
+   children (~348px) and ::before inset -14px, expanding scrollWidth to ~384.
+   Constrain the card; do not restyle larger phones / tablet / desktop. */
+@media (max-width: 380px) {
+  .film--opening .film-body {
+    grid-template-columns: minmax(0, 1fr);
+    min-width: 0;
+  }
+  .film--opening .film-credit {
+    width: auto;
+    max-width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
+  }
+  .film--opening .film-credit::before {
+    left: 0;
+    right: 0;
+    top: -8px;
+    bottom: -8px;
+  }
+}
+
 
 /* --------------------------------------------------------------------------
    09 · Letter — Gen Spark handoff (assets/una-carta/una-carta-inapp.css)
@@ -997,7 +1112,7 @@ body.is-title .chrome-top__row {
 /* --------------------------------------------------------------------------
    10 · Interlude · chapter opener (EL-RETRATO §6)
    Single right editorial column: intervention → Capítulo → title → dek → credit.
-   Brand lockup follows SS 6.7 (§21 ladder). Do not reintroduce a 22px mark.
+   Logomark in product chrome follows SS 6.7 (§21 ladder). Do not reintroduce a 22px mark.
    -------------------------------------------------------------------------- */
 
 .film--interlude {
@@ -2398,7 +2513,7 @@ body.tone-dark .toast { background: var(--paper); color: var(--ink); }
 .question__prompt    { font-size: clamp(1.85rem, 3.9vw, 3.2rem); }
 
 
-/* -- Brand lockup structure (size/filter live in §21 · SS 6.7) ------------ */
+/* -- Sharnay logomark structure (size/filter live in §21 · SS 6.7) ------------ */
 .brand {
   display: inline-flex;
   align-items: center;
@@ -2948,11 +3063,11 @@ body.tone-light .chrome--bottom {
 .film--closing .prose p        { font-size: 1.02rem; line-height: 1.62; }
 .film--closing .actions-row    { margin-top: clamp(20px, 3vh, 34px); }
 /* --------------------------------------------------------------------------
-   21 · Brand lockup · El Retrato SS 6.7
-   The lockup is the anchor of the chrome: the official logomark and the
-   wordmark breathing together on one baseline, never compressed. The size
-   ladder is height driven first, because a short window is what actually
-   crowds the head, and width driven second for tablet and phone.
+   21 · Sharnay logomark in product chrome · El Retrato SS 6.7
+   The official logomark is the anchor of the chrome — never a lockup rebuilt
+   from mark plus separately composed words. Appearance authority: VLS 01·07,
+   01·10, 01·11. The size ladder is height driven first, because a short window
+   is what actually crowds the head, and width driven second for tablet and phone.
    -------------------------------------------------------------------------- */
 
 .brand { align-items: baseline; gap: 12px; }
@@ -3012,7 +3127,7 @@ body:not(.is-film):not(.tone-dark):not(.is-title) .brand__mark {
   body.is-title .brand__mark { height: 40px; }
 }
 
-/* The head has to clear the lockup at every step of the ladder. */
+/* The head has to clear the logomark at every step of the ladder. */
 :root { --chrome-h: 92px; }
 @media (max-height: 800px) { :root { --chrome-h: 86px; } }
 @media (max-height: 680px) { :root { --chrome-h: 80px; } }
@@ -3094,8 +3209,7 @@ body.is-closing .backdrop__scrim {
     <div class="chrome-top__row">
       <span class="meta__left" id="meta-left">
         <span class="brand">
-          <img class="brand__mark" src="assets/images/sharnay-logomark.png" width="267" height="270" alt="">
-          <span class="brand__type">Sharnay Photography</span>
+          <img class="brand__mark" src="assets/images/sharnay-logomark.png" width="267" height="270" alt="Sharnay Photography">
         </span>
       </span>
       <div class="chrome-top__place" id="chrome-place">
@@ -6353,13 +6467,15 @@ body.is-closing .backdrop__scrim {
     btnNext.textContent = t(UI.continue);
     btnSaveLater.textContent = t(UI.saveLater);
     btnBeginning.textContent = t(UI.toBeginning);
-    /* Same mark + wordmark as later screens; ink styling on letter via CSS. */
+    /* Canonical Sharnay logomark in product chrome at every width.
+       Never beside separately set words: that is a lockup rebuilt from its
+       parts. Appearance authority: VLS 01·07, 01·10 and 01·11.
+       Ink styling on the letter is handled in CSS. */
     metaLeft.innerHTML =
       '<span class="brand" aria-label="' + esc(ENGAGEMENT.client) + '">' +
         '<img class="brand__mark" src="' + esc(ENGAGEMENT.clientMark) + '"' +
           ' data-remote="' + esc(ENGAGEMENT.clientMarkRemote) + '"' +
-          ' alt="" width="267" height="270">' +
-        '<span class="brand__type">' + esc(ENGAGEMENT.client) + '</span>' +
+          ' alt="' + esc(ENGAGEMENT.client) + '" width="267" height="270">' +
       '</span>';
     bindRemoteFallback(metaLeft);
 
