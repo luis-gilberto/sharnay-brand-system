@@ -3667,8 +3667,138 @@ html.is-review .panel.review > * {
   transform: none;
 }
 </style>
+<link rel="icon" type="image/png" href="/favicon.png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="shortcut icon" href="/favicon.png">
+<link rel="stylesheet" href="assets/aperture-intro/aperture-intro.css">
 </head>
 <body class="tone-light">
+
+<div id="__intro" class="intro" aria-hidden="true">
+  <div class="intro__void"></div>
+  <div class="intro__grain"></div>
+
+  <div class="intro__bar intro__bar--top"></div>
+  <div class="intro__bar intro__bar--bottom"></div>
+
+  <div class="intro__optic">
+    <div class="intro__lens-housing">
+      <svg class="intro__iris" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <defs>
+          <clipPath id="intro-housing-clip"><circle cx="100" cy="100" r="92"/></clipPath>
+          <linearGradient id="intro-blade-metal" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#8C8378"/>
+            <stop offset="34%" stop-color="#E4DED4"/>
+            <stop offset="62%" stop-color="#847B70"/>
+            <stop offset="100%" stop-color="#453E36"/>
+          </linearGradient>
+          <linearGradient id="intro-blade-gold" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#F3E6CE"/>
+            <stop offset="34%" stop-color="#DCBB80"/>
+            <stop offset="62%" stop-color="#C8A96A"/>
+            <stop offset="100%" stop-color="#7E5F2C"/>
+          </linearGradient>
+          <radialGradient id="intro-core-cold" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#16130F"/>
+            <stop offset="58%" stop-color="#0F0D0A"/>
+            <stop offset="100%" stop-color="#060504"/>
+          </radialGradient>
+          <radialGradient id="intro-core-warm" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#FFE6BE" stop-opacity="0.92"/>
+            <stop offset="34%" stop-color="#C8A96A" stop-opacity="0.5"/>
+            <stop offset="100%" stop-color="#7E5F2C" stop-opacity="0"/>
+          </radialGradient>
+
+          <!-- La marca de Erika: seis hojas, cada una el disco MENOS un arco
+               cóncavo (r = 1.20 x carcasa, centro 0.84 x carcasa). Máscaras
+               por hoja para que cada una pueda retrasarse. -->
+          <mask id="intro-bm0" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><rect width="200" height="200" fill="#fff"/><circle class="intro__blade-cut" style="--i:0" cx="100" cy="-7" r="110" fill="#000"/></mask>
+          <mask id="intro-bm1" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><rect width="200" height="200" fill="#fff"/><circle class="intro__blade-cut" style="--i:1" cx="100" cy="-7" r="110" fill="#000"/></mask>
+          <mask id="intro-bm2" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><rect width="200" height="200" fill="#fff"/><circle class="intro__blade-cut" style="--i:2" cx="100" cy="-7" r="110" fill="#000"/></mask>
+          <mask id="intro-bm3" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><rect width="200" height="200" fill="#fff"/><circle class="intro__blade-cut" style="--i:3" cx="100" cy="-7" r="110" fill="#000"/></mask>
+          <mask id="intro-bm4" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><rect width="200" height="200" fill="#fff"/><circle class="intro__blade-cut" style="--i:4" cx="100" cy="-7" r="110" fill="#000"/></mask>
+          <mask id="intro-bm5" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><rect width="200" height="200" fill="#fff"/><circle class="intro__blade-cut" style="--i:5" cx="100" cy="-7" r="110" fill="#000"/></mask>
+
+          <mask id="intro-keep0" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><rect width="200" height="200" fill="#000"/><circle class="intro__blade-cut" style="--i:0" transform="rotate(60 100 100)" cx="100" cy="-7" r="110" fill="#fff"/></mask>
+          <mask id="intro-keep1" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><rect width="200" height="200" fill="#000"/><circle class="intro__blade-cut" style="--i:1" transform="rotate(60 100 100)" cx="100" cy="-7" r="110" fill="#fff"/></mask>
+          <mask id="intro-keep2" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><rect width="200" height="200" fill="#000"/><circle class="intro__blade-cut" style="--i:2" transform="rotate(60 100 100)" cx="100" cy="-7" r="110" fill="#fff"/></mask>
+          <mask id="intro-keep3" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><rect width="200" height="200" fill="#000"/><circle class="intro__blade-cut" style="--i:3" transform="rotate(60 100 100)" cx="100" cy="-7" r="110" fill="#fff"/></mask>
+          <mask id="intro-keep4" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><rect width="200" height="200" fill="#000"/><circle class="intro__blade-cut" style="--i:4" transform="rotate(60 100 100)" cx="100" cy="-7" r="110" fill="#fff"/></mask>
+          <mask id="intro-keep5" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><rect width="200" height="200" fill="#000"/><circle class="intro__blade-cut" style="--i:5" transform="rotate(60 100 100)" cx="100" cy="-7" r="110" fill="#fff"/></mask>
+        </defs>
+
+        <g clip-path="url(#intro-housing-clip)">
+          <circle cx="100" cy="100" r="92" fill="url(#intro-core-cold)"/>
+          <circle class="intro__core-warm" cx="100" cy="100" r="92" fill="url(#intro-core-warm)"/>
+
+          <g class="intro__blade" style="--i:0" transform="rotate(0 100 100)">
+            <g mask="url(#intro-keep0)">
+              <circle class="intro__blade-face" cx="100" cy="100" r="92" mask="url(#intro-bm0)"/>
+              <circle class="intro__edge-face intro__edge-gap" style="--i:0" cx="100" cy="-7" r="110"/>
+              <circle class="intro__edge-face intro__edge-lite" style="--i:0" cx="100" cy="-7" r="110"/>
+            </g>
+          </g>
+          <g class="intro__blade" style="--i:1" transform="rotate(60 100 100)">
+            <g mask="url(#intro-keep1)">
+              <circle class="intro__blade-face" cx="100" cy="100" r="92" mask="url(#intro-bm1)"/>
+              <circle class="intro__edge-face intro__edge-gap" style="--i:1" cx="100" cy="-7" r="110"/>
+              <circle class="intro__edge-face intro__edge-lite" style="--i:1" cx="100" cy="-7" r="110"/>
+            </g>
+          </g>
+          <g class="intro__blade" style="--i:2" transform="rotate(120 100 100)">
+            <g mask="url(#intro-keep2)">
+              <circle class="intro__blade-face" cx="100" cy="100" r="92" mask="url(#intro-bm2)"/>
+              <circle class="intro__edge-face intro__edge-gap" style="--i:2" cx="100" cy="-7" r="110"/>
+              <circle class="intro__edge-face intro__edge-lite" style="--i:2" cx="100" cy="-7" r="110"/>
+            </g>
+          </g>
+          <g class="intro__blade" style="--i:3" transform="rotate(180 100 100)">
+            <g mask="url(#intro-keep3)">
+              <circle class="intro__blade-face" cx="100" cy="100" r="92" mask="url(#intro-bm3)"/>
+              <circle class="intro__edge-face intro__edge-gap" style="--i:3" cx="100" cy="-7" r="110"/>
+              <circle class="intro__edge-face intro__edge-lite" style="--i:3" cx="100" cy="-7" r="110"/>
+            </g>
+          </g>
+          <g class="intro__blade" style="--i:4" transform="rotate(240 100 100)">
+            <g mask="url(#intro-keep4)">
+              <circle class="intro__blade-face" cx="100" cy="100" r="92" mask="url(#intro-bm4)"/>
+              <circle class="intro__edge-face intro__edge-gap" style="--i:4" cx="100" cy="-7" r="110"/>
+              <circle class="intro__edge-face intro__edge-lite" style="--i:4" cx="100" cy="-7" r="110"/>
+            </g>
+          </g>
+          <g class="intro__blade" style="--i:5" transform="rotate(300 100 100)">
+            <g mask="url(#intro-keep5)">
+              <circle class="intro__blade-face" cx="100" cy="100" r="92" mask="url(#intro-bm5)"/>
+              <circle class="intro__edge-face intro__edge-gap" style="--i:5" cx="100" cy="-7" r="110"/>
+              <circle class="intro__edge-face intro__edge-lite" style="--i:5" cx="100" cy="-7" r="110"/>
+            </g>
+          </g>
+
+          <circle class="intro__rivets" cx="100" cy="100" r="86" fill="none" stroke="rgba(244,241,236,.09)" stroke-width="0.6"
+                  stroke-dasharray="1.4 43.6" stroke-linecap="round"/>
+        </g>
+
+        <circle class="intro__rim" cx="100" cy="100" r="92" fill="none" stroke="rgba(200,169,106,.18)" stroke-width="1.2"/>
+        <circle cx="100" cy="100" r="88.5" fill="none" stroke="rgba(0,0,0,.55)" stroke-width="2.4"/>
+      </svg>
+      <div class="intro__lens-shine" aria-hidden="true"></div>
+      <div class="intro__lens-vignette" aria-hidden="true"></div>
+    </div>
+    <div class="intro__flare" aria-hidden="true"></div>
+  </div>
+
+  <!-- sin texto dentro del lente: el título nace del disparo del flash -->
+
+
+  <div class="intro__bloom" aria-hidden="true"></div>
+  <div class="intro__gold-wash" aria-hidden="true"></div>
+  <div class="intro__flash" aria-hidden="true"></div>
+  <div class="intro__blackout" aria-hidden="true"></div>
+
+  <p class="intro__ficha">50&thinsp;mm &middot; f/1.4 &middot; 1/125 &middot; ISO 400</p>
+  <button class="intro__saltar" id="intro-saltar" type="button">Saltar</button>
+</div>
+
 
 <a class="skip" href="#stage">Skip to the current screen</a>
 
@@ -5983,7 +6113,7 @@ html.is-review .panel.review > * {
           '<div class="film-body">' +
             '<div class="film-copy">' +
               '<p class="film-copy__label">' + esc(t(UI.chapterLabel)) + '</p>' +
-              '<h1 class="film-copy__title">' + esc(t(COPY.openingTitle)) + '</h1>' +
+              '<h1 class="film-copy__title" id="t01">' + esc(t(COPY.openingTitle)) + '</h1>' +
               '<p class="film-copy__dek">' + esc(t(ENGAGEMENT.subtitle)) + '</p>' +
               (showResume
                 ? '<div class="opening-cover__resume">' +
@@ -8088,5 +8218,6 @@ html.is-review .panel.review > * {
   }, true);
 })();
 </script>
+<script src="assets/aperture-intro/aperture-intro.js"></script>
 </body>
 </html>

@@ -1,0 +1,296 @@
+/* El Retrato · aperture intro tokens (family of El Revelado) */
+:root{
+  --oscuro:#0D0D0D;
+  --cuarto:#16130F;
+  --papel:#F4F1EC;
+  --oro:#C8A96A;
+  --champan:#ECE7DE;
+  --humo:#AEA598;
+  --ff-display:var(--serif);
+  --ff-body:var(--sans);
+  --ff-mono:var(--mono);
+  --grano:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='.55'/%3E%3C/svg%3E");
+  --ease-rev:cubic-bezier(.16,1,.3,1);
+}
+
+/* ============================================================
+     APERTURA · destello → iris → oro → DISPARO de flash → la página
+     ============================================================ */
+  body.intro-lock{overflow:hidden}
+  body.intro-lock #app,
+  body.intro-lock #backdrop,
+  body.intro-lock #paper,
+  body.intro-lock .skip{opacity:0;pointer-events:none}
+
+  body.intro-complete #app,
+  body.intro-complete #backdrop{opacity:0;animation:intro-main-rise 1.6s var(--ease-rev) forwards;pointer-events:auto}
+  body.intro-complete .skip{opacity:1;pointer-events:auto}
+  /* el H1 lo revela el flash: queda velado y se "expone" al disparo */
+  body.intro-complete #t01{opacity:0}
+  body.intro-aterrizado #t01{animation:intro-expuesto 1500ms var(--ease-rev) forwards}
+
+  .intro{
+    position:fixed;inset:0;z-index:2147483000;
+    display:grid;place-items:center;
+    background:var(--oscuro);
+    overflow:hidden;isolation:isolate;perspective:900px;
+  }
+
+  .intro__void{
+    position:absolute;inset:0;
+    background:
+      radial-gradient(circle at 50% 47%, rgba(200,169,106,.10) 0%, transparent 46%),
+      radial-gradient(ellipse 120% 90% at 50% 50%, var(--cuarto) 0%, var(--oscuro) 74%);
+  }
+
+  /* grano de película — el mismo de El Revelado */
+  .intro__grain{
+    position:absolute;inset:-50%;z-index:7;
+    opacity:.34;pointer-events:none;mix-blend-mode:soft-light;
+    background-image:var(--grano);background-size:140px 140px;
+    animation:intro-grain 640ms steps(4) infinite;
+  }
+
+  /* barras de proyección */
+  .intro__bar{
+    position:absolute;left:0;right:0;height:9vh;z-index:6;
+    background:var(--oscuro);pointer-events:none;transform:scaleY(0);
+  }
+  .intro__bar--top{top:0;transform-origin:top}
+  .intro__bar--bottom{bottom:0;transform-origin:bottom}
+  .intro--play .intro__bar{animation:intro-bar-in 1100ms var(--ease-rev) 120ms forwards}
+
+  .intro__flash{
+    position:absolute;inset:0;z-index:9;opacity:0;pointer-events:none;
+    background:radial-gradient(circle at 50% 47%, #FFF8ED 0%, #F7ECD9 44%, rgba(244,241,236,.9) 100%);
+  }
+
+  .intro__bloom{
+    position:absolute;inset:-20%;z-index:5;opacity:0;pointer-events:none;filter:blur(24px);
+    background:radial-gradient(circle at 50% 47%, rgba(255,246,230,.55) 0%, rgba(200,169,106,.16) 26%, transparent 47%);
+  }
+
+  .intro__optic{position:relative;z-index:3;display:grid;place-items:center;opacity:0;will-change:transform,opacity,filter}
+
+  .intro__lens-housing{
+    position:relative;width:min(48vmin,268px);aspect-ratio:1;border-radius:50%;
+    padding:clamp(9px,2vmin,15px);transform:scale(.94);
+    background:conic-gradient(from 210deg, #17130E 0deg, #2E2721 42deg, #100D0A 120deg, #241E18 220deg, #0B0908 300deg, #17130E 360deg);
+    box-shadow:
+      0 0 0 1px rgba(244,241,236,.08),
+      0 0 0 9px rgba(0,0,0,.42),
+      0 0 0 10px rgba(200,169,106,.07),
+      0 34px 110px rgba(0,0,0,.8),
+      inset 0 2px 7px rgba(244,241,236,.12),
+      inset 0 -16px 32px rgba(0,0,0,.72);
+    will-change:transform;
+  }
+
+  .intro__iris{display:block;width:100%;height:100%;overflow:visible;filter:drop-shadow(0 12px 28px rgba(0,0,0,.5))}
+  .intro__blade{filter:brightness(calc(.74 + var(--i) * .08))}
+  .intro__blade-face{fill:url(#intro-blade-metal);transition:fill 1100ms ease}
+
+  .intro__blade-cut,.intro__edge-face{cy:-7px}
+  .intro__edge-face{fill:none}
+  .intro__edge-gap{stroke:rgba(9,7,5,.92);stroke-width:5.2}
+  .intro__edge-lite{stroke:rgba(236,231,222,.42);stroke-width:1.2;transition:stroke 1100ms ease}
+  .intro--gold .intro__edge-lite{stroke:rgba(255,244,222,.85)}
+  .intro--gold .intro__edge-gap{stroke:rgba(34,22,8,.85)}
+
+  .intro__core-warm{opacity:0;transition:opacity 1100ms ease}
+
+  .intro__lens-shine{
+    position:absolute;inset:7%;border-radius:50%;pointer-events:none;mix-blend-mode:soft-light;
+    background:linear-gradient(132deg, rgba(255,248,237,.34) 0%, rgba(255,248,237,.05) 34%, transparent 58%, rgba(200,169,106,.1) 100%);
+  }
+  .intro__lens-vignette{position:absolute;inset:0;border-radius:50%;box-shadow:inset 0 0 34px rgba(0,0,0,.62);pointer-events:none}
+
+  /* destello anamórfico cálido */
+  .intro__flare{
+    position:absolute;top:50%;left:50%;width:190%;height:2px;
+    transform:translate(-50%,-50%) scaleX(0);opacity:0;pointer-events:none;filter:blur(2px);
+    background:linear-gradient(90deg, transparent 0%, rgba(200,169,106,.45) 28%, rgba(255,248,237,.85) 50%, rgba(200,169,106,.45) 72%, transparent 100%);
+  }
+
+  .intro__gold-wash{
+    position:absolute;inset:0;z-index:4;pointer-events:none;opacity:0;mix-blend-mode:screen;
+    background:radial-gradient(circle at 50% 47%, rgba(200,169,106,.46) 0%, rgba(200,169,106,.14) 34%, transparent 62%);
+  }
+
+  .intro__blackout{position:absolute;inset:0;z-index:8;background:var(--oscuro);opacity:0;pointer-events:none}
+
+  /* ---------- el disparo: flash real ---------- */
+  /* pre-flash breve, negro de obturador y estallido principal */
+  .intro--play.intro--entrega .intro__flash{
+    animation:intro-disparo 1200ms cubic-bezier(.16,.9,.2,1) forwards;
+  }
+  .intro--play.intro--entrega .intro__bloom{animation:intro-disparo-bloom 1100ms ease-out forwards}
+  .intro--play.intro--entrega .intro__flare{animation:intro-disparo-flare 900ms var(--ease-rev) 150ms forwards}
+  .intro--entrega .intro__blackout{animation:intro-obturador 1200ms steps(1,end) forwards}
+
+
+  /* ---------- ficha técnica + saltar (chrome de la familia) ---------- */
+  .intro__ficha{
+    position:absolute;left:0;right:0;bottom:calc(22px + env(safe-area-inset-bottom,0px));
+    margin-inline:auto;width:max-content;z-index:11;
+    font-family:var(--ff-mono);font-size:10px;letter-spacing:.22em;text-transform:uppercase;
+    color:var(--humo);opacity:0;pointer-events:none;
+  }
+  .intro--reveal .intro__ficha{animation:intro-ficha 1400ms var(--ease-rev) 300ms forwards}
+
+  .intro__saltar{
+    position:absolute;right:22px;bottom:calc(20px + env(safe-area-inset-bottom,0px));z-index:12;
+    background:none;border:none;cursor:pointer;padding:8px 6px;
+    font-family:var(--ff-mono);font-size:10px;letter-spacing:.22em;text-transform:uppercase;
+    color:var(--humo);opacity:0;transition:color .4s ease,opacity .6s ease;
+  }
+  .intro--reveal .intro__saltar{opacity:.6}
+  .intro__saltar:hover{color:var(--oro);opacity:1}
+  .intro--entrega .intro__ficha,
+  .intro--entrega .intro__saltar{opacity:0;transition:opacity .4s ease}
+
+  /* en pantallas angostas la ficha sube para no chocar con Saltar */
+  @media (max-width: 600px){
+    .intro__ficha{bottom:calc(52px + env(safe-area-inset-bottom,0px));font-size:9px;letter-spacing:.18em}
+    .intro__saltar{right:50%;transform:translateX(50%);bottom:calc(16px + env(safe-area-inset-bottom,0px))}
+  }
+
+
+  /* ---- tiempo 1: el destello ---- */
+  .intro--play .intro__flash{animation:intro-flash 900ms var(--ease-rev) forwards}
+  .intro--play .intro__bloom{animation:intro-bloom 1400ms ease-out 40ms forwards}
+  .intro--play .intro__flare{animation:intro-flare 1200ms var(--ease-rev) 120ms forwards}
+
+  /* ---- tiempo 2: el lente se resuelve ---- */
+  .intro--reveal .intro__optic{animation:intro-reveal 1200ms var(--ease-rev) forwards}
+
+  /* ---- tiempo 3: apertura lenta ---- */
+  .intro--open .intro__blade-cut,
+  .intro--open .intro__edge-face{
+    animation:intro-blade-open 3200ms cubic-bezier(.62,.02,.2,1) forwards;
+    animation-delay:calc(var(--i) * 62ms);
+  }
+  .intro--open .intro__lens-housing{animation:intro-housing-push 3800ms cubic-bezier(.32,.1,.2,1) forwards}
+
+  /* ---- tiempo 4: el metal se vuelve oro ---- */
+  .intro--gold .intro__blade-face{fill:url(#intro-blade-gold)}
+  .intro--gold .intro__core-warm{opacity:1}
+  .intro--gold .intro__gold-wash{animation:intro-gold-wash 1200ms ease forwards}
+  .intro--gold .intro__iris{
+    filter:drop-shadow(0 0 26px rgba(200,169,106,.5)) drop-shadow(0 0 74px rgba(236,231,222,.22));
+    transition:filter 1100ms ease;
+  }
+  .intro--gold .intro__lens-housing{
+    box-shadow:
+      0 0 0 1px rgba(200,169,106,.24),
+      0 0 0 9px rgba(0,0,0,.42),
+      0 0 0 10px rgba(200,169,106,.14),
+      0 34px 120px rgba(0,0,0,.8),
+      inset 0 2px 7px rgba(255,231,196,.2),
+      inset 0 -16px 32px rgba(0,0,0,.72);
+    transition:box-shadow 1100ms ease;
+  }
+
+  /* ---- tiempo 5: la entrega — el óptico se retira, el título viaja ---- */
+  .intro--entrega .intro__optic{animation:intro-optic-recede 1200ms var(--ease-rev) forwards}
+  .intro--entrega .intro__void,
+  .intro--entrega .intro__grain,
+  .intro--entrega .intro__gold-wash,
+  .intro--entrega .intro__bar{animation:intro-fade-out 1100ms ease 200ms forwards}
+  .intro--entrega{background:transparent;transition:background 900ms ease}
+  .intro--done{opacity:0;transition:opacity .5s ease;pointer-events:none}
+
+  @keyframes intro-flash{
+    0%{opacity:0}
+    7%{opacity:1}
+    26%{opacity:.72}
+    100%{opacity:0}
+  }
+  @keyframes intro-bloom{
+    0%{opacity:0;transform:scale(.9)}
+    18%{opacity:1;transform:scale(1)}
+    100%{opacity:0;transform:scale(1.14)}
+  }
+  @keyframes intro-flare{
+    0%{opacity:0;transform:translate(-50%,-50%) scaleX(0)}
+    22%{opacity:.95;transform:translate(-50%,-50%) scaleX(1)}
+    100%{opacity:0;transform:translate(-50%,-50%) scaleX(1.06)}
+  }
+  @keyframes intro-reveal{
+    0%{opacity:0;transform:scale(1.1) translateZ(0);filter:blur(9px)}
+    100%{opacity:1;transform:scale(1);filter:blur(0)}
+  }
+  @keyframes intro-blade-open{
+    0%{cy:-9px}
+    22%{cy:.5px}
+    50%{cy:10px}
+    76%{cy:21px}
+    90%{cy:29.5px}
+    100%{cy:27px}
+  }
+  @keyframes intro-housing-push{
+    0%{transform:scale(.94)}
+    40%{transform:scale(1.008)}
+    100%{transform:scale(1.045)}
+  }
+  @keyframes intro-gold-wash{0%{opacity:0}100%{opacity:1}}
+  /* el disparo: pre-flash, negro de obturador, estallido y caída del velo */
+  @keyframes intro-disparo{
+    0%{opacity:0}
+    4%{opacity:.55}          /* pre-flash de medición */
+    9%{opacity:.06}
+    13%{opacity:0}           /* el obturador cierra */
+    18%{opacity:1}           /* estallido principal */
+    30%{opacity:1}
+    52%{opacity:.42}
+    100%{opacity:0}
+  }
+  @keyframes intro-obturador{
+    0%{opacity:0}
+    10%{opacity:1}
+    17%{opacity:0}
+    100%{opacity:0}
+  }
+  @keyframes intro-disparo-bloom{
+    0%{opacity:0;transform:scale(.94)}
+    18%{opacity:1;transform:scale(1.06)}
+    100%{opacity:0;transform:scale(1.2)}
+  }
+  @keyframes intro-disparo-flare{
+    0%{opacity:0;transform:translate(-50%,-50%) scaleX(.2)}
+    16%{opacity:1;transform:translate(-50%,-50%) scaleX(1.1)}
+    100%{opacity:0;transform:translate(-50%,-50%) scaleX(1.3)}
+  }
+  /* el título queda quemado por la luz y se asienta como una copia expuesta */
+  @keyframes intro-expuesto{
+    0%{opacity:0;filter:blur(10px) brightness(3);transform:scale(1.03)}
+    22%{opacity:1;filter:blur(4px) brightness(2.2)}
+    100%{opacity:1;filter:blur(0) brightness(1);transform:none}
+  }
+  @keyframes intro-optic-recede{
+    0%{opacity:1;transform:scale(1);filter:blur(0)}
+    100%{opacity:0;transform:scale(1.06);filter:blur(8px)}
+  }
+  @keyframes intro-fade-out{0%{opacity:1}100%{opacity:0}}
+  @keyframes intro-bar-in{0%{transform:scaleY(0)}100%{transform:scaleY(1)}}
+  @keyframes intro-ficha{0%{opacity:0;transform:translateY(6px)}100%{opacity:.7;transform:none}}
+  @keyframes intro-grain{
+    0%{transform:translate(0,0)}
+    25%{transform:translate(-3%,2%)}
+    50%{transform:translate(2%,-3%)}
+    75%{transform:translate(-2%,-2%)}
+    100%{transform:translate(0,0)}
+  }
+  @keyframes intro-main-rise{
+    0%{opacity:0;transform:translateY(16px) scale(.995)}
+    100%{opacity:1;transform:none}
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    #__intro{display:none !important}
+    body.intro-lock #app,
+    body.intro-lock #backdrop,
+    body.intro-lock #paper,
+    body.intro-lock .skip{opacity:1 !important;pointer-events:auto !important}
+    body #t01{opacity:1 !important}
+  }
