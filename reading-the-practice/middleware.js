@@ -6,7 +6,7 @@
 import { next, rewrite } from '@vercel/edge';
 
 const VLS_HOST = 'visualsystem.sharnayphotography.com';
-const VLS_FILE = '/Sharnay_Photography_Visual_Language_System_ES-EN.html';
+const VLS_FILE = '/Sharnay_Photography_Visual_Language_System_v1.3_ES-EN.html';
 
 export const config = {
   matcher: ['/', '/index.html'],
