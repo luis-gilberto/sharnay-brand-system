@@ -11,7 +11,7 @@ const src = path.join(
   dir,
   '..',
   'reading-the-practice',
-  'Sharnay_Photography_Visual_Language_System_v1.3_ES-EN.html'
+  'Sharnay_Photography_Visual_Language_System_v1_3_ES-EN_accessible.html'
 );
 const dest = path.join(dir, 'index.html');
 

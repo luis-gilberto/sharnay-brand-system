@@ -2,11 +2,11 @@
 
 Publishes the canonical file:
 
-`reading-the-practice/Sharnay_Photography_Visual_Language_System_v1.3_ES-EN.html`
+`reading-the-practice/Sharnay_Photography_Visual_Language_System_v1_3_ES-EN_accessible.html`
 
 at the project root URL via a build-time copy (`copy-vls.mjs`). No divergent VLS source is maintained here.
 
-The unversioned twin `Sharnay_Photography_Visual_Language_System_ES-EN.html` is kept in sync as a legacy alias only — edit the v1.3 file.
+Legacy twins (`…_ES-EN.html`, `…_v1.3_ES-EN.html`) are kept in sync as aliases only — edit the `_accessible` file.
 
 Production alias (temporary until custom DNS):
 
